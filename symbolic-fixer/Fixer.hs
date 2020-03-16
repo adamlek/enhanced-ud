@@ -10,10 +10,13 @@ isSubject :: Entry -> Bool
 isSubject Entry{..} = entryLabel == "nsubj"
 
 kidsOf :: Int -> Sentence -> [(Int,Entry)]
-kidsOf parent es = [(i,e) | (i,e@Entry{..}) <- zip [0..] es, entryParent == parent]
+kidsOf parent es = [(i,e) | (i,e@Entry{..}) <- zip numbering es, entryParent == parent]
+
+numbering :: [Int]
+numbering = [1..]
 
 conjFixer1 :: Sentence -> [Arc]
-conjFixer1 es = concat $ zipWith enhancer [0..] es
+conjFixer1 es = concat $ zipWith enhancer numbering es
   where enhancer eIndex e
           = [Arc {arcSource = kidIndex,
                   arcTarget = entryParent e,
