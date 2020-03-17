@@ -38,6 +38,12 @@ allEnhancer s = conjEnhancer s ++ sentenceToArcs s
 
 type Enhancement = [(Int,L.ByteString)] -- list of parent/head and label.
 
+showEnhancement :: Enhancement -> L.ByteString
+showEnhancement [] = ""
+showEnhancement xs = foldr1 (\x y -> x <> "|" <> y) . map showSemiArc $ xs
+  where showSemiArc :: (Int,L.ByteString) -> L.ByteString
+        showSemiArc (i,label) = bshow i <> ":" <> label
+
 consolidateArcs :: [Arc] -> [Enhancement]
 consolidateArcs = map (map arcToEnhancement) . groupBy ((==) `on` arcTarget) . sortBy (compare `on` arcTarget)
 
