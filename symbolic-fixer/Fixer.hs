@@ -33,13 +33,25 @@ conjEnhancer es = concat $ zipWith enhancer numbering es
               (kidIndex,kid) <- kidsOf eIndex es,
               entryLabel kid == "conj"]
 
+xcompEnhancer :: Sentence -> [Arc]
+xcompEnhancer es = concat $ zipWith enhancer numbering es
+  where enhancer eIndex e
+          = [Arc {arcTarget = e2Index,
+                  arcSource = eIndex,
+                  arcLabel = "xsubj"}
+            | entryLabel e `elem` ["xcomp"],
+              (e2Index,e2) <- zip numbering es,
+              entryLabel e2 == "nsubj",
+              entryParent e2 == entryParent e]
+
+
 allEnhancer :: Sentence -> [Arc]
-allEnhancer s = conjEnhancer s ++ sentenceToArcs s
+allEnhancer s = xcompEnhancer s ++ conjEnhancer s ++ sentenceToArcs s
 
 type Enhancement = [(Int,L.ByteString)] -- list of parent/head and label.
 
 showEnhancement :: Enhancement -> L.ByteString
-showEnhancement [] = ""
+showEnhancement [] = "(incorrect input)"
 showEnhancement xs = foldr1 (\x y -> x <> "|" <> y) . map showSemiArc $ xs
   where showSemiArc :: (Int,L.ByteString) -> L.ByteString
         showSemiArc (i,label) = bshow i <> ":" <> label
