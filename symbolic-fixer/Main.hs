@@ -1,9 +1,13 @@
 import System.Environment
 
 import DepLib
+import Fixer
 
 main :: IO ()
 main = do
   inputs <- getArgs
   ss <- parseManyFiles (parseNivreSentences False) inputs
-  mapM_  (mapM_ print) $ take 2 $ ss
+  let arcs = map (consolidateArcs . allEnhancer) ss
+  mapM_  (mapM_ print) $  arcs
+
+
