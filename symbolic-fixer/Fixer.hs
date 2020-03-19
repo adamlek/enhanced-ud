@@ -38,9 +38,9 @@ conjEnhancer es = concat $ zipWith enhancer numbering es
               entryLabel kid == "conj"]
 
 relEnhancer :: Sentence -> [Arc]
-relEnhancer es = concat $ concatMap $ zipWith enhancer numbering es
-  where enhancer eIndex e
-          = [[Arc {arcTarget = kidIndex,
+relEnhancer es = concat $ zipWith enhancer numbering es
+  where enhancer eIndex e = concat
+            [[Arc {arcTarget = kidIndex,
                    arcSource = entryParent e,
                    arcLabel = "ref"},
               Arc {arcTarget = eIndex,
