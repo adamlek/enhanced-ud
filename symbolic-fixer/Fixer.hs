@@ -6,7 +6,8 @@ import Data.Function
 import DepLib
 import qualified Data.ByteString.Lazy.Char8 as L
 
-data Arc = Arc {arcSource, arcTarget :: Int, arcLabel :: L.ByteString } deriving Show
+data Arc = Arc {arcSource, arcTarget :: Int, arcLabel :: L.ByteString }
+         | DeleteOld {arcTarget :: Int} deriving Show
 
 -- isSubject :: Entry -> Bool
 -- isSubject Entry{..} = entryLabel == "nsubj"
@@ -45,7 +46,8 @@ relEnhancer es = concat $ zipWith enhancer numbering es
                    arcLabel = "ref"},
               Arc {arcTarget = eIndex,
                    arcSource = entryParent e,
-                   arcLabel = "nsubj"}]
+                   arcLabel = "nsubj"},
+              DeleteOld eIndex]
             | entryLabel e `elem` ["acl:relcl"],
               (kidIndex,kid) <- kidsOf eIndex es,
               entryLabel kid == "nsubj"]
@@ -80,9 +82,13 @@ conj3Enhancer es = concat $ zipWith enhancer numbering es
               entryLabel e2 == "conj",
               entryParent e2 == entryParent e]
 
+applyDelete :: [Arc] -> [Arc]
+applyDelete (DeleteOld x:xs) = filter ((/= x) . arcTarget) (applyDelete xs)
+applyDelete (x:xs) = x:applyDelete xs
+applyDelete [] = []
 
 allEnhancer :: Sentence -> [Arc]
-allEnhancer s = relEnhancer s ++ xcompEnhancer s ++ conjEnhancer s ++ sentenceToArcs s
+allEnhancer s = applyDelete (relEnhancer s ++ xcompEnhancer s ++ conjEnhancer s ++ sentenceToArcs s)
 
 type Enhancement = [(Int,L.ByteString)] -- list of parent/head and label.
 
