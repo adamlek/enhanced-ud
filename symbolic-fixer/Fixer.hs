@@ -23,16 +23,23 @@ sentenceToArcs es = zipWith entryToArc numbering es
 entryToArc :: Int -> Entry -> Arc
 entryToArc i e = Arc {arcSource = entryParent e, arcTarget = i, arcLabel = entryLabel e}
 
+-- type 1
+-- tags: nsubj, obj, amod
+-- Meet -----> Paul -----> Mary
+--      nsubj        conj
 conjEnhancer :: Sentence -> [Arc]
 conjEnhancer es = concat $ zipWith enhancer numbering es
   where enhancer eIndex e
           = [Arc {arcTarget = kidIndex,
                   arcSource = entryParent e,
                   arcLabel = entryLabel e}
-            | entryLabel e `elem` ["nsubj","obj"],
+            | entryLabel e `elem` ["nsubj","obj", "amod"],
               (kidIndex,kid) <- kidsOf eIndex es,
               entryLabel kid == "conj"]
 
+-- type 2
+-- interior <------ look ------> new
+--           nsubj        xcomp
 xcompEnhancer :: Sentence -> [Arc]
 xcompEnhancer es = concat $ zipWith enhancer numbering es
   where enhancer eIndex e
@@ -44,19 +51,25 @@ xcompEnhancer es = concat $ zipWith enhancer numbering es
               entryLabel e2 == "nsubj",
               entryParent e2 == entryParent e]
 
-objEnhancer :: Sentence -> [Arc]
-objEnhancer es = concat $ zipWith enhancer numbering es
+-- type 3
+-- she <----- reading -----> watching
+--      subj          conj
+-- was <----- reading -----> watching
+--      aux           conj
+conj3Enhancer :: Sentence -> [Arc]
+conj3Enhancer es = concat $ zipWith enhancer numbering es
   where enhancer eIndex e
-          = [Arc {arcTarget = kidIndex,
+          = [Arc {arcTarget = e2Index,
                   arcSource = eIndex,
-                  arcLabel = "obj"}
-            | entryLabel e `elem` ["obj"],
-              (kidIndex,kid) <- kidsOf eIndex es,
-              entryLabel kid == "conj"]
+                  arcLabel = entryLabel e}
+            | entryLabel e `elem` ["nsubj", "aux"],
+              (e2Index,e2) <- zip numbering es,
+              entryLabel e2 == "conj",
+              entryParent e2 == entryParent e]
 
 
 allEnhancer :: Sentence -> [Arc]
-allEnhancer s = objEnhancer s ++ xcompEnhancer s ++ conjEnhancer s ++ sentenceToArcs s
+allEnhancer s = xcompEnhancer s ++ conjEnhancer s ++ sentenceToArcs s
 
 type Enhancement = [(Int,L.ByteString)] -- list of parent/head and label.
 
