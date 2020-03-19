@@ -44,9 +44,19 @@ xcompEnhancer es = concat $ zipWith enhancer numbering es
               entryLabel e2 == "nsubj",
               entryParent e2 == entryParent e]
 
+objEnhancer :: Sentence -> [Arc]
+objEnhancer es = concat $ zipWith enhancer numbering es
+  where enhancer eIndex e
+          = [Arc {arcTarget = kidIndex,
+                  arcSource = eIndex,
+                  arcLabel = "obj"}
+            | entryLabel e `elem` ["obj"],
+              (kidIndex,kid) <- kidsOf eIndex es,
+              entryLabel kid == "conj"]
+
 
 allEnhancer :: Sentence -> [Arc]
-allEnhancer s = xcompEnhancer s ++ conjEnhancer s ++ sentenceToArcs s
+allEnhancer s = objEnhancer s ++ xcompEnhancer s ++ conjEnhancer s ++ sentenceToArcs s
 
 type Enhancement = [(Int,L.ByteString)] -- list of parent/head and label.
 
