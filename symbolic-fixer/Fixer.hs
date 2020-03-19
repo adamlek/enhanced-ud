@@ -37,6 +37,19 @@ conjEnhancer es = concat $ zipWith enhancer numbering es
               (kidIndex,kid) <- kidsOf eIndex es,
               entryLabel kid == "conj"]
 
+relEnhancer :: Sentence -> [Arc]
+relEnhancer es = concat $ concatMap $ zipWith enhancer numbering es
+  where enhancer eIndex e
+          = [[Arc {arcTarget = kidIndex,
+                   arcSource = entryParent e,
+                   arcLabel = "ref"},
+              Arc {arcTarget = eIndex,
+                   arcSource = entryParent e,
+                   arcLabel = "nsubj"}]
+            | entryLabel e `elem` ["acl:relcl"],
+              (kidIndex,kid) <- kidsOf eIndex es,
+              entryLabel kid == "nsubj"]
+
 -- type 2
 -- interior <------ look ------> new
 --           nsubj        xcomp
@@ -69,7 +82,7 @@ conj3Enhancer es = concat $ zipWith enhancer numbering es
 
 
 allEnhancer :: Sentence -> [Arc]
-allEnhancer s = xcompEnhancer s ++ conjEnhancer s ++ sentenceToArcs s
+allEnhancer s = relEnhancer s ++ xcompEnhancer s ++ conjEnhancer s ++ sentenceToArcs s
 
 type Enhancement = [(Int,L.ByteString)] -- list of parent/head and label.
 
