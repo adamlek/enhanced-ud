@@ -38,6 +38,9 @@ conjEnhancer es = concat $ zipWith enhancer numbering es
               (kidIndex,kid) <- kidsOf eIndex es,
               entryLabel kid == "conj"]
 
+-- | Examples 27 -> 30 and 33 -> 34. Not that this rule conflicts with
+-- 31->32. Supposedly the choice should be determined by lexical
+-- semantics.
 relEnhancer :: Sentence -> [Arc]
 relEnhancer es = concat $ zipWith enhancer numbering es
   where enhancer eIndex e = concat
@@ -46,11 +49,16 @@ relEnhancer es = concat $ zipWith enhancer numbering es
                    arcLabel = "ref"},
               Arc {arcTarget = eIndex,
                    arcSource = entryParent e,
-                   arcLabel = "nsubj"},
+                   arcLabel = relativizeLabel (entryLabel kid)},
               DeleteOld eIndex]
             | entryLabel e `elem` ["acl:relcl"],
               (kidIndex,kid) <- kidsOf eIndex es,
-              entryLabel kid == "nsubj"]
+              entryLabel kid `elem` ["nsubj","obj","advmod"]]
+
+relativizeLabel :: L.ByteString -> L.ByteString
+relativizeLabel l = if l == "advmod"
+                    then "obl"
+                    else l
 
 -- type 2
 -- interior <------ look ------> new
