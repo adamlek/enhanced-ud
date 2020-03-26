@@ -1,0 +1,14 @@
+# text = i knew someone in college who had one and i loved it.
+1	i	i	PRON	PRP	Case=Nom|Number=Sing|Person=1|PronType=Prs	2	nsubj	2:nsubj	_
+2	knew	know	VERB	VBD	Mood=Ind|Tense=Past|VerbForm=Fin	0	root	0:root	_
+3	someone	someone	PRON	NN	Number=Sing	2	obj	2:obj|7:nsubj	_
+4	in	in	ADP	IN	_	5	case	5:case	_
+5	college	college	NOUN	NN	Number=Sing	3	nmod	3:nmod:in	_
+6	who	who	PRON	WP	PronType=Rel	7	nsubj	3:ref	_
+7	had	have	VERB	VBD	Mood=Ind|Tense=Past|VerbForm=Fin	3	acl:relcl	3:acl:relcl	_
+8	one	one	NUM	CD	NumType=Card	7	obj	7:obj	_
+9	and	and	CCONJ	CC	_	11	cc	11:cc	_
+10	i	i	PRON	PRP	Case=Nom|Number=Sing|Person=1|PronType=Prs	11	nsubj	11:nsubj	_
+11	loved	love	VERB	VBD	Mood=Ind|Tense=Past|VerbForm=Fin	2	conj	2:conj:and	_
+12	it	it	PRON	PRP	Case=Acc|Gender=Neut|Number=Sing|Person=3|PronType=Prs	11	obj	11:obj	SpaceAfter=No
+13	.	.	PUNCT	.	_	2	punct	2:punct	_
