@@ -41,19 +41,36 @@ conjEnhancer es = concat $ zipWith enhancer numbering es
 -- | Examples 27 -> 30 and 33 -> 34. Not that this rule conflicts with
 -- 31->32. Supposedly the choice should be determined by lexical
 -- semantics.
+
+-- boy ----------> lived -------> who
+--      acl:recl          nsubj
+
+-- TO:
+
+-- boy ----------> lived
+--      acl:recl
+--     <----------
+--        nsubj
+--     --------------------------> who
+--                 ref
+
 relEnhancer :: Sentence -> [Arc]
 relEnhancer es = concat $ zipWith enhancer numbering es
   where enhancer eIndex e = concat
             [[Arc {arcTarget = kidIndex,
                    arcSource = entryParent e,
                    arcLabel = "ref"},
-              Arc {arcTarget = eIndex,
-                   arcSource = entryParent e,
+              Arc {arcTarget = entryParent e,
+                   arcSource = eIndex,
                    arcLabel = relativizeLabel (entryLabel kid)},
-              DeleteOld eIndex]
+              DeleteOld kidIndex]
             | entryLabel e `elem` ["acl:relcl"],
+              -- eIndex ~ lived
+              -- entryParent e ~ boy
               (kidIndex,kid) <- kidsOf eIndex es,
-              entryLabel kid `elem` ["nsubj","obj","advmod"]]
+              entryLabel kid `elem` ["nsubj"] -- ,"obj","advmod"] -- ???
+              -- kid ~ who
+            ]
 
 relativizeLabel :: L.ByteString -> L.ByteString
 relativizeLabel l = if l == "advmod"
