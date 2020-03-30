@@ -12,6 +12,8 @@ data Arc = Arc {arcSource, arcTarget :: Int, arcLabel :: L.ByteString }
 -- isSubject :: Entry -> Bool
 -- isSubject Entry{..} = entryLabel == "nsubj"
 
+-- | kidsOf b = [a,c]
+-- a <----- b -----> c
 kidsOf :: Int -> Sentence -> [(Int,Entry)]
 kidsOf parent es = [(i,e) | (i,e) <- zip numbering es, entryParent e == parent]
 
@@ -23,6 +25,8 @@ sentenceToArcs es = zipWith entryToArc numbering es
 
 entryToArc :: Int -> Entry -> Arc
 entryToArc i e = Arc {arcSource = entryParent e, arcTarget = i, arcLabel = entryLabel e}
+
+-- See https://universaldependencies.org/u/overview/enhanced-syntax.html for documentation
 
 -- type 1
 -- tags: nsubj, obj, amod
@@ -37,6 +41,27 @@ conjEnhancer es = concat $ zipWith enhancer numbering es
             | entryLabel e `elem` ["nsubj","obj", "amod"],
               (kidIndex,kid) <- kidsOf eIndex es,
               entryLabel kid == "conj"]
+
+
+-- | Examples 5->6 and and 7->8.
+-- Have:
+-- She <----- Reading -----> Watching
+--      nsubj          conj
+-- To add:
+--     <-------------------
+--             nsubj
+conjEnhancer2 :: Sentence -> [Arc]
+conjEnhancer2 es = concat $ zipWith enhancer numbering es
+  where enhancer eIndex e
+          = [Arc {arcSource = kidIndex,
+                  arcTarget = eIndex,
+                  arcLabel = entryLabel e}
+            | entryLabel e `elem` ["nsubj","aux"],
+              -- eIndex e ~ she
+              -- entryParent e ~ reading
+              (kidIndex,kid) <- kidsOf (entryParent e) es,
+              -- kidIndex ~ watching
+              entryLabel kid == entryLabel e]
 
 -- | Examples 27 -> 30 and 33 -> 34. Not that this rule conflicts with
 -- 31->32. Supposedly the choice should be determined by lexical
@@ -113,7 +138,7 @@ applyDelete (x:xs) = x:applyDelete xs
 applyDelete [] = []
 
 allEnhancer :: Sentence -> [Arc]
-allEnhancer s = applyDelete (relEnhancer s ++ xcompEnhancer s ++ conjEnhancer s ++ sentenceToArcs s)
+allEnhancer s = applyDelete (relEnhancer s ++ xcompEnhancer s ++ conjEnhancer s ++ conjEnhancer2 s ++ sentenceToArcs s)
 
 type Enhancement = [(Int,L.ByteString)] -- list of parent/head and label.
 
