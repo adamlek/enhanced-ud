@@ -1,3 +1,4 @@
+{-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE LambdaCase #-}
 import System.Environment
 import qualified Data.ByteString.Lazy.Char8 as L
@@ -5,16 +6,21 @@ import Control.Monad
 import DepLib
 import Fixer
 
+
+dummyEntry :: Entry
+dummyEntry = Entry {entryRaw = d, entryLemma=d, entryPos = d, entryXPos = d, entryMisc = "", entryFeatures="", entryParent=0, entryLabel = "ROOT"}
+ where d = "dummy"
+
 main :: IO ()
 main = do
   inputs <- getArgs
   ss <- parseManyFiles (parseNivreSentences False) inputs
+  putStrLn ""
   forM_ ss $ \case
-    Nothing -> return ()
+    Nothing -> L.putStrLn (showEntryWithEnhancement 1 dummyEntry []) 
     Just s -> do
       let enh = consolidateArcs . allEnhancer $ s
           ls = zipWith3 showEntryWithEnhancement [1..] s enh
-      putStrLn ""
       forM_ ls L.putStrLn
 
 
