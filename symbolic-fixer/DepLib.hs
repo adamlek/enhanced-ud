@@ -11,10 +11,14 @@ import Data.List (intercalate)
 
 type Dict = M.Map L.ByteString Int
 
-data Entry = Entry {entryParent :: !Int,
-                    entryRaw :: !L.ByteString,
+data Entry = Entry {entryRaw :: !L.ByteString,
+                    entryLemma :: !L.ByteString,
                     entryPos :: !L.ByteString,
-                    entryLabel :: !L.ByteString}
+                    entryXPos :: !L.ByteString,
+                    entryFeatures :: !L.ByteString,
+                    entryParent :: !Int,
+                    entryLabel :: !L.ByteString,
+                    entryMisc :: !L.ByteString}
              deriving Show
 type Sentence = [Entry]
 
@@ -63,11 +67,15 @@ readManyUTFFiles fns = do
 
 isVerb Entry{..} = entryPos `elem` ["VERB", "AUX"]
 
+tabSep :: [L.ByteString] -> L.ByteString
 tabSep = L.intercalate "\t"
+lineSep :: [L.ByteString] -> L.ByteString
 lineSep = L.concat . map (<> L.pack "\n")
 
+splitLines :: L.ByteString -> [L.ByteString]
 splitLines = L.split '\n'
 
+bshow :: Int -> L.ByteString
 bshow = L.pack . show
 
 bread :: Read a => L.ByteString -> a
@@ -80,10 +88,14 @@ parseNivreSentences :: Bool -> L.ByteString -> [Sentence]
 parseNivreSentences lcase = map (map (cleanEntry . L.split '\t')) .
                   filter (not . null) . map (filter (not . ignoreLine)) . splitWhen (L.null) . filter (/= L.pack "(())") . splitLines
   where cleanEntry :: [L.ByteString] -> Entry
-        cleanEntry [_index,raw,_lemma,pos,_ptbTag,_features,parent,label,_,_] = 
+        cleanEntry [_index,raw,lemma,pos,xpos,features,parent,label,_,misc] = 
           Entry {entryParent = bread parent
                 ,entryRaw = (if lcase then L.map toLower else id) raw
+                ,entryLemma = (if lcase then L.map toLower else id) lemma
                 ,entryPos = pos
+                ,entryXPos = xpos
+                ,entryFeatures = features
+                ,entryMisc=misc
                 ,entryLabel = label}
         cleanEntry x = error $ "CleanEntry: " ++ show x
 

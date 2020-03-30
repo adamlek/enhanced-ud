@@ -139,6 +139,12 @@ showEnhancement xs = foldr1 (\x y -> x <> "|" <> y) . map showSemiArc $ xs
 consolidateArcs :: [Arc] -> [Enhancement]
 consolidateArcs = map (map arcToEnhancement) . groupBy ((==) `on` arcTarget) . sortBy (compare `on` arcTarget)
 
+showEntryWithEnhancement :: Int -> Entry -> Enhancement -> L.ByteString
+showEntryWithEnhancement index Entry{..} enh =
+  L.intercalate "\t" [bshow index,entryRaw, entryLemma,entryPos,
+                      entryXPos,entryFeatures,bshow entryParent,entryLabel,
+                      showEnhancement enh,entryMisc]
+
 arcToEnhancement :: Arc -> (Int, L.ByteString)
 arcToEnhancement a = (arcSource a,arcLabel a)
 

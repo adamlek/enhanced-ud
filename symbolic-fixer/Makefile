@@ -1,6 +1,6 @@
 
 Main: *.hs
-	nix-shell --pure --run "ghc --make Main.hs"
+	nix-shell --pure --run "ghc -O2 --make Main.hs"
 
 
 clean:

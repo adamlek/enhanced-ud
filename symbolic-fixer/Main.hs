@@ -8,11 +8,10 @@ main :: IO ()
 main = do
   inputs <- getArgs
   ss <- parseManyFiles (parseNivreSentences False) inputs
-  let enhancementss = map (map showEnhancement . consolidateArcs . allEnhancer) ss
-  forM_ enhancementss $ \es -> do
-    putStrLn "-----"
-    forM_ es $ \e -> do
-       L.putStrLn e
-  -- mapM_ (mapM_ print) arcs
+  forM_ ss $ \s -> do
+    let enh = consolidateArcs . allEnhancer $ s
+        ls = zipWith3 showEntryWithEnhancement [1..] s enh
+    putStrLn ""
+    forM_ ls L.putStrLn
 
 
