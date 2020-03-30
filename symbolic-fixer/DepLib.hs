@@ -84,12 +84,24 @@ bread = read . L.unpack
 ignoreLine :: L.ByteString -> Bool
 ignoreLine l = L.null l || '#' == (L.head l)
 
-parseNivreSentences :: Bool -> L.ByteString -> [Sentence]
-parseNivreSentences lcase = map (map (cleanEntry . L.split '\t')) .
-                  filter (not . null) . map (filter (not . ignoreLine)) . splitWhen (L.null) . filter (/= L.pack "(())") . splitLines
-  where cleanEntry :: [L.ByteString] -> Entry
-        cleanEntry [_index,raw,lemma,pos,xpos,features,parent,label,_,misc] = 
-          Entry {entryParent = bread parent
+allJust :: [Maybe a] -> Maybe [a]
+allJust [] = Just []
+allJust (Nothing:_) = Nothing
+allJust (Just x:xs) = (x:) <$> allJust xs
+
+parseNivreSentences :: Bool -> L.ByteString -> [Maybe Sentence]
+parseNivreSentences lcase =
+  map (allJust . map (cleanEntry . L.split '\t')) .
+  filter (not . null) .
+  map (filter (not . ignoreLine)) .
+  splitWhen (L.null) .
+  filter (/= L.pack "(())") .
+  splitLines
+  where cleanEntry :: [L.ByteString] -> Maybe Entry
+        cleanEntry [_index,raw,lemma,pos,xpos,features,parent,label,_,misc] =
+          case L.all isDigit parent of
+            False -> Nothing
+            True -> Just Entry {entryParent = bread parent
                 ,entryRaw = (if lcase then L.map toLower else id) raw
                 ,entryLemma = (if lcase then L.map toLower else id) lemma
                 ,entryPos = pos
