@@ -5,9 +5,10 @@ import Data.List
 import Data.Function
 import DepLib
 import qualified Data.ByteString.Lazy.Char8 as L
+import qualified Data.Map as M
 
 data Arc = Arc {arcSource, arcTarget :: Int, arcLabel :: L.ByteString }
-         | DeleteOld {arcTarget :: Int} deriving Show
+         | DeleteOld {arcTarget :: Int, arcLabel :: L.ByteString} deriving Show
 
 -- isSubject :: Entry -> Bool
 -- isSubject Entry{..} = entryLabel == "nsubj"
@@ -43,18 +44,24 @@ entryToArc i e = Arc {arcSource = entryParent e, arcTarget = i, arcLabel = entry
 -- ATTENTION: if the conjoined verb already has a subject, then that one is the subject, and we should not make a modification. Example:
 -- She <----- Reading -----> Watching ------> He
 --      nsubj          conj            nsubj
+-- ALSO:
+-- She was reading and he watched the television. (even though there is no auxilary in one sentence nothing must be propagated.)
+
+               
 conjEnhancer2 :: Sentence -> [Arc]
 conjEnhancer2 es = concat $ zipWith enhancer numbering es
   where enhancer eIndex e
           = [Arc {arcSource = kidIndex,
                   arcTarget = eIndex,
                   arcLabel = entryLabel e}
-            | entryLabel e `elem` ["nsubj","aux"],
+            | entryLabel e `elem` ["nsubj", "aux"],
               -- eIndex e ~ she
               -- entryParent e ~ reading
               (kidIndex,kid) <- kidsOf (entryParent e) es,
               -- kidIndex ~ watching
-              all ((/= entryLabel e) . entryLabel . snd) (kidsOf kidIndex es),
+              all ((/= "nsubj") . entryLabel . snd) (kidsOf kidIndex es),
+              -- if the conjoined verb has a subject aleardy, then we
+              -- are conjoining full sentences. There is no need to propagate *anything*
               entryLabel kid == "conj"]
 
 -- | Examples 11->12; 13->14; 15->16; 17->18; 21->22.
@@ -62,13 +69,15 @@ conjEnhancer2 es = concat $ zipWith enhancer numbering es
 -- tags: nsubj, obj, amod
 -- Meet -----> Paul -----> Mary
 --      nsubj        conj
+-- have -----> founded -----> leader 
+--      advcl           conj
 conjEnhancer :: Sentence -> [Arc]
 conjEnhancer es = concat $ zipWith enhancer numbering es
   where enhancer eIndex e
           = [Arc {arcTarget = kidIndex,
                   arcSource = entryParent e,
                   arcLabel = entryLabel e}
-            | entryLabel e `elem` ["nsubj","obj", "amod"],
+            | entryLabel e `elem` ["nsubj","obj", "amod", "advcl"],
               (kidIndex,kid) <- kidsOf eIndex es,
               entryLabel kid == "conj"]
 
@@ -107,7 +116,7 @@ relEnhancer es = concat $ zipWith enhancer numbering es
               Arc {arcTarget = entryParent e,
                    arcSource = eIndex,
                    arcLabel = relativizeLabel (entryLabel kid)},
-              DeleteOld kidIndex]
+              DeleteOld kidIndex "nsubj"]
             | entryLabel e `elem` ["acl:relcl"],
               -- eIndex ~ lived
               -- entryParent e ~ boy
@@ -124,6 +133,21 @@ relativizeLabel l = if l == "advmod"
 
 -- From <------ AP <------- come
 --        case        obl
+--                    obl:from
+
+-- and <------ patience <------- hope
+--        cc              conj
+--                        conj:and
+
+labelingMap :: M.Map L.ByteString [L.ByteString]
+labelingMap = M.fromList
+   [("case", ["obl","nmod"]),
+    ("cc",["conj"]),
+    ("mark",["advcl"])
+    ]
+
+-- since <----- leader <--------- have
+--        mark            advcl
 
 fixCase :: [Entry] -> [Arc]
 fixCase es = concat $ zipWith enhancer numbering es
@@ -131,20 +155,24 @@ fixCase es = concat $ zipWith enhancer numbering es
          [[Arc {arcLabel = entryLabel parentEntry <> ":" <> entryLemma e
                ,arcSource = entryParent parentEntry
                ,arcTarget = entryParent e},
-              DeleteOld (entryParent e)]
-         | entryLabel e == "case",
+              DeleteOld (entryParent e) (entryLabel parentEntry)]
+         | Just enhancedLabels <- [M.lookup (entryLabel e) labelingMap],
            -- eIndex ~ From
            -- entryParent e ~ AP
            let parentEntry = parentOf (entryParent e) es, -- all info about "AP"
-           entryLabel parentEntry `elem` ["obl","nmod"]
+           entryLabel parentEntry `elem` enhancedLabels
            -- entryParent parentEntry ~ come
          ]
 
 parentOf :: Int -> [a] -> a
 parentOf idx es = es !! (idx-1)
 
+matchingArc :: L.ByteString -> Int -> Arc -> Bool
+matchingArc lab x Arc{..}  = arcTarget == x && arcLabel == lab
+matchingArc _ _ _ = False
+
 applyDelete :: [Arc] -> [Arc]
-applyDelete (DeleteOld x:xs) = filter ((/= x) . arcTarget) (applyDelete xs)
+applyDelete (DeleteOld x lab:xs) = filter (not . matchingArc lab x) (applyDelete xs)
 applyDelete (x:xs) = x:applyDelete xs
 applyDelete [] = []
 
