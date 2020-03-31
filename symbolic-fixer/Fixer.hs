@@ -142,15 +142,17 @@ relativizeLabel l = if l == "advmod"
 --        cc              conj
 --                        conj:and
 
+-- since <----- leader <--------- have
+--        mark            advcl
+--        mark            advcl:since
+
 labelingMap :: M.Map L.ByteString [L.ByteString]
 labelingMap = M.fromList
    [("case", ["obl","nmod"]),
     ("cc",["conj"]),
-    ("mark",["advcl"])
+    ("mark",["advcl", "acl"])
     ]
 
--- since <----- leader <--------- have
---        mark            advcl
 
 fixCase :: [Entry] -> [Arc]
 fixCase es = concat $ zipWith enhancer numbering es
