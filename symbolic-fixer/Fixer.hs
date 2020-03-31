@@ -128,6 +128,9 @@ allEnhancer :: Sentence -> [Arc]
 allEnhancer s =
   applyDelete (relEnhancer s ++ xcompEnhancer s ++ conjEnhancer s ++ conjEnhancer2 s ++ sentenceToArcs s)
 
+noEnhancer :: Sentence -> [Arc]
+noEnhancer = sentenceToArcs
+
 type Enhancement = [(Int,L.ByteString)] -- list of parent/head and label.
 
 showEnhancement :: Enhancement -> L.ByteString

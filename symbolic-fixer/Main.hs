@@ -13,13 +13,17 @@ dummyEntry = Entry {entryRaw = d, entryLemma=d, entryPos = d, entryXPos = d, ent
 
 main :: IO ()
 main = do
-  inputs <- getArgs
+  inputs' <- getArgs
+  let (enhanceFunction,inputs) =
+        case inputs' of
+          ("--dummy":rest) -> (noEnhancer,rest)
+          _ -> (allEnhancer,inputs')
   ss <- parseManyFiles (parseNivreSentences False) inputs
   forM_ ss $ \s0 -> do
    case s0 of 
     Nothing -> L.putStrLn (showEntryWithEnhancement 1 dummyEntry []) 
     Just s -> do
-      let enh = consolidateArcs . allEnhancer $ s
+      let enh = consolidateArcs . enhanceFunction $ s
           ls = zipWith3 showEntryWithEnhancement [1..] s enh
       forM_ ls L.putStrLn
    putStrLn ""
