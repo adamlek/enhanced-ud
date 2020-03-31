@@ -17,6 +17,7 @@ data Arc = Arc {arcSource, arcTarget :: Int, arcLabel :: L.ByteString }
 kidsOf :: Int -> Sentence -> [(Int,Entry)]
 kidsOf parent es = [(i,e) | (i,e) <- zip numbering es, entryParent e == parent]
 
+
 numbering :: [Int]
 numbering = [1..]
 
@@ -39,6 +40,9 @@ entryToArc i e = Arc {arcSource = entryParent e, arcTarget = i, arcLabel = entry
 --     <-------------------
 --             nsubj
 --              aux
+-- ATTENTION: if the conjoined verb already has a subject, then that one is the subject, and we should not make a modification. Example:
+-- She <----- Reading -----> Watching ------> He
+--      nsubj          conj            nsubj
 conjEnhancer2 :: Sentence -> [Arc]
 conjEnhancer2 es = concat $ zipWith enhancer numbering es
   where enhancer eIndex e
@@ -50,7 +54,8 @@ conjEnhancer2 es = concat $ zipWith enhancer numbering es
               -- entryParent e ~ reading
               (kidIndex,kid) <- kidsOf (entryParent e) es,
               -- kidIndex ~ watching
-              entryLabel kid == entryLabel e]
+              all ((/= entryLabel e) . entryLabel . snd) (kidsOf kidIndex es),
+              entryLabel kid == "conj"]
 
 -- | Examples 11->12; 13->14; 15->16; 17->18; 21->22.
 -- Have:
@@ -68,7 +73,6 @@ conjEnhancer es = concat $ zipWith enhancer numbering es
               entryLabel kid == "conj"]
 
 -- | Example 23->24; 25->26
--- type 2
 -- interior <------ look ------> new
 --           nsubj        xcomp
 xcompEnhancer :: Sentence -> [Arc]
@@ -118,6 +122,26 @@ relativizeLabel l = if l == "advmod"
                     else l
 
 
+-- From <------ AP <------- come
+--        case        obl
+
+fixCase :: [Entry] -> [Arc]
+fixCase es = concat $ zipWith enhancer numbering es
+  where enhancer _eIndex e = concat
+         [[Arc {arcLabel = entryLabel parentEntry <> ":" <> entryLemma e
+               ,arcSource = entryParent parentEntry
+               ,arcTarget = entryParent e},
+              DeleteOld (entryParent e)]
+         | entryLabel e == "case",
+           -- eIndex ~ From
+           -- entryParent e ~ AP
+           let parentEntry = parentOf (entryParent e) es, -- all info about "AP"
+           entryLabel parentEntry `elem` ["obl","nmod"]
+           -- entryParent parentEntry ~ come
+         ]
+
+parentOf :: Int -> [a] -> a
+parentOf idx es = es !! (idx-1)
 
 applyDelete :: [Arc] -> [Arc]
 applyDelete (DeleteOld x:xs) = filter ((/= x) . arcTarget) (applyDelete xs)
@@ -126,7 +150,7 @@ applyDelete [] = []
 
 allEnhancer :: Sentence -> [Arc]
 allEnhancer s =
-  applyDelete (relEnhancer s ++ xcompEnhancer s ++ conjEnhancer s ++ conjEnhancer2 s ++ sentenceToArcs s)
+  applyDelete (fixCase s ++ relEnhancer s ++ xcompEnhancer s ++ conjEnhancer s ++ conjEnhancer2 s ++ sentenceToArcs s)
 
 noEnhancer :: Sentence -> [Arc]
 noEnhancer = sentenceToArcs
