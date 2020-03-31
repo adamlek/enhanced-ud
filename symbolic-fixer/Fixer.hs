@@ -10,6 +10,12 @@ import qualified Data.Map as M
 data Arc = Arc {arcSource, arcTarget :: Int, arcLabel :: L.ByteString }
          | DeleteOld {arcTarget :: Int, arcLabel :: L.ByteString} deriving Show
 
+labelKind :: L.ByteString -> L.ByteString
+labelKind = L.takeWhile (/= ':')
+
+entryLabelKind :: Entry -> L.ByteString
+entryLabelKind = labelKind . entryLabel
+
 -- isSubject :: Entry -> Bool
 -- isSubject Entry{..} = entryLabel == "nsubj"
 
@@ -54,15 +60,15 @@ conjEnhancer2 es = concat $ zipWith enhancer numbering es
           = [Arc {arcSource = kidIndex,
                   arcTarget = eIndex,
                   arcLabel = entryLabel e}
-            | entryLabel e `elem` ["nsubj", "aux"],
+            | entryLabelKind e `elem` ["nsubj", "aux"],
               -- eIndex e ~ she
               -- entryParent e ~ reading
               (kidIndex,kid) <- kidsOf (entryParent e) es,
               -- kidIndex ~ watching
-              all ((/= "nsubj") . entryLabel . snd) (kidsOf kidIndex es),
+              all ((/= "nsubj") . entryLabelKind . snd) (kidsOf kidIndex es),
               -- if the conjoined verb has a subject aleardy, then we
               -- are conjoining full sentences. There is no need to propagate *anything*
-              entryLabel kid == "conj"]
+              entryLabelKind kid == "conj"]
 
 -- | Examples 11->12; 13->14; 15->16; 17->18; 21->22.
 -- Have:
@@ -80,9 +86,9 @@ conjEnhancer es = concat $ zipWith enhancer numbering es
           = [Arc {arcTarget = kidIndex,
                   arcSource = entryParent e,
                   arcLabel = entryLabel e}
-            | entryLabel e `elem` ["nsubj","obj", "amod", "advcl","obl"],
+            | entryLabelKind e `elem` ["nsubj","obj", "amod", "advcl","obl"],
               (kidIndex,kid) <- kidsOf eIndex es,
-              entryLabel kid == "conj"]
+              entryLabelKind kid == "conj"]
 
 -- | Example 23->24; 25->26
 -- interior <------ look ------> new
@@ -93,9 +99,9 @@ xcompEnhancer es = concat $ zipWith enhancer numbering es
           = [Arc {arcTarget = e2Index,
                   arcSource = eIndex,
                   arcLabel = "nsubj:xsubj"}
-            | entryLabel e `elem` ["xcomp"],
+            | entryLabelKind e `elem` ["xcomp"],
               (e2Index,e2) <- zip numbering es,
-              entryLabel e2 == "nsubj",
+              entryLabelKind e2 == "nsubj",
               entryParent e2 == entryParent e]
 
 -- | Examples 27 -> 30 and 33 -> 34. Not that this rule conflicts with
@@ -124,7 +130,7 @@ relEnhancer es = concat $ zipWith enhancer numbering es
               -- eIndex ~ lived
               -- entryParent e ~ boy
               (kidIndex,kid) <- kidsOf eIndex es,
-              entryLabel kid `elem` ["nsubj"] -- ,"obj","advmod"] -- ???
+              entryLabelKind kid `elem` ["nsubj"] -- ,"obj","advmod"] -- ???
               -- kid ~ who
             ]
 
@@ -154,13 +160,11 @@ labelingMap = M.fromList
     ]
 
 
-fixCase :: [Entry] -> [Arc]
+fixCase :: [Entry] -> [(Int,Entry)]
 fixCase es = concat $ zipWith enhancer numbering es
-  where enhancer _eIndex e = concat
-         [[Arc {arcLabel = entryLabel parentEntry <> ":" <> entryLemma e
-               ,arcSource = entryParent parentEntry
-               ,arcTarget = entryParent e},
-              DeleteOld (entryParent e) (entryLabel parentEntry)]
+  where enhancer _eIndex e =
+         [(entryParent e,
+           parentEntry {entryLabel = entryLabelKind parentEntry <> ":" <> entryLemma e})
          | Just enhancedLabels <- [M.lookup (entryLabel e) labelingMap],
            -- eIndex ~ From
            -- entryParent e ~ AP
@@ -168,6 +172,18 @@ fixCase es = concat $ zipWith enhancer numbering es
            entryLabel parentEntry `elem` enhancedLabels
            -- entryParent parentEntry ~ come
          ]
+
+merge :: Ord a => [(a, b)] -> [(a, b)] -> [(a, b)]
+merge [] xs = xs
+merge xs [] = xs
+merge ((i,x):xs) ((j,y):ys) = case compare i j of
+  LT -> (i,x):merge xs ((j,y):ys)
+  _ -> (j,y):merge ((i,x):xs) ys
+
+fixCaseAll :: [Entry] -> [Entry]
+fixCaseAll es = map (snd . head) $
+                groupBy ((==) `on` fst) $
+                merge (zip [1..] es) (sortBy (compare `on` fst) (fixCase es))
 
 parentOf :: Int -> [a] -> a
 parentOf idx es = es !! (idx-1)
@@ -181,9 +197,16 @@ applyDelete (DeleteOld x lab:xs) = filter (not . matchingArc lab x) (applyDelete
 applyDelete (x:xs) = x:applyDelete xs
 applyDelete [] = []
 
+(<+>) :: (t -> [a]) -> (t -> [a]) -> t -> [a]
+(f <+> g) s = f s ++ g s
+
+infixr <+>
+
 allEnhancer :: Sentence -> [Arc]
-allEnhancer s =
-  applyDelete (fixCase s ++ relEnhancer s ++ xcompEnhancer s ++ conjEnhancer s ++ conjEnhancer2 s ++ sentenceToArcs s)
+allEnhancer =
+  applyDelete .
+  (relEnhancer <+> xcompEnhancer <+> conjEnhancer <+> conjEnhancer2 <+> sentenceToArcs) .
+  fixCaseAll
 
 noEnhancer :: Sentence -> [Arc]
 noEnhancer = sentenceToArcs
