@@ -15,12 +15,12 @@ main :: IO ()
 main = do
   inputs <- getArgs
   ss <- parseManyFiles (parseNivreSentences False) inputs
-  putStrLn ""
-  forM_ ss $ \case
+  forM_ ss $ \s0 -> do
+   case s0 of 
     Nothing -> L.putStrLn (showEntryWithEnhancement 1 dummyEntry []) 
     Just s -> do
       let enh = consolidateArcs . allEnhancer $ s
           ls = zipWith3 showEntryWithEnhancement [1..] s enh
       forM_ ls L.putStrLn
-
+   putStrLn ""
 
