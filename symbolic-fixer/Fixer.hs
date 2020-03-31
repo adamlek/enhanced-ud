@@ -71,13 +71,16 @@ conjEnhancer2 es = concat $ zipWith enhancer numbering es
 --      nsubj        conj
 -- have -----> founded -----> leader 
 --      advcl           conj
+--   mounted -----> Tikrit  -----> Huwaijah
+--            obl             conj
+
 conjEnhancer :: Sentence -> [Arc]
 conjEnhancer es = concat $ zipWith enhancer numbering es
   where enhancer eIndex e
           = [Arc {arcTarget = kidIndex,
                   arcSource = entryParent e,
                   arcLabel = entryLabel e}
-            | entryLabel e `elem` ["nsubj","obj", "amod", "advcl"],
+            | entryLabel e `elem` ["nsubj","obj", "amod", "advcl","obl"],
               (kidIndex,kid) <- kidsOf eIndex es,
               entryLabel kid == "conj"]
 
