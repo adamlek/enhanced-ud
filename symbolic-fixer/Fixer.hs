@@ -92,7 +92,7 @@ xcompEnhancer es = concat $ zipWith enhancer numbering es
   where enhancer eIndex e
           = [Arc {arcTarget = e2Index,
                   arcSource = eIndex,
-                  arcLabel = "xsubj"}
+                  arcLabel = "nsubj:xsubj"}
             | entryLabel e `elem` ["xcomp"],
               (e2Index,e2) <- zip numbering es,
               entryLabel e2 == "nsubj",
