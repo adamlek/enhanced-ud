@@ -108,14 +108,16 @@ xcompEnhancer es = concat $ zipWith enhancer numbering es
 -- 31->32. Supposedly the choice should be determined by lexical
 -- semantics.
 -- boy ----------> lived -------> who
---      acl:recl          nsubj
+--      acl:relcl         nsubj
 -- TO:
 -- boy ----------> lived
---      acl:recl
+--      acl:relcl
 --     <----------
 --        nsubj
 --     --------------------------> who
 --                 ref
+
+
 relEnhancer :: Sentence -> [Arc]
 relEnhancer es = concat $ zipWith enhancer numbering es
   where enhancer eIndex e = concat
@@ -125,12 +127,17 @@ relEnhancer es = concat $ zipWith enhancer numbering es
               Arc {arcTarget = entryParent e,
                    arcSource = eIndex,
                    arcLabel = relativizeLabel (entryLabel kid)},
-              DeleteOld kidIndex "nsubj"]
+              DeleteOld kidIndex (entryLabel kid)]
             | entryLabel e `elem` ["acl:relcl"],
               -- eIndex ~ lived
               -- entryParent e ~ boy
               (kidIndex,kid) <- kidsOf eIndex es,
-              entryLabelKind kid `elem` ["nsubj"] -- ,"obj","advmod"] -- ???
+              entryLabelKind kid `elem` ["nsubj","obj"],
+              entryPos kid == "PRON",
+              entryXPos kid `elem` ["WP", -- "who", "whom"
+                                    "WDT" -- "that", "which"
+                                   ]
+              -- ,"obj","advmod"] -- ???
               -- kid ~ who
             ]
 
@@ -138,7 +145,6 @@ relativizeLabel :: L.ByteString -> L.ByteString
 relativizeLabel l = if l == "advmod"
                     then "obl"
                     else l
-
 
 -- From <------ AP <------- come
 --        case        obl
