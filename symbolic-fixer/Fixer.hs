@@ -132,7 +132,7 @@ relEnhancer es = concat $ zipWith enhancer numbering es
               -- eIndex ~ lived
               -- entryParent e ~ boy
               (kidIndex,kid) <- kidsOf eIndex es,
-              entryLabelKind kid `elem` ["nsubj","obj"],
+              entryLabelKind kid `elem` ["nsubj","obj","obl"],
               entryPos kid == "PRON",
               entryXPos kid `elem` ["WP", -- "who", "whom"
                                     "WDT" -- "that", "which"
