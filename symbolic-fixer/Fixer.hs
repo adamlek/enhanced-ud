@@ -53,7 +53,6 @@ entryToArc i e = Arc {arcSource = entryParent e, arcTarget = i, arcLabel = entry
 -- ALSO:
 -- She was reading and he watched the television. (even though there is no auxilary in one sentence nothing must be propagated.)
 
-               
 conjEnhancer2 :: Sentence -> [Arc]
 conjEnhancer2 es = concat $ zipWith enhancer numbering es
   where enhancer eIndex e
@@ -86,7 +85,7 @@ conjEnhancer es = concat $ zipWith enhancer numbering es
           = [Arc {arcTarget = kidIndex,
                   arcSource = entryParent e,
                   arcLabel = entryLabel e}
-            | entryLabelKind e `elem` ["nsubj","obj", "amod", "advcl","obl"],
+            | entryLabelKind e `elem` ["nsubj","obj", "amod", "advcl","obl", "mark"],
               (kidIndex,kid) <- kidsOf eIndex es,
               entryLabelKind kid == "conj"]
 
@@ -132,12 +131,11 @@ relEnhancer es = concat $ zipWith enhancer numbering es
               -- eIndex ~ lived
               -- entryParent e ~ boy
               (kidIndex,kid) <- kidsOf eIndex es,
-              entryLabelKind kid `elem` ["nsubj","obj","obl"],
+              entryLabelKind kid `elem` ["nsubj","obj","obl", "advmod"],
               entryPos kid == "PRON",
               entryXPos kid `elem` ["WP", -- "who", "whom"
                                     "WDT" -- "that", "which"
                                    ]
-              -- ,"obj","advmod"] -- ???
               -- kid ~ who
             ]
 
