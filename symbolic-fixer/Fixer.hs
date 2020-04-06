@@ -227,10 +227,20 @@ showEnhancement xs = foldr1 (\x y -> x <> "|" <> y) . map showSemiArc $ xs
 consolidateArcs :: [Arc] -> [Enhancement]
 consolidateArcs = map (sort . map arcToEnhancement) . groupBy ((==) `on` arcTarget) . sortBy (compare `on` arcTarget)
 
+evaluatorFixerMap :: M.Map L.ByteString L.ByteString
+evaluatorFixerMap = M.fromList
+   [("-LSB-", "["),
+    ("-RSB-", "]"),
+    ("-RRB-", ")"),
+    ("-LRB-", "("),
+    ("`","'"),
+    ("’","'")]
+
+
 satisfyEvaluator :: L.ByteString -> L.ByteString
-satisfyEvaluator = L.map $ \case
-  '`' -> '\''
-  c -> c
+satisfyEvaluator raw = case M.lookup raw evaluatorFixerMap of
+  Just x -> x
+  Nothing -> raw
 
 showEntryWithEnhancement :: Int -> Entry -> Enhancement -> L.ByteString
 showEntryWithEnhancement index Entry{..} enh =
