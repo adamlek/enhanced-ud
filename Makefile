@@ -1,4 +1,4 @@
-test-simple:: data/UD_English-EWT/stanford-dev.fixed
+test:: data/UD_English-EWT/stanford-dev.fixed
 	python3 iwpt20_xud_eval.py data/UD_English-EWT/en_ewt-ud-dev.conllu $<
 
 test-simple:: data/UD_English-EWT/en_ewt-ud-dev.fixed
