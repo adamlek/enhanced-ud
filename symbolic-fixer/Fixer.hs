@@ -1,3 +1,4 @@
+{-# LANGUAGE LambdaCase #-}
 {-# LANGUAGE RecordWildCards #-}
 {-# LANGUAGE OverloadedStrings #-}
 module Fixer where
@@ -226,9 +227,14 @@ showEnhancement xs = foldr1 (\x y -> x <> "|" <> y) . map showSemiArc $ xs
 consolidateArcs :: [Arc] -> [Enhancement]
 consolidateArcs = map (sort . map arcToEnhancement) . groupBy ((==) `on` arcTarget) . sortBy (compare `on` arcTarget)
 
+satisfyEvaluator :: L.ByteString -> L.ByteString
+satisfyEvaluator = L.map $ \case
+  '`' -> '\''
+  c -> c
+
 showEntryWithEnhancement :: Int -> Entry -> Enhancement -> L.ByteString
 showEntryWithEnhancement index Entry{..} enh =
-  L.intercalate "\t" [bshow index,entryRaw, entryLemma,entryPos,
+  L.intercalate "\t" [bshow index,satisfyEvaluator entryRaw, entryLemma,entryPos,
                       entryXPos,entryFeatures,bshow entryParent,entryLabel,
                       showEnhancement enh,entryMisc]
 
