@@ -1,0 +1,45 @@
+[Line 8]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+[Line 8]: [L2 Metadata missing-text] Missing the text attribute.
+[Line 15]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+[Line 15]: [L2 Metadata missing-text] Missing the text attribute.
+[Line 20]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+[Line 20]: [L2 Metadata missing-text] Missing the text attribute.
+[Line 38]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+[Line 38]: [L2 Metadata missing-text] Missing the text attribute.
+[Line 43]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+[Line 43]: [L2 Metadata missing-text] Missing the text attribute.
+[Line 59]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+[Line 59]: [L2 Metadata missing-text] Missing the text attribute.
+[Line 64]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+[Line 64]: [L2 Metadata missing-text] Missing the text attribute.
+[Line 84]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+[Line 84]: [L2 Metadata missing-text] Missing the text attribute.
+[Line 91]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+[Line 91]: [L2 Metadata missing-text] Missing the text attribute.
+[Line 97]: [L2 Enhanced invalid-edeprel] Invalid enhanced relation type: '4:obl:>'.
+[Line 101]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+...suppressing further errors regarding Metadata
+[Line 883]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Case=Loc|Definite=Def|Gender=Masc|NumForm=Word|NumType=Ord|Number=Plur'.
+[Line 1378]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Case=Gen|Gender=Masc|NumForm=Word|NumType=Card|Number=Plur'.
+[Line 1392]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Case=Acc|Gender=Masc|NumForm=Word|NumType=Card|Number=Plur'.
+[Line 1402]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Case=Nom|Gender=Masc|NumForm=Word|NumType=Card|Number=Plur'.
+[Line 1431]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Case=Gen|Gender=Masc|NumForm=Word|NumType=Card|Number=Plur'.
+[Line 1786]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Case=Nom|Definite=Ind|Gender=Masc|NumForm=Word|NumType=Ord|Number=Sing'.
+[Line 2250]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Case=Gen|Gender=Masc|NumForm=Word|NumType=Card|Number=Plur'.
+[Line 2402]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Case=Nom|Gender=Masc|NumForm=Word|NumType=Card|Number=Sing'.
+[Line 2451]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Case=Gen|Definite=Def|Gender=Masc|NumForm=Word|NumType=Ord|Number=Sing'.
+[Line 2480]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Case=Loc|Definite=Def|Gender=Fem|NumForm=Word|NumType=Ord|Number=Sing'.
+[Line 2634]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Case=Acc|Definite=Def|Gender=Masc|NumForm=Combi|NumType=Ord|Number=Sing'.
+[Line 2650]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Case=Acc|Definite=Def|Gender=Masc|NumForm=Word|NumType=Ord|Number=Sing'.
+[Line 2795]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Case=Gen|Gender=Masc|NumForm=Word|NumType=Card|Number=Sing'.
+[Line 2997]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Case=Acc|Gender=Masc|NumForm=Word|NumType=Card|Number=Sing'.
+[Line 3431]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Case=Nom|Definite=Def|Gender=Fem|NumForm=Word|NumType=Ord|Number=Plur'.
+[Line 3464]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Case=Nom|Definite=Ind|Gender=Masc|NumForm=Word|NumType=Ord|Number=Sing'.
+[Line 3597]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Case=Gen|Gender=Masc|NumForm=Word|NumType=Card|Number=Sing'.
+[Line 3631]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Case=Nom|Definite=Ind|Gender=Masc|NumForm=Word|NumType=Ord|Number=Sing'.
+[Line 3846]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Case=Acc|Definite=Def|Gender=Masc|NumForm=Word|NumType=Ord|Number=Sing'.
+...suppressing further errors regarding Morpho
+Enhanced errors: 1
+Metadata errors: 1344
+Morpho errors: 28
+*** FAILED *** with 1373 errors

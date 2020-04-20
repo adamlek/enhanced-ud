@@ -1,0 +1,36 @@
+[Line 58]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+[Line 58]: [L2 Metadata missing-text] Missing the text attribute.
+[Line 81]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+[Line 81]: [L2 Metadata missing-text] Missing the text attribute.
+[Line 117]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+[Line 117]: [L2 Metadata missing-text] Missing the text attribute.
+[Line 156]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+[Line 156]: [L2 Metadata missing-text] Missing the text attribute.
+[Line 176]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+[Line 176]: [L2 Metadata missing-text] Missing the text attribute.
+[Line 207]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+[Line 207]: [L2 Metadata missing-text] Missing the text attribute.
+[Line 232]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+[Line 232]: [L2 Metadata missing-text] Missing the text attribute.
+[Line 245]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+[Line 245]: [L2 Metadata missing-text] Missing the text attribute.
+[Line 297]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+[Line 297]: [L2 Metadata missing-text] Missing the text attribute.
+[Line 322]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+...suppressing further errors regarding Metadata
+[Line 4658]: [L2 Enhanced invalid-edeprel] Invalid enhanced relation type: '21:conj:/'.
+[Line 4670]: [L2 Enhanced invalid-edeprel] Invalid enhanced relation type: '7:conj:/'.
+[Line 4773]: [L2 Enhanced invalid-edeprel] Invalid enhanced relation type: '4:nmod:à|6:conj:/'.
+[Line 4868]: [L2 Enhanced invalid-edeprel] Invalid enhanced relation type: '28:conj:/'.
+[Line 5107]: [L2 Enhanced invalid-edeprel] Invalid enhanced relation type: '15:conj:/'.
+[Line 5698]: [L2 Enhanced invalid-edeprel] Invalid enhanced relation type: '26:nmod|27:conj:/'.
+[Line 13211]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Gender=Masc|NumType=Ord|Number=Sing'.
+[Line 15432]: [L2 Enhanced invalid-edeprel] Invalid enhanced relation type: '8:conj:/'.
+[Line 33229]: [L2 Enhanced invalid-edeprel] Invalid enhanced relation type: '2:nsubj|4:conj:&'.
+[Line 33814]: [L2 Enhanced invalid-edeprel] Invalid enhanced relation type: '6:conj:&'.
+[Line 36718]: [L2 Enhanced invalid-edeprel] Invalid enhanced relation type: '4:conj:/'.
+[Line 36837]: [L2 Enhanced invalid-edeprel] Invalid enhanced relation type: '2:conj:/'.
+Enhanced errors: 11
+Metadata errors: 5340
+Morpho errors: 1
+*** FAILED *** with 5352 errors

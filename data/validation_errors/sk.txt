@@ -1,0 +1,43 @@
+[Line 22]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+[Line 22]: [L2 Metadata missing-text] Missing the text attribute.
+[Line 41]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+[Line 41]: [L2 Metadata missing-text] Missing the text attribute.
+[Line 65]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+[Line 65]: [L2 Metadata missing-text] Missing the text attribute.
+[Line 76]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+[Line 76]: [L2 Metadata missing-text] Missing the text attribute.
+[Line 100]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+[Line 100]: [L2 Metadata missing-text] Missing the text attribute.
+[Line 145]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+[Line 145]: [L2 Metadata missing-text] Missing the text attribute.
+[Line 163]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+[Line 163]: [L2 Metadata missing-text] Missing the text attribute.
+[Line 170]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+[Line 170]: [L2 Metadata missing-text] Missing the text attribute.
+[Line 193]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+[Line 193]: [L2 Metadata missing-text] Missing the text attribute.
+[Line 204]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+...suppressing further errors regarding Metadata
+[Line 272]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Case=Acc|Gender=Fem|NumType=Ord|Number=Sing'.
+[Line 957]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Case=Acc|Gender=Masc|NumType=Ord|Number=Sing'.
+[Line 1184]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Animacy=Inan|Case=Gen|Gender=Masc|NumType=Card|Number=Plur|PronType=Ind'.
+[Line 1279]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Animacy=Inan|Case=Acc|Gender=Masc|NumType=Ord|Number=Sing'.
+[Line 1557]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Case=Acc|Gender=Neut|NumType=Card|Number=Sing|PronType=Ind'.
+[Line 1839]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Animacy=Anim|Case=Ins|Gender=Masc|NumType=Mult|Number=Plur'.
+[Line 2027]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Case=Acc|Gender=Neut|NumType=Ord|Number=Sing'.
+[Line 2076]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Animacy=Inan|Case=Nom|Gender=Masc|NumType=Ord|Number=Sing'.
+[Line 2203]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Case=Nom|Gender=Neut|NumType=Ord|Number=Sing'.
+[Line 2648]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Case=Acc|Gender=Neut|NumType=Card|Number=Sing|PronType=Ind'.
+[Line 2970]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Case=Loc|Gender=Neut|NumType=Ord|Number=Sing'.
+[Line 3034]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Animacy=Inan|Case=Ins|Gender=Masc|NumType=Ord|Number=Sing'.
+[Line 3077]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Case=Nom|Gender=Neut|NumType=Ord|Number=Sing'.
+[Line 3147]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Animacy=Inan|Case=Ins|Gender=Masc|NumType=Ord|Number=Sing'.
+[Line 3207]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Case=Gen|Gender=Fem|NumType=Mult|Number=Plur'.
+[Line 3427]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Animacy=Inan|Case=Ins|Gender=Masc|NumType=Card|Number=Plur|PronType=Ind'.
+[Line 3501]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Animacy=Anim|Case=Nom|Gender=Masc|NumType=Ord|Number=Sing'.
+[Line 3553]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Case=Ins|Gender=Fem|NumType=Ord|Number=Sing'.
+[Line 3572]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Animacy=Inan|Case=Ins|Gender=Masc|NumType=Ord|Number=Sing'.
+...suppressing further errors regarding Morpho
+Metadata errors: 2092
+Morpho errors: 88
+*** FAILED *** with 2180 errors

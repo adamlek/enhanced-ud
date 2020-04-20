@@ -1,0 +1,43 @@
+[Line 7]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+[Line 7]: [L2 Metadata missing-text] Missing the text attribute.
+[Line 10]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+[Line 10]: [L2 Metadata missing-text] Missing the text attribute.
+[Line 34]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+[Line 34]: [L2 Metadata missing-text] Missing the text attribute.
+[Line 44]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+[Line 44]: [L2 Metadata missing-text] Missing the text attribute.
+[Line 70]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+[Line 70]: [L2 Metadata missing-text] Missing the text attribute.
+[Line 102]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+[Line 102]: [L2 Metadata missing-text] Missing the text attribute.
+[Line 110]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+[Line 110]: [L2 Metadata missing-text] Missing the text attribute.
+[Line 119]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+[Line 119]: [L2 Metadata missing-text] Missing the text attribute.
+[Line 127]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+[Line 127]: [L2 Metadata missing-text] Missing the text attribute.
+[Line 134]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+...suppressing further errors regarding Metadata
+[Line 947]: [L2 Enhanced invalid-edeprel] Invalid enhanced relation type: '37:nmod:-'.
+[Line 1121]: [L2 Enhanced invalid-edeprel] Invalid enhanced relation type: '24:nmod:-'.
+[Line 1123]: [L2 Enhanced invalid-edeprel] Invalid enhanced relation type: '26:nmod:-'.
+[Line 1128]: [L2 Enhanced invalid-edeprel] Invalid enhanced relation type: '31:nmod:-'.
+[Line 1130]: [L2 Enhanced invalid-edeprel] Invalid enhanced relation type: '31:nmod:-'.
+[Line 1208]: [L2 Enhanced invalid-edeprel] Invalid enhanced relation type: '9:nmod:on|13:conj:/'.
+[Line 2050]: [L2 Enhanced invalid-edeprel] Invalid enhanced relation type: '5:nmod:-'.
+[Line 5101]: [L2 Enhanced invalid-edeprel] Invalid enhanced relation type: '6:obl:b/'.
+[Line 5380]: [L2 Enhanced invalid-edeprel] Invalid enhanced relation type: '8:conj:&'.
+[Line 5439]: [L2 Enhanced invalid-edeprel] Invalid enhanced relation type: '8:conj:&'.
+[Line 5790]: [L2 Enhanced invalid-edeprel] Invalid enhanced relation type: '2:conj:b/c'.
+[Line 6074]: [L2 Enhanced invalid-edeprel] Invalid enhanced relation type: '1:nmod:of|3:conj:/'.
+[Line 6105]: [L2 Enhanced invalid-edeprel] Invalid enhanced relation type: '13:nmod:for|15:conj:/'.
+[Line 6440]: [L2 Enhanced invalid-edeprel] Invalid enhanced relation type: '1:conj:&'.
+[Line 6463]: [L2 Enhanced invalid-edeprel] Invalid enhanced relation type: '12:conj:&'.
+[Line 6535]: [L2 Enhanced invalid-edeprel] Invalid enhanced relation type: '3:obj|5:conj:/'.
+[Line 6725]: [L2 Enhanced invalid-edeprel] Invalid enhanced relation type: '30:nmod:+'.
+[Line 6862]: [L2 Enhanced invalid-edeprel] Invalid enhanced relation type: '16:nmod:@'.
+[Line 7205]: [L2 Enhanced invalid-edeprel] Invalid enhanced relation type: '20:nmod:-'.
+...suppressing further errors regarding Enhanced
+Enhanced errors: 67
+Metadata errors: 5832
+*** FAILED *** with 5899 errors

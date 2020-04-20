@@ -1,0 +1,27 @@
+[Line 13]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+[Line 13]: [L2 Metadata missing-text] Missing the text attribute.
+[Line 28]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+[Line 28]: [L2 Metadata missing-text] Missing the text attribute.
+[Line 44]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+[Line 44]: [L2 Metadata missing-text] Missing the text attribute.
+[Line 54]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+[Line 54]: [L2 Metadata missing-text] Missing the text attribute.
+[Line 61]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+[Line 61]: [L2 Metadata missing-text] Missing the text attribute.
+[Line 74]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+[Line 74]: [L2 Metadata missing-text] Missing the text attribute.
+[Line 85]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+[Line 85]: [L2 Metadata missing-text] Missing the text attribute.
+[Line 95]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+[Line 95]: [L2 Metadata missing-text] Missing the text attribute.
+[Line 112]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+[Line 112]: [L2 Metadata missing-text] Missing the text attribute.
+[Line 134]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+...suppressing further errors regarding Metadata
+[Line 588]: [L2 Enhanced invalid-edeprel] Invalid enhanced relation type: '27:nmod:ரூ.'.
+[Line 1531]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Case=Loc|Gender=Neut|NumForm=Digit|Number=Sing|Person=3|Polarity=Pos'.
+[Line 1966]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Case=Loc|Gender=Neut|NumForm=Digit|Number=Sing|Person=3|Polarity=Pos'.
+Enhanced errors: 1
+Metadata errors: 248
+Morpho errors: 2
+*** FAILED *** with 251 errors

@@ -1,0 +1,48 @@
+[Line 3]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+[Line 3]: [L2 Metadata missing-text] Missing the text attribute.
+[Line 9]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+[Line 9]: [L2 Metadata missing-text] Missing the text attribute.
+[Line 30]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+[Line 30]: [L2 Metadata missing-text] Missing the text attribute.
+[Line 39]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+[Line 39]: [L2 Metadata missing-text] Missing the text attribute.
+[Line 44]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+[Line 44]: [L2 Metadata missing-text] Missing the text attribute.
+[Line 46]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+[Line 46]: [L2 Metadata missing-text] Missing the text attribute.
+[Line 52]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+[Line 52]: [L2 Metadata missing-text] Missing the text attribute.
+[Line 59]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+[Line 59]: [L2 Metadata missing-text] Missing the text attribute.
+[Line 76]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+[Line 76]: [L2 Metadata missing-text] Missing the text attribute.
+[Line 87]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+...suppressing further errors regarding Metadata
+[Line 133]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Case=Nom|NumType=Card|Number=Sing'.
+[Line 164]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Case=Par|NumType=Ord|Number=Sing'.
+[Line 528]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Case=Ela|NumType=Card|Number=Sing'.
+[Line 555]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Case=Ess|NumType=Card|Number=Sing'.
+[Line 604]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Case=Gen|NumType=Card|Number=Sing'.
+[Line 1040]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Case=Gen|Derivation=Inen|NumType=Ord|Number=Sing'.
+[Line 1072]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Case=Par|NumType=Card|Number=Sing'.
+[Line 1186]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Case=Nom|Derivation=Inen|NumType=Ord|Number=Sing'.
+[Line 1275]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Case=Nom|Derivation=Inen|NumType=Ord|Number=Sing'.
+[Line 1308]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Case=Nom|NumType=Ord|Number=Sing'.
+[Line 1427]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Case=Tra|NumType=Ord|Number=Sing'.
+[Line 1517]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Case=Nom|NumType=Card|Number=Plur'.
+[Line 1590]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Case=Nom|Derivation=Inen|NumType=Ord|Number=Plur'.
+[Line 1753]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Case=Tra|NumType=Card|Number=Sing'.
+[Line 1771]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Case=Ine|Derivation=Inen|NumType=Ord|Number=Plur'.
+[Line 1861]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Case=Abl|NumType=Card|Number=Sing'.
+[Line 1878]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Case=Nom|NumType=Card|Number=Sing'.
+[Line 2358]: [L2 Enhanced invalid-edeprel] Invalid enhanced relation type: '6:obj|9:conj:+'.
+[Line 2360]: [L2 Enhanced invalid-edeprel] Invalid enhanced relation type: '6:obj|9:conj:+'.
+[Line 2363]: [L2 Enhanced invalid-edeprel] Invalid enhanced relation type: '6:obj|9:conj:+'.
+[Line 2365]: [L2 Enhanced invalid-edeprel] Invalid enhanced relation type: '6:obj|9:conj:+'.
+[Line 2621]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Case=Nom|NumType=Card|Number=Sing'.
+[Line 2794]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Case=Ade|NumType=Card|Number=Sing'.
+...suppressing further errors regarding Morpho
+Enhanced errors: 4
+Metadata errors: 5182
+Morpho errors: 347
+*** FAILED *** with 5533 errors

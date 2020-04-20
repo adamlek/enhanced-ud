@@ -1,0 +1,43 @@
+[Line 6]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+[Line 6]: [L2 Metadata missing-text] Missing the text attribute.
+[Line 24]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+[Line 24]: [L2 Metadata missing-text] Missing the text attribute.
+[Line 55]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+[Line 55]: [L2 Metadata missing-text] Missing the text attribute.
+[Line 62]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+[Line 62]: [L2 Metadata missing-text] Missing the text attribute.
+[Line 70]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+[Line 70]: [L2 Metadata missing-text] Missing the text attribute.
+[Line 105]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+[Line 105]: [L2 Metadata missing-text] Missing the text attribute.
+[Line 135]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+[Line 135]: [L2 Metadata missing-text] Missing the text attribute.
+[Line 156]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+[Line 156]: [L2 Metadata missing-text] Missing the text attribute.
+[Line 190]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+[Line 190]: [L2 Metadata missing-text] Missing the text attribute.
+[Line 196]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+...suppressing further errors regarding Metadata
+[Line 659]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Gender=Masc|NumType=Ord|Number=Plur'.
+[Line 803]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Gender=Masc|NumType=Ord|Number=Sing'.
+[Line 840]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Gender=Masc|NumType=Ord|Number=Sing'.
+[Line 892]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Gender=Masc|NumType=Ord|Number=Sing'.
+[Line 899]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Gender=Masc|NumType=Ord|Number=Sing'.
+[Line 1068]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Gender=Masc|NumType=Ord|Number=Sing'.
+[Line 1271]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Gender=Fem|NumType=Ord|Number=Sing'.
+[Line 1604]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Gender=Masc|NumType=Ord|Number=Sing'.
+[Line 1687]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Gender=Fem|NumType=Ord|Number=Plur'.
+[Line 1712]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Gender=Masc|NumType=Ord|Number=Sing'.
+[Line 1747]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Gender=Fem|NumType=Ord|Number=Plur'.
+[Line 2090]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Gender=Fem|NumType=Ord|Number=Sing'.
+[Line 2311]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Gender=Fem|NumType=Ord|Number=Sing'.
+[Line 2363]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Gender=Fem|NumType=Ord|Number=Sing'.
+[Line 2446]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Gender=Fem|NumType=Ord|Number=Sing'.
+[Line 2452]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Gender=Fem|NumType=Ord|Number=Sing'.
+[Line 4245]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Gender=Masc|NumType=Ord|Number=Plur'.
+[Line 4716]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'NumType=Ord|Number=Sing'.
+[Line 4720]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Gender=Fem|NumType=Ord|Number=Sing'.
+...suppressing further errors regarding Morpho
+Metadata errors: 968
+Morpho errors: 39
+*** FAILED *** with 1007 errors

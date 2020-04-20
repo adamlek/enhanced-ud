@@ -1,0 +1,43 @@
+[Line 1]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Animacy=Inan|Case=Acc|Gender=Masc|NumForm=Digit|NumType=Card|Number=Plur'.
+[Line 10]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+[Line 10]: [L2 Metadata missing-text] Missing the text attribute.
+[Line 11]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Animacy=Hum|Case=Nom|Gender=Masc|NumForm=Digit|NumType=Card|Number=Plur'.
+[Line 20]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+[Line 20]: [L2 Metadata missing-text] Missing the text attribute.
+[Line 28]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Animacy=Inan|Case=Nom|Gender=Masc|NumForm=Word|Number=Plur'.
+[Line 30]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Animacy=Inan|Case=Nom|Gender=Masc|NumForm=Word|Number=Plur'.
+[Line 32]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+[Line 32]: [L2 Metadata missing-text] Missing the text attribute.
+[Line 39]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+[Line 39]: [L2 Metadata missing-text] Missing the text attribute.
+[Line 45]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+[Line 45]: [L2 Metadata missing-text] Missing the text attribute.
+[Line 50]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+[Line 50]: [L2 Metadata missing-text] Missing the text attribute.
+[Line 56]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+[Line 56]: [L2 Metadata missing-text] Missing the text attribute.
+[Line 63]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+[Line 63]: [L2 Metadata missing-text] Missing the text attribute.
+[Line 76]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+[Line 76]: [L2 Metadata missing-text] Missing the text attribute.
+[Line 84]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+...suppressing further errors regarding Metadata
+[Line 148]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Animacy=Inan|Case=Acc|Gender=Masc|NumForm=Word|Number=Plur'.
+[Line 150]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Animacy=Inan|Case=Acc|Gender=Masc|NumForm=Word|Number=Plur'.
+[Line 659]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Animacy=Inan|Case=Acc|Gender=Masc|NumForm=Word|Number=Plur'.
+[Line 661]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Animacy=Inan|Case=Acc|Gender=Masc|NumForm=Word|Number=Plur'.
+[Line 708]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Animacy=Inan|Case=Loc|Gender=Masc|NumType=Card|Number=Plur|PronType=Ind'.
+[Line 719]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Case=Nom|Gender=Masc|NumType=Card|Number=Plur|PronType=Ind'.
+[Line 808]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Case=Acc|Gender=Fem|NumForm=Digit|NumType=Card|Number=Plur'.
+[Line 1292]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Animacy=Inan|Case=Acc|Gender=Masc|NumForm=Word|Number=Plur'.
+[Line 1293]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Animacy=Inan|Case=Acc|Gender=Masc|NumForm=Word|Number=Plur'.
+[Line 1603]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Case=Loc|Gender=Fem|NumType=Card|Number=Plur|PronType=Ind'.
+[Line 1652]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Animacy=Inan|Case=Acc|Gender=Masc|NumForm=Word|Number=Plur'.
+[Line 1935]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Animacy=Hum|Case=Nom|Gender=Masc|NumForm=Word|Number=Plur'.
+[Line 1944]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Animacy=Hum|Case=Nom|Gender=Masc|NumForm=Word|Number=Plur'.
+[Line 1957]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Animacy=Inan|Case=Acc|Gender=Masc|NumForm=Word|Number=Plur'.
+[Line 2114]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Case=Acc|Gender=Neut|NumType=Sets|Number=Sing'.
+...suppressing further errors regarding Morpho
+Metadata errors: 9854
+Morpho errors: 1197
+*** FAILED *** with 11051 errors

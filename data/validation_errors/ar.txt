@@ -1,0 +1,43 @@
+[Line 9]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+[Line 9]: [L2 Metadata missing-text] Missing the text attribute.
+[Line 49]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+[Line 49]: [L2 Metadata missing-text] Missing the text attribute.
+[Line 87]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+[Line 87]: [L2 Metadata missing-text] Missing the text attribute.
+[Line 105]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+[Line 105]: [L2 Metadata missing-text] Missing the text attribute.
+[Line 126]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+[Line 126]: [L2 Metadata missing-text] Missing the text attribute.
+[Line 144]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+[Line 144]: [L2 Metadata missing-text] Missing the text attribute.
+[Line 152]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+[Line 152]: [L2 Metadata missing-text] Missing the text attribute.
+[Line 163]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+[Line 163]: [L2 Metadata missing-text] Missing the text attribute.
+[Line 173]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+[Line 173]: [L2 Metadata missing-text] Missing the text attribute.
+[Line 184]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+...suppressing further errors regarding Metadata
+[Line 1325]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Case=Acc|Definite=Cons|NumForm=Word|Number=Sing'.
+[Line 1420]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Case=Acc|Definite=Cons|NumForm=Word|Number=Sing'.
+[Line 2867]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Case=Gen|Definite=Cons|NumForm=Word|Number=Sing'.
+[Line 2954]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Case=Gen|Definite=Ind|NumForm=Word|Number=Plur'.
+[Line 3474]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Case=Acc|Definite=Ind|NumForm=Word|Number=Sing'.
+[Line 3622]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Case=Acc|Definite=Cons|NumForm=Word|Number=Sing'.
+[Line 4274]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Case=Gen|Definite=Cons|NumForm=Word|Number=Sing'.
+[Line 4304]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Case=Acc|Definite=Cons|NumForm=Word|Number=Sing'.
+[Line 4330]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Case=Gen|Definite=Cons|NumForm=Word|Number=Sing'.
+[Line 4603]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Case=Gen|Definite=Cons|NumForm=Word|Number=Plur'.
+[Line 4660]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Case=Acc|Definite=Cons|NumForm=Word|Number=Sing'.
+[Line 4666]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Case=Gen|Definite=Cons|NumForm=Word|Number=Sing'.
+[Line 4682]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Case=Acc|Definite=Cons|NumForm=Word|Number=Sing'.
+[Line 4715]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Case=Gen|Definite=Def|NumForm=Word|Number=Sing'.
+[Line 4720]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Case=Acc|Definite=Cons|NumForm=Word|Number=Sing'.
+[Line 4726]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Case=Acc|Definite=Cons|NumForm=Word|Number=Sing'.
+[Line 4746]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Case=Gen|Definite=Def|NumForm=Word|Number=Sing'.
+[Line 4751]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Case=Acc|Definite=Cons|NumForm=Word|Number=Sing'.
+[Line 4755]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Case=Acc|Definite=Cons|NumForm=Word|Number=Sing'.
+...suppressing further errors regarding Morpho
+Metadata errors: 1614
+Morpho errors: 176
+*** FAILED *** with 1790 errors

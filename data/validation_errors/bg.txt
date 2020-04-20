@@ -1,0 +1,43 @@
+[Line 16]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+[Line 16]: [L2 Metadata missing-text] Missing the text attribute.
+[Line 24]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+[Line 24]: [L2 Metadata missing-text] Missing the text attribute.
+[Line 30]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+[Line 30]: [L2 Metadata missing-text] Missing the text attribute.
+[Line 39]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+[Line 39]: [L2 Metadata missing-text] Missing the text attribute.
+[Line 46]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+[Line 46]: [L2 Metadata missing-text] Missing the text attribute.
+[Line 54]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+[Line 54]: [L2 Metadata missing-text] Missing the text attribute.
+[Line 64]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+[Line 64]: [L2 Metadata missing-text] Missing the text attribute.
+[Line 70]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+[Line 70]: [L2 Metadata missing-text] Missing the text attribute.
+[Line 75]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+[Line 75]: [L2 Metadata missing-text] Missing the text attribute.
+[Line 85]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+...suppressing further errors regarding Metadata
+[Line 526]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Definite=Def|Degree=Pos|NumType=Ord|Number=Plur'.
+[Line 527]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Definite=Ind|Gender=Masc|NumType=Card|Number=Plur'.
+[Line 705]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Definite=Ind|Degree=Pos|NumType=Card|Number=Plur'.
+[Line 871]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Definite=Ind|Degree=Sup|NumType=Card|Number=Plur'.
+[Line 994]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Definite=Ind|Gender=Masc|NumType=Card|Number=Plur'.
+[Line 1010]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Definite=Ind|Gender=Masc|NumType=Card|Number=Plur'.
+[Line 1531]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Definite=Ind|Gender=Fem|NumType=Card|Number=Sing'.
+[Line 1627]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Definite=Ind|NumType=Card|Number=Plur'.
+[Line 1632]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Definite=Def|Degree=Pos|NumType=Ord|Number=Plur'.
+[Line 1633]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Definite=Ind|NumType=Card|Number=Plur'.
+[Line 1860]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Definite=Def|Degree=Pos|NumType=Card|Number=Plur'.
+[Line 1865]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Definite=Ind|Gender=Neut|NumType=Card|Number=Sing'.
+[Line 1897]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Definite=Ind|NumType=Card|Number=Plur'.
+[Line 2104]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Definite=Ind|NumType=Card|Number=Plur'.
+[Line 2195]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Definite=Ind|NumType=Card|Number=Plur'.
+[Line 2676]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Definite=Ind|Gender=Fem|NumType=Card|Number=Plur'.
+[Line 2770]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Definite=Ind|Gender=Masc|NumType=Card|Number=Plur'.
+[Line 2843]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Definite=Ind|Gender=Masc|NumType=Card|Number=Sing'.
+[Line 2909]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Definite=Ind|Degree=Pos|NumType=Card|Number=Plur'.
+...suppressing further errors regarding Morpho
+Metadata errors: 2238
+Morpho errors: 366
+*** FAILED *** with 2604 errors

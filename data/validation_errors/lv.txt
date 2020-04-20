@@ -1,0 +1,43 @@
+[Line 32]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+[Line 32]: [L2 Metadata missing-text] Missing the text attribute.
+[Line 34]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Case=Acc|Gender=Masc|NumType=Card|Number=Plur'.
+[Line 53]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+[Line 53]: [L2 Metadata missing-text] Missing the text attribute.
+[Line 69]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+[Line 69]: [L2 Metadata missing-text] Missing the text attribute.
+[Line 81]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+[Line 81]: [L2 Metadata missing-text] Missing the text attribute.
+[Line 105]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+[Line 105]: [L2 Metadata missing-text] Missing the text attribute.
+[Line 118]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+[Line 118]: [L2 Metadata missing-text] Missing the text attribute.
+[Line 124]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Case=Nom|Gender=Fem|NumType=Card|Number=Sing'.
+[Line 127]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+[Line 127]: [L2 Metadata missing-text] Missing the text attribute.
+[Line 133]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+[Line 133]: [L2 Metadata missing-text] Missing the text attribute.
+[Line 141]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Case=Dat|Gender=Masc|NumType=Card|Number=Plur'.
+[Line 159]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+[Line 159]: [L2 Metadata missing-text] Missing the text attribute.
+[Line 163]: [L2 Metadata missing-sent-id] Missing the sent_id attribute.
+...suppressing further errors regarding Metadata
+[Line 271]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Case=Gen|Gender=Masc|NumType=Card|Number=Sing'.
+[Line 402]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Case=Loc|Gender=Fem|NumType=Card|Number=Sing'.
+[Line 452]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Case=Loc|Gender=Masc|NumType=Card|Number=Sing'.
+[Line 570]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Case=Gen|Gender=Masc|NumType=Card|Number=Sing'.
+[Line 608]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Case=Nom|Gender=Masc|NumType=Card|Number=Plur'.
+[Line 717]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Case=Nom|Gender=Masc|NumType=Card|Number=Sing'.
+[Line 1177]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Case=Acc|Gender=Masc|NumType=Card|Number=Plur'.
+[Line 1740]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Case=Nom|Gender=Fem|NumType=Card|Number=Sing'.
+[Line 2284]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Case=Nom|Gender=Masc|NumType=Card|Number=Sing'.
+[Line 2603]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Case=Gen|Gender=Fem|NumType=Card|Number=Sing'.
+[Line 2612]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Case=Nom|Gender=Fem|NumType=Card|Number=Sing'.
+[Line 2874]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Case=Dat|Gender=Masc|NumType=Card|Number=Plur'.
+[Line 2881]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Case=Acc|Gender=Fem|NumType=Card|Number=Plur'.
+[Line 3382]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Case=Loc|Gender=Masc|NumType=Card|Number=Sing'.
+[Line 4015]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Case=Acc|Gender=Fem|NumType=Card|Number=Plur'.
+[Line 4396]: [L2 Morpho unsorted-features] Morphological features must be sorted: 'Case=Nom|Gender=Fem|NumType=Card|Number=Plur'.
+...suppressing further errors regarding Morpho
+Metadata errors: 3662
+Morpho errors: 210
+*** FAILED *** with 3872 errors
