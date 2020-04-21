@@ -8,7 +8,7 @@ import Fixer
 
 
 dummyEntry :: Entry
-dummyEntry = Entry {entryRaw = d, entryLemma=d, entryPos = d, entryXPos = d, entryMisc = "", entryFeatures="", entryParent=0, entryLabel = "ROOT"}
+dummyEntry = Entry {entryRaw = d, entryLemma=d, entryPos = d, entryXPos = d, entryMisc = "", entryFeatures=[], entryParent=0, entryLabel = "ROOT"}
  where d = "dummy"
 
 main :: IO ()
