@@ -5,6 +5,7 @@ module Fixer where
 import Data.List
 import Data.Function
 import DepLib
+import Data.Char (isAlphaNum)
 import qualified Data.ByteString.Lazy.Char8 as L
 import qualified Data.Map as M
 
@@ -169,9 +170,8 @@ fixupLabelMap = M.fromList [("&", "and")
                            ,("-","and")]
 
 fixupLabel :: L.ByteString -> L.ByteString
-fixupLabel x = case M.lookup x fixupLabelMap of
-  Nothing -> x
-  Just y -> y
+fixupLabel x | L.all isAlphaNum x = x
+             | otherwise = "and"
 
 fixCase :: [Entry] -> [(Int,Entry)]
 fixCase es = concat $ zipWith enhancer numbering es
