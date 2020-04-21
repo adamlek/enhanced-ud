@@ -18,13 +18,15 @@ main = do
         case inputs' of
           ("--dummy":rest) -> (noEnhancer,rest)
           _ -> (allEnhancer,inputs')
-  ss <- parseManyFiles (parseNivreSentences False) inputs
-  forM_ ss $ \s0 -> do
-   case s0 of 
-    Nothing -> L.putStrLn (showEntryWithEnhancement 1 dummyEntry []) 
-    Just s -> do
-      let enh = consolidateArcs . enhanceFunction $ s
-          ls = zipWith3 showEntryWithEnhancement [1..] s enh
-      forM_ ls L.putStrLn
-   putStrLn ""
+  sentences <- parseManyFiles (parseNivreSentences False) inputs
+  forM_ (zip [(1::Int)..] sentences) $ \(sentenceId,sentence) -> do
+    case sentence of
+      Nothing -> L.putStrLn (showEntryWithEnhancement 1 dummyEntry [])
+      Just s -> do
+        putStrLn $ "# sent_id = " ++ show sentenceId
+        L.putStrLn $ "# text = " <> L.intercalate " " (map entryRaw s)
+        let enh = consolidateArcs . enhanceFunction $ s
+            ls = zipWith3 showEntryWithEnhancement [1..] s enh
+        forM_ ls L.putStrLn
+    putStrLn ""
 
