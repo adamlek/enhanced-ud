@@ -21,14 +21,25 @@ def fix_file(path):
                 if line == '\n':
                     additional_steps += 2
                 
-
     if len(mwt_tokens.keys()) > 0:
         with open('data/blind-test/'+path[:-6]+'pkl', '+wb') as o:
             pickle.dump(mwt_tokens, o)
 
+def lang_encoding(path):
+    if path.split('.')[0] in ['ru', 'uk', 'bg', 'cs', 'pl']:
+        c = 'latin-1'
+    elif path.split('.')[0] in ['cs', 'et', 'sk', 'lt']:
+        c = 'iso-8859-15'
+    else:
+        c = 'utf-8'
+    return c
+            
 def rewrite_text(path):
     sentences=[]
     skips = 0
+    
+    c = lang_encoding(path.split('.')[0])
+        
     with codecs.open('data/blind-test-output/'+path) as f:
         for line in f.readlines():
             if line.startswith('# sent'):
@@ -42,14 +53,16 @@ def rewrite_text(path):
             elif line == '\n':
                 sentences.append(sentence)    
 
+            # .encode(c).decode('utf-8')
             else:
-                sentence['words'].append(line)
                 try:
+                    sentence['words'].append(line.encode(c).decode('utf-8'))
                     id, word_form, *_ = line.split('\t')
+                    word_form = word_form.encode(c).decode('utf-8')
                 except:
+                    embed()
+                    assert False
                     pass
-                    #embed()
-                    #assert False
                     
                 if '-' in id:
                     s, e = id.split('-')
@@ -80,20 +93,15 @@ def reconstruct_file(path):
     except:
         mwt_tokens = {}
             
-    out_file = codecs.open('data/blind-test-output/'+path[:-6], '+w', encoding='utf-8')
+    out_file = codecs.open('data/blind-test-output/'+path[:-6]+'.rec', '+w', encoding='utf-8')
 
-    if path.split('.')[0] in ['ru', 'uk', 'bg', 'cs']:
-        c = 'latin1'
-    elif path.split('.')[0] in ['cs', 'pl', 'lt', 'et', 'sk']:
-        c = 'iso-8859-15'
-    else:
-        c = 'utf-8'
+    c = lang_encoding(path.split('.')[0])
     
     with codecs.open('data/blind-test-output/'+path, encoding=c) as f:
         pos = 0
         for i, line in enumerate(f.readlines()):
             #if line.startswith('#'):
-                #out_file.write(line.encode('utf-8').decode('utf-8'))
+                #out_file.write(line)
                 #continue
             if pos in mwt_tokens.keys():
                 out_file.write(mwt_tokens[pos].encode('utf-8').decode('utf-8'))
@@ -111,28 +119,45 @@ def run_haskell(path):
     
             
 if __name__ == '__main__':
+
+    
     ### RUN BEFORE INPUT TO HASKELL
+    # input-f: x.conllu
+    # output-f: x.conllu.fixed
     for file in filter(lambda x: x.endswith('.conllu'), os.listdir('data/blind-test/')):
         file_path = 'data/blind-test/'+file
         print('mwt-tokens:', file_path)
         fix_file(file)
 
     ### ADD DEPENDENCIES
+    # input-f: x.conllu.fixed
+    # output-f: x.conllu.hsout
     for file in filter(lambda x: x.endswith('conllu.fixed'), os.listdir('data/blind-test/')):
         print('tree-rewrite:', file)
         run_haskell(file)
         
     ### RUN ON HASKELL OUTPUT
+    # input-f: x.conllu.hsout
+    # output-f: x.conllu.rec
     for file in filter(lambda x: x.endswith('.hsout'), os.listdir('data/blind-test-output/')):
         print('reconstruct:', file)
         reconstruct_file(file)
 
+
     ### FIX METADATA TEXT
-    for file in filter(lambda x: x.endswith('.conllu'), os.listdir('data/blind-test-output/')):
+    # input-f: x.conllu
+    # output-f: x.conllu
+    for file in filter(lambda x: x.endswith('.conllu.rec'), os.listdir('data/blind-test-output/')):
         print('fix metadata text', file)
         rewrite_text(file)
 
-    ### RUN ON OUTPUT FROM ABOVE
+    ### run UD-validation script
+    #for file in filter(lambda x: x.endswith('.conllu'), os.listdir('data/blind-test-output/')):
+    #    print('fix metadata text', file)
+    #    validate_files(file)
+
+
+    
     #rewrite_text('it.conllu')
 
     # current errors: encoding is WIERD! ... bullcrap
