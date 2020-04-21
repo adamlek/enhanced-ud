@@ -5,7 +5,7 @@ module Fixer where
 import Data.List
 import Data.Function
 import DepLib
-import Data.Char (isAlphaNum)
+import Data.Char (isAlphaNum, toLower)
 import qualified Data.ByteString.Lazy.Char8 as L
 import qualified Data.Map as M
 
@@ -253,7 +253,9 @@ satisfyEvaluator raw = case M.lookup raw evaluatorFixerMap of
 showEntryWithEnhancement :: Int -> Entry -> Enhancement -> L.ByteString
 showEntryWithEnhancement index Entry{..} enh =
   L.intercalate "\t" [bshow index,satisfyEvaluator entryRaw, entryLemma,entryPos,
-                      entryXPos,entryFeatures,bshow entryParent,entryLabel,
+                      entryXPos,
+                      L.intercalate "|" (sortBy (compare `on` L.map toLower) entryFeatures),
+                      bshow entryParent,entryLabel,
                       showEnhancement enh,entryMisc]
 
 arcToEnhancement :: Arc -> (Int, L.ByteString)

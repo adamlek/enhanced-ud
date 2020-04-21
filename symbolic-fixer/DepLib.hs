@@ -15,7 +15,7 @@ data Entry = Entry {entryRaw :: !L.ByteString,
                     entryLemma :: !L.ByteString,
                     entryPos :: !L.ByteString,
                     entryXPos :: !L.ByteString,
-                    entryFeatures :: !L.ByteString,
+                    entryFeatures :: ![L.ByteString],
                     entryParent :: !Int,
                     entryLabel :: !L.ByteString,
                     entryMisc :: !L.ByteString}
@@ -26,7 +26,7 @@ entryWord :: Dict -> Entry ->  Int
 entryWord m Entry{..} = case (M.lookup entryRaw m,M.lookup entryPos m) of
   (Just x,_) -> x
   (_,Just x) -> x
-  x -> error ("Input word not found in vocabulary: " ++ show (entryRaw, entryPos))
+  _ -> error ("Input word not found in vocabulary: " ++ show (entryRaw, entryPos))
 
 showSentence' :: Dict -> Sentence -> String
 showSentence' intMap = intercalate " " . map (show . entryWord intMap)
@@ -106,7 +106,7 @@ parseNivreSentences lcase =
                 ,entryLemma = (if lcase then L.map toLower else id) lemma
                 ,entryPos = pos
                 ,entryXPos = xpos
-                ,entryFeatures = features
+                ,entryFeatures = L.split '|' features
                 ,entryMisc=misc
                 ,entryLabel = label}
         cleanEntry x = error $ "CleanEntry: " ++ show x
