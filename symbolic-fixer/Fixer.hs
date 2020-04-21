@@ -170,7 +170,7 @@ fixupLabelMap = M.fromList [("&", "and")
                            ,("-","and")]
 
 fixupLabel :: L.ByteString -> L.ByteString
-fixupLabel x | L.all isAlphaNum x = x
+fixupLabel x | L.all isAlphaNum x = L.map toLower x
              | otherwise = "and"
 
 fixCase :: [Entry] -> [(Int,Entry)]
