@@ -164,12 +164,20 @@ labelingMap = M.fromList
     ("mark",["advcl", "acl"])
     ]
 
+fixupLabelMap ::  M.Map L.ByteString L.ByteString
+fixupLabelMap = M.fromList [("&", "and")
+                           ,("-","and")]
+
+fixupLabel :: L.ByteString -> L.ByteString
+fixupLabel x = case M.lookup x fixupLabelMap of
+  Nothing -> x
+  Just y -> y
 
 fixCase :: [Entry] -> [(Int,Entry)]
 fixCase es = concat $ zipWith enhancer numbering es
   where enhancer _eIndex e =
          [(entryParent e,
-           parentEntry {entryLabel = entryLabelKind parentEntry <> ":" <> entryLemma e})
+           parentEntry {entryLabel = entryLabelKind parentEntry <> ":" <> fixupLabel (entryLemma e)})
          | Just enhancedLabels <- [M.lookup (entryLabel e) labelingMap],
            -- eIndex ~ From
            -- entryParent e ~ AP
