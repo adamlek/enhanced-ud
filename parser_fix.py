@@ -53,12 +53,10 @@ def rewrite_text(path):
             elif line == '\n':
                 sentences.append(sentence)    
 
-            # .encode(c).decode('utf-8')
             else:
                 try:
-                    sentence['words'].append(line.encode(c).decode('utf-8'))
+                    #sentence['words'].append(line)
                     id, word_form, *_ = line.split('\t')
-                    word_form = word_form.encode(c).decode('utf-8')
                 except:
                     embed()
                     assert False
@@ -66,18 +64,25 @@ def rewrite_text(path):
                     
                 if '-' in id:
                     s, e = id.split('-')
-                    skips = len(list(range(int(s),int(e)+1)))
-                    sentence['text'].append(word_form)
+                    if s == e:
+                        #sentence['text'].append(word_form)
+                        pass
+                    else:
+                        skips = len(list(range(int(s),int(e)+1)))
+                        sentence['text'].append(word_form)
+                        sentence['words'].append(line)
                     continue
 
                 if skips > 0:
                     skips -= 1
+                    sentence['words'].append(line)
                     continue
                 else:
                     sentence['text'].append(word_form)
+                    sentence['words'].append(line)
 
     lang = path.split('.')[0]
-    with codecs.open('data/blind-test-output/'+lang+'.conllu', '+w', encoding='utf-8') as out:
+    with codecs.open('data/blind-test-output/'+lang+'.conllu', '+w') as out:
         for sentence in sentences:
             out.write(sentence['sent_id'])
             out.write('# text = '+ ' '.join(sentence['text'])+'\n')
@@ -97,18 +102,18 @@ def reconstruct_file(path):
 
     c = lang_encoding(path.split('.')[0])
     
-    with codecs.open('data/blind-test-output/'+path, encoding=c) as f:
+    with codecs.open('data/blind-test-output/'+path, encoding='utf-8') as f:
         pos = 0
         for i, line in enumerate(f.readlines()):
             #if line.startswith('#'):
                 #out_file.write(line)
                 #continue
             if pos in mwt_tokens.keys():
-                out_file.write(mwt_tokens[pos].encode('utf-8').decode('utf-8'))
-                out_file.write(line.encode('utf-8').decode('utf-8'))
+                out_file.write(mwt_tokens[pos])
+                out_file.write(line)
                 pos += 2
             else:
-                out_file.write(line.encode('utf-8').decode('utf-8'))
+                out_file.write(line)
                 pos += 1
 
 def run_haskell(path):
@@ -145,7 +150,7 @@ if __name__ == '__main__':
 
 
     ### FIX METADATA TEXT
-    # input-f: x.conllu
+    # input-f: x.conllu.rec
     # output-f: x.conllu
     for file in filter(lambda x: x.endswith('.conllu.rec'), os.listdir('data/blind-test-output/')):
         print('fix metadata text', file)
