@@ -6,16 +6,18 @@ import Data.List
 import Data.Function
 import DepLib
 import Data.Char (isAlphaNum, toLower)
-import qualified Data.ByteString.Lazy.Char8 as L
+-- import qualified Data.ByteString.Lazy.Char8 as L
+import qualified Data.Text as T
+
 import qualified Data.Map as M
 
-data Arc = Arc {arcSource, arcTarget :: Int, arcLabel :: L.ByteString }
-         | DeleteOld {arcTarget :: Int, arcLabel :: L.ByteString} deriving Show
+data Arc = Arc {arcSource, arcTarget :: Int, arcLabel :: T.Text }
+         | DeleteOld {arcTarget :: Int, arcLabel :: T.Text} deriving Show
 
-labelKind :: L.ByteString -> L.ByteString
-labelKind = L.takeWhile (/= ':')
+labelKind :: T.Text -> T.Text
+labelKind = T.takeWhile (/= ':')
 
-entryLabelKind :: Entry -> L.ByteString
+entryLabelKind :: Entry -> T.Text
 entryLabelKind = labelKind . entryLabel
 
 -- isSubject :: Entry -> Bool
@@ -141,7 +143,7 @@ relEnhancer es = concat $ zipWith enhancer numbering es
               -- kid ~ who
             ]
 
-relativizeLabel :: L.ByteString -> L.ByteString
+relativizeLabel :: T.Text -> T.Text
 relativizeLabel l = if l == "advmod"
                     then "obl"
                     else l
@@ -158,19 +160,19 @@ relativizeLabel l = if l == "advmod"
 --        mark            advcl
 --        mark            advcl:since
 
-labelingMap :: M.Map L.ByteString [L.ByteString]
+labelingMap :: M.Map T.Text [T.Text]
 labelingMap = M.fromList
    [("case", ["obl","nmod"]),
     ("cc",["conj"]),
     ("mark",["advcl", "acl"])
     ]
 
-fixupLabelMap ::  M.Map L.ByteString L.ByteString
+fixupLabelMap ::  M.Map T.Text T.Text
 fixupLabelMap = M.fromList [("&", "and")
                            ,("-","and")]
 
-fixupLabel :: L.ByteString -> L.ByteString
-fixupLabel x | L.all isAlphaNum x = L.map toLower x
+fixupLabel :: T.Text -> T.Text
+fixupLabel x | T.all isAlphaNum x = T.map toLower x
              | otherwise = "and"
 
 fixCase :: [Entry] -> [(Int,Entry)]
@@ -201,7 +203,7 @@ fixCaseAll es = map (snd . head) $
 parentOf :: Int -> [a] -> a
 parentOf idx es = es !! (idx-1)
 
-matchingArc :: L.ByteString -> Int -> Arc -> Bool
+matchingArc :: T.Text -> Int -> Arc -> Bool
 matchingArc lab x Arc{..}  = arcTarget == x && arcLabel == lab
 matchingArc _ _ _ = False
 
@@ -224,18 +226,18 @@ allEnhancer =
 noEnhancer :: Sentence -> [Arc]
 noEnhancer = sentenceToArcs
 
-type Enhancement = [(Int,L.ByteString)] -- list of parent/head and label.
+type Enhancement = [(Int,T.Text)] -- list of parent/head and label.
 
-showEnhancement :: Enhancement -> L.ByteString
+showEnhancement :: Enhancement -> T.Text
 showEnhancement [] = "(incorrect input)"
 showEnhancement xs = foldr1 (\x y -> x <> "|" <> y) . map showSemiArc $ xs
-  where showSemiArc :: (Int,L.ByteString) -> L.ByteString
+  where showSemiArc :: (Int,T.Text) -> T.Text
         showSemiArc (i,label) = bshow i <> ":" <> label
 
 consolidateArcs :: [Arc] -> [Enhancement]
 consolidateArcs = map (sort . map arcToEnhancement) . groupBy ((==) `on` arcTarget) . sortBy (compare `on` arcTarget)
 
-evaluatorFixerMap :: M.Map L.ByteString L.ByteString
+evaluatorFixerMap :: M.Map T.Text T.Text
 evaluatorFixerMap = M.fromList
    [("-LSB-", "["),
     ("-RSB-", "]"),
@@ -245,20 +247,20 @@ evaluatorFixerMap = M.fromList
     ("’","'")]
 
 
-satisfyEvaluator :: L.ByteString -> L.ByteString
+satisfyEvaluator :: T.Text -> T.Text
 satisfyEvaluator raw = case M.lookup raw evaluatorFixerMap of
   Just x -> x
   Nothing -> raw
 
-showEntryWithEnhancement :: Int -> Entry -> Enhancement -> L.ByteString
+showEntryWithEnhancement :: Int -> Entry -> Enhancement -> T.Text
 showEntryWithEnhancement index Entry{..} enh =
-  L.intercalate "\t" [bshow index,satisfyEvaluator entryRaw, entryLemma,entryPos,
+  T.intercalate "\t" [bshow index,satisfyEvaluator entryRaw, entryLemma,entryPos,
                       entryXPos,
-                      L.intercalate "|" (sortBy (compare `on` L.map toLower) entryFeatures),
+                      T.intercalate "|" (sortBy (compare `on` T.map toLower) entryFeatures),
                       bshow entryParent,entryLabel,
                       showEnhancement enh,entryMisc]
 
-arcToEnhancement :: Arc -> (Int, L.ByteString)
+arcToEnhancement :: Arc -> (Int, T.Text)
 arcToEnhancement a = (arcSource a,arcLabel a)
 
 -- 12	staff	staff	NOUN	NN	Number=Sing	7	conj	4:obj|7:conj:and	_

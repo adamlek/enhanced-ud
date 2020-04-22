@@ -1,7 +1,8 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE LambdaCase #-}
 import System.Environment
-import qualified Data.ByteString.Lazy.Char8 as L
+import qualified Data.Text as T
+import qualified Data.Text.IO as T
 import Control.Monad
 import DepLib
 import Fixer
@@ -21,12 +22,12 @@ main = do
   sentences <- parseManyFiles (parseNivreSentences False) inputs
   forM_ (zip [(1::Int)..] sentences) $ \(sentenceId,sentence) -> do
     case sentence of
-      Nothing -> L.putStrLn (showEntryWithEnhancement 1 dummyEntry [])
+      Nothing -> T.putStrLn (showEntryWithEnhancement 1 dummyEntry [])
       Just s -> do
         putStrLn $ "# sent_id = " ++ show sentenceId
-        L.putStrLn $ "# text = " <> L.intercalate " " (map entryRaw s)
+        T.putStrLn $ "# text = " <> T.intercalate " " (map entryRaw s)
         let enh = consolidateArcs . enhanceFunction $ s
             ls = zipWith3 showEntryWithEnhancement [1..] s enh
-        forM_ ls L.putStrLn
+        forM_ ls T.putStrLn
     putStrLn ""
 

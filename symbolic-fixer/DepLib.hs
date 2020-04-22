@@ -1,7 +1,10 @@
 {-# LANGUAGE RecordWildCards #-}
 {-# LANGUAGE TupleSections, OverloadedStrings #-}
 module DepLib where
-import qualified Data.ByteString.Lazy.Char8 as L
+import qualified Data.Text as T
+import qualified Data.Text.IO as T
+
+-- import qualified Data.ByteString.Lazy.Char8 as L
 import qualified Data.Map.Strict as M
 import Control.Monad
 import Data.Monoid
@@ -9,16 +12,16 @@ import Data.Char
 import Data.List.Split
 import Data.List (intercalate)
 
-type Dict = M.Map L.ByteString Int
+type Dict = M.Map T.Text Int
 
-data Entry = Entry {entryRaw :: !L.ByteString,
-                    entryLemma :: !L.ByteString,
-                    entryPos :: !L.ByteString,
-                    entryXPos :: !L.ByteString,
-                    entryFeatures :: ![L.ByteString],
+data Entry = Entry {entryRaw :: !T.Text,
+                    entryLemma :: !T.Text,
+                    entryPos :: !T.Text,
+                    entryXPos :: !T.Text,
+                    entryFeatures :: ![T.Text],
                     entryParent :: !Int,
-                    entryLabel :: !L.ByteString,
-                    entryMisc :: !L.ByteString}
+                    entryLabel :: !T.Text,
+                    entryMisc :: !T.Text}
              deriving Show
 type Sentence = [Entry]
 
@@ -31,14 +34,14 @@ entryWord m Entry{..} = case (M.lookup entryRaw m,M.lookup entryPos m) of
 showSentence' :: Dict -> Sentence -> String
 showSentence' intMap = intercalate " " . map (show . entryWord intMap)
 
-showSentence :: Dict -> Sentence -> L.ByteString
-showSentence intMap = L.intercalate (L.pack " ") . map (L.pack . show . entryWord intMap)
+showSentence :: Dict -> Sentence -> T.Text
+showSentence intMap = T.intercalate (T.pack " ") . map (T.pack . show . entryWord intMap)
 
-showRoles :: Dict -> Sentence -> L.ByteString
-showRoles intMap = L.intercalate (L.pack " ") . map (L.pack . show . (\k -> M.findWithDefault 0 k intMap) . entryLabel)
+showRoles :: Dict -> Sentence -> T.Text
+showRoles intMap = T.intercalate (T.pack " ") . map (T.pack . show . (\k -> M.findWithDefault 0 k intMap) . entryLabel)
 
-showSentenceText :: Sentence -> L.ByteString
-showSentenceText = L.intercalate (L.pack " ") . map entryRaw
+showSentenceText :: Sentence -> T.Text
+showSentenceText = T.intercalate (T.pack " ") . map entryRaw
 
 
 
@@ -48,68 +51,68 @@ getRawOrPos m Entry{..} = (,1::Int) $ case M.lookup entryRaw m of
   Just _ -> entryRaw
   Nothing -> entryPos
 
-getRawAndPos :: Entry -> [(L.ByteString, Int)]
+getRawAndPos :: Entry -> [(T.Text, Int)]
 getRawAndPos Entry{..} = (,1::Int) <$> [entryRaw, entryPos]
 
 
-showDictEntry :: (L.ByteString,Int) -> L.ByteString
+showDictEntry :: (T.Text,Int) -> T.Text
 showDictEntry (wd,num) = tabSep [wd,bshow num]
 
-readDictEntry :: L.ByteString -> (L.ByteString,Int)
-readDictEntry e = (wd,read (L.unpack num))
-  where (wd,num) = case L.split '\t' e of
+readDictEntry :: T.Text -> (T.Text,Int)
+readDictEntry e = (wd,read (T.unpack num))
+  where (wd,num) = case T.split (== '\t') e of
           [x,y] -> (x,y)
           _ -> error $ "Could not parse dict entry: " ++ show e
 
-readManyUTFFiles :: [String] -> IO L.ByteString
+readManyUTFFiles :: [String] -> IO T.Text
 readManyUTFFiles fns = do
-  mconcat <$> (forM fns L.readFile)
+  mconcat <$> (forM fns T.readFile)
 
 isVerb Entry{..} = entryPos `elem` ["VERB", "AUX"]
 
-tabSep :: [L.ByteString] -> L.ByteString
-tabSep = L.intercalate "\t"
-lineSep :: [L.ByteString] -> L.ByteString
-lineSep = L.concat . map (<> L.pack "\n")
+tabSep :: [T.Text] -> T.Text
+tabSep = T.intercalate "\t"
+lineSep :: [T.Text] -> T.Text
+lineSep = T.concat . map (<> T.pack "\n")
 
-splitLines :: L.ByteString -> [L.ByteString]
-splitLines = L.split '\n'
+splitLines :: T.Text -> [T.Text]
+splitLines = T.split (== '\n')
 
-bshow :: Int -> L.ByteString
-bshow = L.pack . show
+bshow :: Int -> T.Text
+bshow = T.pack . show
 
-bread :: Read a => L.ByteString -> a
-bread = read . L.unpack
+bread :: Read a => T.Text -> a
+bread = read . T.unpack
 
-ignoreLine :: L.ByteString -> Bool
-ignoreLine l = L.null l || '#' == (L.head l)
+ignoreLine :: T.Text -> Bool
+ignoreLine l = T.null l || '#' == (T.head l)
 
 allJust :: [Maybe a] -> Maybe [a]
 allJust [] = Just []
 allJust (Nothing:_) = Nothing
 allJust (Just x:xs) = (x:) <$> allJust xs
 
-parseNivreSentences :: Bool -> L.ByteString -> [Maybe Sentence]
+parseNivreSentences :: Bool -> T.Text -> [Maybe Sentence]
 parseNivreSentences lcase =
-  map (allJust . map (cleanEntry . L.split '\t')) .
+  map (allJust . map (cleanEntry . T.split (== '\t'))) .
   filter (not . null) .
   map (filter (not . ignoreLine)) .
-  splitWhen (L.null) .
-  filter (/= L.pack "(())") .
+  splitWhen (T.null) .
+  filter (/= T.pack "(())") .
   splitLines
-  where cleanEntry :: [L.ByteString] -> Maybe Entry
+  where cleanEntry :: [T.Text] -> Maybe Entry
         cleanEntry [_index,raw,lemma,pos,xpos,features,parent,label,_,misc] =
-          case L.all isDigit parent of
+          case T.all isDigit parent of
             False -> Nothing
             True -> Just Entry {entryParent = bread parent
-                ,entryRaw = (if lcase then L.map toLower else id) raw
-                ,entryLemma = (if lcase then L.map toLower else id) lemma
+                ,entryRaw = (if lcase then T.map toLower else id) raw
+                ,entryLemma = (if lcase then T.map toLower else id) lemma
                 ,entryPos = pos
                 ,entryXPos = xpos
-                ,entryFeatures = L.split '|' features
+                ,entryFeatures = T.split (== '|') features
                 ,entryMisc=misc
                 ,entryLabel = label}
         cleanEntry x = error $ "CleanEntry: " ++ show x
 
-parseManyFiles :: (L.ByteString -> [a]) -> [String] -> IO [a]
-parseManyFiles parser fns = mconcat <$> (forM fns $ \fn -> (do f <- L.readFile fn; return (parser f)))
+parseManyFiles :: (T.Text -> [a]) -> [String] -> IO [a]
+parseManyFiles parser fns = mconcat <$> (forM fns $ \fn -> (do f <- T.readFile fn; return (parser f)))
