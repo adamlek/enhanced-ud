@@ -6,7 +6,7 @@ import qualified Data.Text.IO as T
 import Control.Monad
 import DepLib
 import Fixer
-
+import GHC.IO.Encoding
 
 dummyEntry :: Entry
 dummyEntry = Entry {entryRaw = d, entryLemma=d, entryPos = d, entryXPos = d, entryMisc = "", entryFeatures=[], entryParent=0, entryLabel = "ROOT"}
@@ -20,6 +20,7 @@ main = do
           ("--dummy":rest) -> (noEnhancer,rest)
           _ -> (allEnhancer,inputs')
   sentences <- parseManyFiles (parseNivreSentences False) inputs
+  setLocaleEncoding utf8
   forM_ (zip [(1::Int)..] sentences) $ \(sentenceId,sentence) -> do
     case sentence of
       Nothing -> T.putStrLn (showEntryWithEnhancement 1 dummyEntry [])
