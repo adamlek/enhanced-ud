@@ -2,9 +2,11 @@
 {-# LANGUAGE TupleSections, OverloadedStrings #-}
 module DepLib where
 import qualified Data.Text as T
+import qualified Data.Text.Encoding as T
+import qualified Data.Text.Encoding.Error as T
 import qualified Data.Text.IO as T
 
--- import qualified Data.ByteString.Lazy.Char8 as L
+import qualified Data.ByteString as L
 import qualified Data.Map.Strict as M
 import Control.Monad
 import Data.Monoid
@@ -64,9 +66,9 @@ readDictEntry e = (wd,read (T.unpack num))
           [x,y] -> (x,y)
           _ -> error $ "Could not parse dict entry: " ++ show e
 
-readManyUTFFiles :: [String] -> IO T.Text
-readManyUTFFiles fns = do
-  mconcat <$> (forM fns T.readFile)
+-- readManyUTFFiles :: [String] -> IO T.Text
+-- readManyUTFFiles fns = do
+--   mconcat <$> (forM fns T.readFile)
 
 isVerb Entry{..} = entryPos `elem` ["VERB", "AUX"]
 
@@ -115,4 +117,8 @@ parseNivreSentences lcase =
         cleanEntry x = error $ "CleanEntry: " ++ show x
 
 parseManyFiles :: (T.Text -> [a]) -> [String] -> IO [a]
-parseManyFiles parser fns = mconcat <$> (forM fns $ \fn -> (do f <- T.readFile fn; return (parser f)))
+parseManyFiles parser fns = mconcat <$>
+  (forM fns $ \fn ->
+      (do bs <- L.readFile fn
+          let f = T.decodeUtf8With T.lenientDecode bs
+          return (parser f)))
