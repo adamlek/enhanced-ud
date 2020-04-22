@@ -11549,8 +11549,7 @@
 20	.	.	PUNCT	.	_	2	punct	2:punct	_
 
 1	Regards	regards	NOUN	NNS	Number=Plur	0	root	0:root	_
-
-1	Swetha	Swetha	PROPN	NNP	Number=Sing	0	root	0:root	_
+2	Swetha	Swetha	PROPN	NNP	Number=Sing	1	vocative	1:vocative	_
 
 1	Play	play	VERB	VB	Mood=Imp|VerbForm=Fin	0	root	0:root	_
 2	your	you	PRON	PRP$	Person=2|Poss=Yes|PronType=Prs	3	nmod:poss	3:nmod:poss	_
@@ -11872,7 +11871,8 @@
 16	and	and	CCONJ	CC	_	17	cc	17:cc	_
 17	more	more	ADJ	JJR	Degree=Cmp	1	conj	1:conj	_
 18	!	!	PUNCT	.	_	1	punct	1:punct	_
-19	..	..	PUNCT	.	_	1	punct	1:punct	_
+
+1	..	..	PUNCT	.	_	0	root	0:root	_
 
 1	Email	email	NOUN	NN	Number=Sing	0	root	0:root	_
 2	:	:	PUNCT	:	_	1	punct	1:punct	_
@@ -15406,9 +15406,8 @@
 8	image_	image_	NOUN	NN	Number=Sing	9	compound	9:compound	_
 9	jpg_part	jpg_part	NOUN	NN	Number=Sing	6	nmod	6:nmod	_
 
-1	52	52	NUM	CD	NumType=Card	2	compound	2:compound	_
-2	K	k	NUM	CD	NumType=Card	3	nummod	3:nummod	_
-3	Download	download	NOUN	NN	Number=Sing	0	root	0:root	_
+1	52K	52k	NOUN	NN	Number=Sing	2	compound	2:compound	_
+2	Download	download	NOUN	NN	Number=Sing	0	root	0:root	_
 
 1	What	what	DET	WDT	PronType=Int	2	det	2:det	_
 2	language	language	NOUN	NN	Number=Sing	4	nsubj:pass	4:nsubj:pass	_
@@ -15535,8 +15534,7 @@
 3	url	url	NOUN	NN	Number=Sing	0	root	0:root	_
 4	?	?	PUNCT	.	_	3	punct	3:punct	_
 
-1	Υes	Υes	INTJ	UH	_	0	root	0:root	_
-2	.	.	PUNCT	.	_	1	punct	1:punct	_
+1	Υes.	Υes.	PROPN	NNP	Number=Sing	0	root	0:root	_
 
 1	how	how	ADV	WRB	PronType=Int	2	advmod	2:advmod	_
 2	fare	fare	NOUN	NN	Number=Sing	0	root	0:root	_
@@ -17785,9 +17783,8 @@
 2	Mad	mad	ADJ	JJ	Degree=Pos	3	amod	3:amod	_
 3	Cow	cow	NOUN	NN	Number=Sing	0	root	0:root	_
 4	---	---	PUNCT	,	_	3	punct	3:punct	_
-
-1	Guaranteed	guarantee	VERB	VBN	Tense=Past|VerbForm=Part	0	root	0:root	_
-2	!	!	PUNCT	.	_	1	punct	1:punct	_
+5	Guaranteed	guarantee	VERB	VBN	Tense=Past|VerbForm=Part	3	parataxis	3:parataxis	_
+6	!	!	PUNCT	.	_	3	punct	3:punct	_
 
 1	Which	which	DET	WDT	PronType=Int	4	det	4:det	_
 2	Compact	compact	ADJ	JJ	Degree=Pos	4	amod	4:amod	_
@@ -29534,10 +29531,8 @@
 18	level	level	NOUN	NN	Number=Sing	11	nmod	11:nmod	_
 19	as	as	ADP	IN	_	21	case	21:case	_
 20	for	for	ADP	IN	_	21	case	21:case	_
-21	2015	2015	NUM	CD	NumType=Card	11	nmod	11:nmod	_
-22	-	-	SYM	SYM	_	23	case	23:case	_
-23	2016	2016	NUM	CD	NumType=Card	21	nmod	21:nmod	_
-24	.	.	PUNCT	.	_	11	punct	11:punct	_
+21	2015-2016	2015-2016	NUM	CD	NumType=Card	18	nmod	18:nmod	_
+22	.	.	PUNCT	.	_	11	punct	11:punct	_
 
 1	Gomery	Gomery	PROPN	NNP	Number=Sing	19	nsubj	19:nsubj	_
 2	,	,	PUNCT	,	_	1	punct	1:punct	_
@@ -30420,7 +30415,8 @@
 29	expressed	express	VERB	VBN	Tense=Past|VerbForm=Part	24	advcl	24:advcl	_
 30	regret	regret	NOUN	NN	Number=Sing	29	obj	29:obj	_
 31	.	.	PUNCT	.	_	4	punct	4:punct	_
-32	”	"	PUNCT	''	_	4	punct	4:punct	_
+
+1	”	"	PUNCT	``	_	0	root	0:root	_
 
 1	But	but	CCONJ	CC	_	16	cc	16:cc	_
 2	,	,	PUNCT	,	_	16	punct	16:punct	_
@@ -30666,7 +30662,8 @@
 26	not	not	PART	RB	_	27	advmod	27:advmod	_
 27	flood	flood	VERB	VB	VerbForm=Inf	19	advcl	19:advcl	_
 28	.	.	PUNCT	.	_	2	punct	2:punct	_
-29	”	"	PUNCT	''	_	2	punct	2:punct	_
+
+1	”	"	PUNCT	``	_	0	root	0:root	_
 
 1	But	but	CCONJ	CC	_	3	cc	3:cc	_
 2	there	there	PRON	EX	_	3	expl	3:expl	_
@@ -31038,7 +31035,8 @@
 9	not	not	PART	RB	_	10	advmod	10:advmod	_
 10	known	know	VERB	VBN	Tense=Past|VerbForm=Part	3	parataxis	3:parataxis	_
 11	.	.	PUNCT	.	_	3	punct	3:punct	_
-12	”	"	PUNCT	''	_	3	punct	3:punct	_
+
+1	”	"	PUNCT	``	_	0	root	0:root	_
 
 1	Who	who	PRON	WP	PronType=Int	3	nsubj	3:nsubj	_
 2	can	can	AUX	MD	VerbForm=Fin	3	aux	3:aux	_
@@ -31457,7 +31455,8 @@
 17	debt	debt	NOUN	NN	Number=Sing	18	compound	18:compound	_
 18	problems	problem	NOUN	NNS	Number=Plur	15	obl	15:obl	_
 19	.	.	PUNCT	.	_	15	punct	15:punct	_
-20	”	"	PUNCT	''	_	15	punct	15:punct	_
+
+1	”	"	PUNCT	``	_	0	root	0:root	_
 
 1	Her	she	PRON	PRP$	Gender=Fem|Number=Sing|Person=3|Poss=Yes|PronType=Prs	2	nmod:poss	2:nmod:poss	_
 2	reason	reason	NOUN	NN	Number=Sing	3	nsubj	3:nsubj	_
@@ -32534,7 +32533,8 @@
 21	Government	government	NOUN	NN	Number=Sing	22	nsubj	22:nsubj	_
 22	wants	want	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	18	acl:relcl	18:acl:relcl	_
 23	.	.	PUNCT	.	_	2	punct	2:punct	_
-24	”	"	PUNCT	''	_	2	punct	2:punct	_
+
+1	”	"	PUNCT	``	_	0	root	0:root	_
 
 1	It	it	PRON	PRP	Case=Nom|Gender=Neut|Number=Sing|Person=3|PronType=Prs	4	nsubj	4:nsubj	_
 2	is	be	AUX	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	4	cop	4:cop	_
@@ -32672,7 +32672,8 @@
 13	go	go	VERB	VB	VerbForm=Inf	3	ccomp	3:ccomp	_
 14	unnoticed	unnoticed	ADV	RB	_	13	advmod	13:advmod	_
 15	.	.	PUNCT	.	_	3	punct	3:punct	_
-16	”	"	PUNCT	''	_	3	punct	3:punct	_
+
+1	”	"	PUNCT	``	_	0	root	0:root	_
 
 1	News	news	NOUN	NN	Number=Sing	14	nsubj	14:nsubj	_
 2	of	of	ADP	IN	_	6	case	6:case	_
@@ -44539,7 +44540,7 @@
 
 1	The	the	DET	DT	Definite=Def|PronType=Art	3	det	3:det	_
 2	two	two	NUM	CD	NumType=Card	3	nummod	3:nummod	_
-3	paintings	painting	NOUN	NNS	Number=Plur	15	nsubj	15:nsubj	_
+3	paintings	painting	NOUN	NNS	Number=Plur	14	nsubj	14:nsubj	_
 4	by	by	ADP	IN	_	5	case	5:case	_
 5	Lucas	Lucas	PROPN	NNP	Number=Sing	3	nmod	3:nmod	_
 6	Cranach	Cranach	PROPN	NNP	Number=Sing	5	flat	5:flat	_
@@ -44547,12 +44548,11 @@
 8	Elder	Elder	PROPN	NNP	Number=Sing	3	nmod	3:nmod	_
 9	on	on	ADP	IN	_	10	case	10:case	_
 10	display	display	NOUN	NN	Number=Sing	8	nmod	8:nmod	_
-11	are	be	AUX	VBP	Mood=Ind|Tense=Pres|VerbForm=Fin	15	cop	15:cop	_
-12	especially	especially	ADV	RB	_	15	advmod	15:advmod	_
-13	eye	eye	NOUN	NN	Number=Sing	15	obl:npmod	15:obl:npmod	_
-14	-	-	PUNCT	HYPH	_	15	punct	15:punct	_
-15	catching	catch	VERB	VBG	Tense=Pres|VerbForm=Part	0	root	0:root	_
-16	.	.	PUNCT	.	_	15	punct	15:punct	_
+11	are	be	AUX	VBP	Mood=Ind|Tense=Pres|VerbForm=Fin	14	cop	14:cop	_
+12	especially	especially	ADV	RB	_	14	advmod	14:advmod	_
+13	eye	eye	NOUN	NN	Number=Sing	14	obl:npmod	14:obl:npmod	_
+14	-catching	-catching	ADJ	JJ	Degree=Pos	0	root	0:root	_
+15	.	.	PUNCT	.	_	14	punct	14:punct	_
 
 1	Therefore	therefore	ADV	RB	_	8	advmod	8:advmod	_
 2	the	the	DET	DT	Definite=Def|PronType=Art	4	det	4:det	_
