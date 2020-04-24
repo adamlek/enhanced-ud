@@ -242,19 +242,21 @@ evaluatorFixerMap = M.fromList
    [("-LSB-", "["),
     ("-RSB-", "]"),
     ("-RRB-", ")"),
-    ("-LRB-", "("),
-    ("`","'"),
-    ("’","'")]
+    ("-LRB-", "(")]
 
 
-satisfyEvaluator :: T.Text -> T.Text
-satisfyEvaluator raw = case M.lookup raw evaluatorFixerMap of
+satisfyEvaluator' :: T.Text -> T.Text
+satisfyEvaluator' raw = case M.lookup raw evaluatorFixerMap of
   Just x -> x
   Nothing -> raw
 
+satisfyEvaluator :: Entry -> T.Text
+satisfyEvaluator Entry{..} | entryRaw `elem` ["`", "’"] = entryLemma
+                           | otherwise = satisfyEvaluator' entryRaw
+
 showEntryWithEnhancement :: Int -> Entry -> Enhancement -> T.Text
-showEntryWithEnhancement index Entry{..} enh =
-  T.intercalate "\t" [bshow index,satisfyEvaluator entryRaw, entryLemma,entryPos,
+showEntryWithEnhancement index e@Entry{..} enh =
+  T.intercalate "\t" [bshow index,satisfyEvaluator e, entryLemma,entryPos,
                       entryXPos,
                       T.intercalate "|" (sortBy (compare `on` T.map toLower) entryFeatures),
                       bshow entryParent,entryLabel,
