@@ -81,9 +81,13 @@ Results in 2 lines:
 - transparent
 
 \section{Method}
-(JP)
 
-Basic idea is to match tree patterns which call for enhancing of the
+
+In essence, our method is to apply the recipes provided by ??? to
+transform UD \emph{trees} into EUD graphs.
+To do so, we 
+match tree patterns which call for enhancing of the
+
 dependency structure. We identify 2 types of paterns.
 
 (ADAM) Insert figure:
@@ -108,6 +112,10 @@ John came from Paris
 From <------ Paris <------- come
        case          obl
                      obl:from
+
+
+
+Missing cases:
 
 
 \section{Results}
@@ -168,6 +176,8 @@ From <------ Paris <------- come
 \end{table} 
 TODO: Add std dev.
 
+TODO: what is the baseline (just deleting enhanced dependencies from the gold files)?
+
 \section{Discussion/Analysis}
 (JP)
 
@@ -185,6 +195,7 @@ To test that we'd need to run our system on the \emph{training} data
 of a state of the art EUD system and see how that affects its
 performance. But we can't do it since such systems are not available
 yet (this is the purpose of the task ...).
+
 
 
 \section*{Acknowledgments}
