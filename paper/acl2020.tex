@@ -34,7 +34,8 @@
 
 \newcommand\BibTeX{B\textsc{ib}\TeX}
 
-\title{Instructions for ACL 2020 Proceedings}
+\title{How much of enhanced UD is contained in UD?}
+% How enhanced is enhanced UD?
 
 \author{First Author \\
   Affiliation / Address line 1 \\
@@ -52,29 +53,71 @@
 \begin{document}
 \maketitle
 \begin{abstract}
-This document contains the instructions for preparing a manuscript for the proceedings of ACL 2020. This document contains the instructions for preparing a manuscript for the proceedings of ACL 2020. This document contains the instructions for preparing a manuscript for the proceedings of ACL 2020. This document contains the instructions for preparing a manuscript for the proceedings of ACL 2020. This document contains the instructions for preparing a manuscript for the proceedings of ACL 2020. This document contains the instructions for preparing a manuscript for the proceedings of ACL 2020. This document contains the instructions for preparing a manuscript for the proceedings of ACL 2020. This document contains the instructions for preparing a manuscript for the proceedings of ACL 2020. 
+  TODO
 \end{abstract}
 
-
 \section{Introduction}
+(ADAM)
 
-	In this paper we present an approach to producing enhanced universal dependencies. 
-	
-	% motivation? What infirmation is already there?
-	% what can we simply see, and dont need to learn?
-	% -- 1) efficient
-	% -- 2) DL is not everything
+In this paper we present an approach to producing enhanced universal
+dependencies.
 
-\section{Tree-rewriting}
+General idea: as described by the website
+(https://universaldependencies.org/u/overview/enhanced-syntax.html)
+for many cases, enhanced UD is a function of UD.
+
+Hypothesis: most information about EUD is already contained in UD.
+
+Describe task again.
+
+What is ELAS and EULAS  score.
+
+Implement the function for the common case, and see how we fare on the
+ELAS and EULAS  score.
+
+Results in 2 lines:
+- scores
+- efficient
+- transparent
+
+\section{Method}
+(JP)
+
+Basic idea is to match tree patterns which call for enhancing of the
+dependency structure. We identify 2 types of paterns.
+
+(ADAM) Insert figure:
+
+``Paul and Mary eat.''
+
+``She was reading or watching something''
+
+
+Make simplified structure and added arrow.
+
+Extensions:
+- deletion of arrows
+
+- finding label names
+
+
+Adam: figure for this:
+
+John came from Paris
+
+From <------ Paris <------- come
+       case          obl
+                     obl:from
 
 
 \section{Results}
+(ADAM)
 
 \begin{table}[h]
 	\centering
 	\begin{tabular}{l|rr}
 		\textsc{Language} & \textsc{ELAS} & \textsc{EULAS} \\
-		\hline 
+		\hline
 		Arabic &  & \\
 		Bulgarian &  & \\
 		Czech &  & \\
@@ -92,10 +135,10 @@ This document contains the instructions for preparing a manuscript for the proce
 		Swedish &  & \\
 		Tamil &  & \\
 		Ukrainian &  & \\
-		Average &  & \\ 
+		Average &  & \\
 	\end{tabular}
 \caption{Test set results}
-\end{table} 
+\end{table}
 
 \begin{table}[h]
 	\centering
@@ -123,18 +166,33 @@ This document contains the instructions for preparing a manuscript for the proce
 	\end{tabular}
 	\caption{Gold tree results}
 \end{table} 
+TODO: Add std dev.
 
-\section{Discussion}
+\section{Discussion/Analysis}
+(JP)
+
+It works!
+
+Labels work for english but not well for all languages.
+
+Secondary hyp: EUD do not help for learning EUD.
+
+We do not know about this YET. For this we'd need to use compare a
+state of art UD implementation.
+
+
+To test that we'd need to run our system on the \emph{training} data
+of a state of the art EUD system and see how that affects its
+performance. But we can't do it since such systems are not available
+yet (this is the purpose of the task ...).
+
 
 \section*{Acknowledgments}
 
-The acknowledgments should go immediately before the references. Do not number the acknowledgments section.
-Do not include this section when submitting your paper for review.
+(Anonymized)
 
 \bibliography{anthology,acl2020}
 \bibliographystyle{acl_natbib}
-
-
 
 
 \end{document}

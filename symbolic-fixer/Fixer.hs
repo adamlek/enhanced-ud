@@ -75,13 +75,16 @@ conjEnhancer2 es = concat $ zipWith enhancer numbering es
 
 -- | Examples 11->12; 13->14; 15->16; 17->18; 21->22.
 -- Have:
--- tags: nsubj, obj, amod
 -- Meet -----> Paul -----> Mary
 --      nsubj        conj
 -- have -----> founded -----> leader 
 --      advcl           conj
 --   mounted -----> Tikrit  -----> Huwaijah
 --            obl             conj
+-- Need:
+-- Meet -----> Paul -----> Mary
+--     ------------------->
+--            nsubj
 
 conjEnhancer :: Sentence -> [Arc]
 conjEnhancer es = concat $ zipWith enhancer numbering es
