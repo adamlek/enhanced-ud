@@ -32,7 +32,7 @@
 % smaller than 5cm (the original size); we will check this
 % in the camera-ready version and ask you to change it back.
 
-\usepackage{subfigure}
+\usepackage{subcaption}
 \usepackage{tikz}
 \usetikzlibrary{arrows,positioning,fit,shapes}
 
@@ -109,8 +109,8 @@ dependency structure. We identify 2 types of paterns.
 ``She was reading or watching something''
 
 \begin{figure}
-\centering
-\begin{subfigure}[b]{0.5cm}
+\begin{subfigure}{\columnwidth}
+  \centering
   \begin{tikzpicture}[inner sep=1mm,
     word/.style={ellipse,draw=blue!50,fill=blue!20,thick}]
     \node[word] (eat) {Eat};
@@ -120,9 +120,12 @@ dependency structure. We identify 2 types of paterns.
     \draw[->] (paul) -- node[above] {conj} (mary);
     \path (eat) edge[->,very thick,bend right]  node[below] {nsubj} (mary);
   \end{tikzpicture}
+  
   \caption{Relation pointing to the conjuncts}
 \end{subfigure}
 
+\begin{subfigure}{\columnwidth}
+  \centering
 \begin{tikzpicture}[inner sep=1mm,
   word/.style={ellipse,draw=blue!50,fill=blue!20,thick}]
   \node[word] (was) {was};
@@ -133,6 +136,11 @@ dependency structure. We identify 2 types of paterns.
   \path (watch) edge[->,very thick,bend left]  node[below] {aux} (was);
 \end{tikzpicture}
 
+  \caption{Relation pointing from the conjuncts}
+\end{subfigure}
+~
+\begin{subfigure}[b]{\columnwidth}
+  \centering
 \begin{tikzpicture}[inner sep=1mm,
   word/.style={ellipse,draw=blue!50,fill=blue!20,thick}]
   \node[word] (from) {from};
@@ -142,6 +150,8 @@ dependency structure. We identify 2 types of paterns.
   \draw[->] (come) -- node[below] (lab) {obl} (paris);
   \node at (lab.south) {\textbf{obl:from}};
 \end{tikzpicture}
+  \caption{Label taken from other word (lemma)}
+\end{subfigure}
 
 \caption{Transformation patterns. Added elements are shown in bold.}
   \label{fig:patterns}
