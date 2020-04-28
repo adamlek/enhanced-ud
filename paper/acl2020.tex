@@ -32,6 +32,10 @@
 % smaller than 5cm (the original size); we will check this
 % in the camera-ready version and ask you to change it back.
 
+\usepackage{subfigure}
+\usepackage{tikz}
+\usetikzlibrary{arrows,positioning,fit,shapes}
+
 \newcommand\BibTeX{B\textsc{ib}\TeX}
 
 \title{How much of enhanced UD is contained in UD?}
@@ -83,9 +87,18 @@ Results in 2 lines:
 \section{Method}
 
 
-In essence, our method is to apply the recipes provided by ??? to
+In essence, our method is to apply the recipes provided by TODO to
 transform UD \emph{trees} into EUD graphs.
-To do so, we 
+
+To do so, we use a tree-matching procedure against a UD tree, and
+locally insert (and sometimes delete) edges. As a particular case, we
+may re-label some edges.
+
+Perhaps surprisingly, the patterns that we need to recognize are
+pretty simple, involving only three nodes. The patterns are listed in
+TODO.
+
+
 match tree patterns which call for enhancing of the
 
 dependency structure. We identify 2 types of paterns.
@@ -93,11 +106,46 @@ dependency structure. We identify 2 types of paterns.
 (ADAM) Insert figure:
 
 ``Paul and Mary eat.''
-
 ``She was reading or watching something''
 
+\begin{figure}
+\centering
+\begin{subfigure}[b]{0.5cm}
+  \begin{tikzpicture}[inner sep=1mm,
+    word/.style={ellipse,draw=blue!50,fill=blue!20,thick}]
+    \node[word] (eat) {Eat};
+    \node[word] (paul) [right=of eat] {Paul};
+    \node[word] (mary) [right=of paul] {Mary};
+    \draw[->] (eat) -- node[above] {nsubj} (paul);
+    \draw[->] (paul) -- node[above] {conj} (mary);
+    \path (eat) edge[->,very thick,bend right]  node[below] {nsubj} (mary);
+  \end{tikzpicture}
+  \caption{Relation pointing to the conjuncts}
+\end{subfigure}
 
-Make simplified structure and added arrow.
+\begin{tikzpicture}[inner sep=1mm,
+  word/.style={ellipse,draw=blue!50,fill=blue!20,thick}]
+  \node[word] (was) {was};
+  \node[word] (read) [right=of was] {read};
+  \node[word] (watch) [right=of read] {watch};
+  \draw[->] (read) -- node[above] {aux} (was);
+  \draw[->] (read) -- node[above] {conj} (watch);
+  \path (watch) edge[->,very thick,bend left]  node[below] {aux} (was);
+\end{tikzpicture}
+
+\begin{tikzpicture}[inner sep=1mm,
+  word/.style={ellipse,draw=blue!50,fill=blue!20,thick}]
+  \node[word] (from) {from};
+  \node[word] (paris) [right=of from] {Paris};
+  \node[word] (come) [right=of paris] {come};
+  \draw[->] (paris) -- node[below] {case} (from);
+  \draw[->] (come) -- node[below] (lab) {obl} (paris);
+  \node at (lab.south) {\textbf{obl:from}};
+\end{tikzpicture}
+
+\caption{Transformation patterns. Added elements are shown in bold.}
+  \label{fig:patterns}
+\end{figure}
 
 Extensions:
 - deletion of arrows
@@ -109,9 +157,6 @@ Adam: figure for this:
 
 John came from Paris
 
-From <------ Paris <------- come
-       case          obl
-                     obl:from
 
 
 
