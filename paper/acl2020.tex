@@ -101,15 +101,16 @@ re-label some edges. Once this is done, we convert the result back to
 Perhaps surprisingly, the patterns that we need to recognize are
 simple, involving only three nodes. The two patterns to recognised are
 shown in \cref{fig:patterns}. Essentially, we need to match on three
-connected nodes.  We need to identify types of paterns. First, two arcs
-forming a two-step path (\cref{fig:pat-nsubj-conj,fig:pat-obl}). We
-refer to this style pattern as ``Type 1''.  Second, with two arcs
-pointing away from a central node (\cref{fig:pat-aux-conj}), refered
-to as Type 2.
+connected nodes.  We need to identify types of paterns. First, two
+arcs forming a two-step path
+(\cref{fig:pat-nsubj-conj,fig:pat-obl,fig:pat-rel}). We refer to this
+style pattern as ``Type 1''.  Second, with two arcs pointing away from
+a central node (\cref{fig:pat-aux-conj,fig:pat-xcomp}), refered to as
+``Type 2''.
 
 \begin{itemize}
 \item Type 1 pattern with a relation label, which can be any of
-  "nsubj","obj", "amod", "advcl","obl", "mark", "nmod", followed by a
+  ``nsubj",``obj", ``amod", ``advcl",``obl", ``mark", ``nmod", followed by a
   ``conj'' label. (\cref{fig:pat-nsubj-conj}.) In this case we add an
   edge with the relation label to the other conjunct.
 \item Type 2 pattern with a a relation label being either ``nsubj'' or
@@ -118,18 +119,20 @@ to as Type 2.
   ``nsubj''. Indeed, if it were, then we are conjoining two full
   sentences and then there is no need for an enhanced dependency.
 \item Type 2 pattern with ``xcomp'' and ``nsubj''. Here we add an
-  "nsubj:xsubj" edge.
-\item Type 1 pattern, with "acl:relcl" followed by a relation label
-  which can be either "nsubj","obj","obl", "advmod". (\cref{fig:pat-rel}.) The target node
-  should also be a \emph{relative} pronoun, ie. it POS is ``PRON'' and
-  its XPOS either ``WP'' (who, whom) or ``WDT'' (that, which). In this
-  case we add a ref edge to the pronoun and a (reverse) relation edge
-  between the first and second node. The original relation edge is
-  deleted.\todo{check}
+  "nsubj:xsubj" edge. (\cref{fig:pat-xcomp}.)
+\item Type 1 pattern, with ``acl:relcl" followed by a relation label
+  which can be either ``nsubj",``obj",``obl",
+  "advmod". (\cref{fig:pat-rel}.) The target node should also be a
+  \emph{relative} pronoun, ie. it POS is ``PRON'' and its XPOS either
+  ``WP'' (who, whom) or ``WDT'' (that, which). Indeed, this pattern is
+  also found with other type of pronouns, but then it does not
+  correspond to a relative clause.  In this case we add a ref edge to
+  the pronoun and a (reverse) relation edge between the first and
+  second node. The original relation edge is deleted.\todo{check}
 \item Type 1 pattern, with a conjunction followed by a case
-  marking. (\cref{fig:pat-obl}.) Exhaustively, the type of labels are "case" followed by
-  "obl" or "nmod"; "cc" followed by "conj", "mark" followed by "advcl"
-  or "acl". In this case we enhance the label with the lemma of the target node.
+  marking. (\cref{fig:pat-obl}.) Exhaustively, the type of labels are ``case" followed by
+  ``obl" or ``nmod"; ``cc" followed by ``conj", ``mark" followed by ``advcl"
+  or ``acl". In this case we enhance the label with the lemma of the target node.
 \end{itemize}
 In all cases, we have additional constraints on the
 (edge) labels. For Type 1, the relation can be either nsubj or aux
@@ -169,6 +172,21 @@ In all cases, we have additional constraints on the
 
   \caption{Relation pointing away from the conjuncts.}
   \label{fig:pat-aux-conj}
+\end{subfigure}
+
+\begin{subfigure}{\columnwidth}
+  \centering
+\begin{tikzpicture}[inner sep=1mm]
+  \node[word] (house) {house};
+  \node[word] (look) [right=of house] {look};
+  \node[word] (new) [right=of look] {new};
+  \draw[->] (look) -- node[above] {nsubj} (house);
+  \draw[->] (look) -- node[above] {xcomp} (new);
+  \path (new) edge[->,newedge,bend left]  node[below] {xsubj:nsubj} (house);
+\end{tikzpicture}
+
+  \caption{Xcomp special case}
+  \label{fig:pat-Xcomp}
 \end{subfigure}
 
 \begin{subfigure}{\columnwidth}
