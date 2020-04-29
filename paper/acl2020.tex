@@ -90,9 +90,12 @@ Results in 2 lines:
 
 
 In essence, our method is to apply the recipes provided by TODO to
-transform UD \emph{trees} into EUD graphs.
+transform simple UD \emph{trees} into EUD graphs.
 
-To do so, we use a tree-matching procedure against a UD tree, and
+For (TODO: this task) The simple UD trees we generated using the
+Stanford UD Parser. (TODO: cite)
+
+Then, we use a tree-matching procedure against the UD trees, and
 locally insert edges corresponding to enhanced dependencies (and
 sometimes delete unwanted edges). As a particular case, we may
 re-label some edges. Once this is done, we convert the result back to
@@ -293,9 +296,10 @@ TODO: Add std dev.
 TODO: what is the baseline (just deleting enhanced dependencies from the gold files)?
 
 \section{Discussion/Analysis}
-(JP)
 
-It works!
+
+It works well on gold.
+Performance on data is driven by quality of ..
 
 Labels work for english but not well for all languages.
 
@@ -312,7 +316,7 @@ yet (this is the purpose of the task ...).
 
 Also can be used for bootstrapping.
 
-Also: provide a baseline.
+Also: we provide a kind of a baseline.
 
 \section*{Acknowledgments}
 
