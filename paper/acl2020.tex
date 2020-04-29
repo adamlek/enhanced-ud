@@ -33,7 +33,7 @@
 % in the camera-ready version and ask you to change it back.
 
 \usepackage{subcaption}
-\usepackage{cleveref}
+\usepackage[capitalize]{cleveref}
 \usepackage{tikz}
 \usetikzlibrary{arrows,positioning,fit,shapes}
 \usepackage{todonotes}
@@ -110,10 +110,11 @@ dependencies from raw texts in 17 different languages. The
 majority of the languages are indo-european with some notable
 exceptions such as Tamil (Dravidian) and Finnish (Uralic).
 
-The task is evaluated using ELAS and EULAS scores. ELAS calculates
-the $F_1$-score over all enhanced dependencies, the metric
-include both edges and edge labels. A secondary metric, EULAS, is
-used which calculates the $F_1$-score over the edges only.
+The task is evaluated using two metrics, ELAS and EULAS. ELAS
+calculates the $F_1$-score over all enhanced dependencies, the
+metric include both edges and edge labels. A secondary metric,
+EULAS, is used which calculates the $F_1$-score over the edges
+only.
 
 
     
@@ -195,38 +196,39 @@ In all cases, we have additional constraints on the
 ``Paul and Mary eat.''
 
 \begin{figure}[h]
-\centering
-\begin{dependency}
-\begin{deptext}[column sep=1em]
-Paul \& and \& Mary \& eat \& . \\
-\end{deptext}
-\depedge{1}{3}{conj:and}
-\depedge{3}{2}{cc}
-\depedge{4}{1}{nsubj}
-\deproot{4}{root}
-\depedge{4}{5}{punct}
-\end{dependency}
-\caption{``Paul and Mary eat.''}
+    \centering
+    \begin{dependency}
+    \begin{deptext}[column sep=1em]
+    Paul \& and \& Mary \& eat \& . \\
+    \end{deptext}
+    \depedge{1}{3}{conj:and}
+    \depedge{3}{2}{cc}
+    \depedge{4}{1}{nsubj}
+    \deproot{4}{root}
+    \depedge{4}{5}{punct}
+    \end{dependency}
+    \caption{``Paul and Mary eat.''}
 \end{figure}
     
 ``She was reading or watching something''
 
 \begin{figure}[h]
-\centering
-\begin{dependency}
-\begin{deptext}[column sep=1em]
-She \& was \& reading \& or \& watching \& something  \\
-\end{deptext}
-\depedge{3}{1}{nsubj}
-\depedge[edge below]{5}{1}{nsubj}
-\depedge{3}{6}{obj}
-\depedge[edge below]{5}{6}{obj}
-\deproot{3}{root}
-\depedge{3}{2}{cop}
-\depedge{3}{5}{conj:or}
-\depedge{5}{4}{cc}
-\end{dependency}
-\caption{``She was reading or watching something''}
+    \centering
+    \begin{dependency}
+    \begin{deptext}[column sep=1em]
+    She \& was \& reading \& or \& watching \& something  \\
+    \end{deptext}
+    \depedge{3}{1}{nsubj}
+    \depedge[edge below]{5}{1}{nsubj}
+    \depedge{3}{6}{obj}
+    \depedge[edge below]{5}{6}{obj}
+    \deproot{3}{root}
+    \depedge{3}{2}{aux}
+    \depedge[edge below]{5}{3}{aux}
+    \depedge{3}{5}{conj:or}
+    \depedge{5}{4}{cc}
+    \end{dependency}
+    \caption{``She was reading or watching something''}
 \end{figure}
     
     
@@ -274,7 +276,7 @@ She \& was \& reading \& or \& watching \& something  \\
 \end{tikzpicture}
 
   \caption{Xcomp special case}
-  \label{fig:pat-Xcomp}
+  \label{fig:pat-xcomp}
 \end{subfigure}
 
 \begin{subfigure}{\columnwidth}
@@ -392,7 +394,7 @@ TODO: what is the baseline (just deleting enhanced dependencies from the gold fi
 It works well on gold.
 Performance on data is driven by quality of ..
 
-Labels work for english but not well for all languages.
+Labels work for english, ...,  but not well for all languages.
 
 Secondary hyp: EUD do not help for learning EUD.
 
