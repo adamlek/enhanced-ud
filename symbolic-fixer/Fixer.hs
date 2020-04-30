@@ -245,7 +245,7 @@ infixr <+>
 allEnhancer :: Sentence -> [Arc]
 allEnhancer =
   applyDelete .
-  (relEnhancer <+> xcompEnhancer <+> conjEnhancer <+> conjEnhancer2 <+> conjEnhancer2' <+> sentenceToArcs) .
+  (relEnhancer <+> xcompEnhancer <+> conjEnhancer <+> conjEnhancer2 {-<+> conjEnhancer2'-} <+> sentenceToArcs) .
   fixCaseAll
 
 noEnhancer :: Sentence -> [Arc]
