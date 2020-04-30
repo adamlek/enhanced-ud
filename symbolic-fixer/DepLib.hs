@@ -4,12 +4,9 @@ module DepLib where
 import qualified Data.Text as T
 import qualified Data.Text.Encoding as T
 import qualified Data.Text.Encoding.Error as T
-import qualified Data.Text.IO as T
-
 import qualified Data.ByteString as L
 import qualified Data.Map.Strict as M
 import Control.Monad
-import Data.Monoid
 import Data.Char
 import Data.List.Split
 import Data.List (intercalate)
@@ -48,7 +45,9 @@ showSentenceText = T.intercalate (T.pack " ") . map entryRaw
 
 
 
+getRaw :: Entry -> (T.Text, Int)
 getRaw Entry{..} = (entryRaw,1::Int)
+getRawOrPos :: M.Map T.Text a -> Entry -> (T.Text, Int)
 getRawOrPos m Entry{..} = (,1::Int) $ case M.lookup entryRaw m of
   Just _ -> entryRaw
   Nothing -> entryPos
@@ -70,6 +69,7 @@ readDictEntry e = (wd,read (T.unpack num))
 -- readManyUTFFiles fns = do
 --   mconcat <$> (forM fns T.readFile)
 
+isVerb :: Entry -> Bool
 isVerb Entry{..} = entryPos `elem` ["VERB", "AUX"]
 
 tabSep :: [T.Text] -> T.Text
@@ -89,24 +89,33 @@ bread = read . T.unpack
 ignoreLine :: T.Text -> Bool
 ignoreLine l = T.null l || '#' == (T.head l)
 
-allJust :: [Maybe a] -> Maybe [a]
-allJust [] = Just []
-allJust (Nothing:_) = Nothing
-allJust (Just x:xs) = (x:) <$> allJust xs
+allOk :: [CleanedEntry] -> Maybe [Entry]
+allOk [] = Just []
+allOk (OkEntry x:xs) = (x:) <$> allOk xs
+allOk (_:_) = Nothing
+
+
+data CleanedEntry = UnknownEntry | DashEntry | OkEntry Entry
+
+dashEntry :: CleanedEntry -> Bool
+dashEntry DashEntry = True
+dashEntry _ = False
 
 parseNivreSentences :: Bool -> T.Text -> [Maybe Sentence]
 parseNivreSentences lcase =
-  map (allJust . map (cleanEntry . T.split (== '\t'))) .
+  map (allOk . filter (not . dashEntry) . map (cleanEntry . T.split (== '\t'))) .
   filter (not . null) .
   map (filter (not . ignoreLine)) .
   splitWhen (T.null) .
   filter (/= T.pack "(())") .
   splitLines
-  where cleanEntry :: [T.Text] -> Maybe Entry
+  where cleanEntry :: [T.Text] -> CleanedEntry
         cleanEntry [_index,raw,lemma,pos,xpos,features,parent,label,_,misc] =
           case T.all isDigit parent of
-            False -> Nothing
-            True -> Just Entry {entryParent = bread parent
+            False -> case T.all (\c -> isDigit c || c == '-') parent of
+                       True -> DashEntry
+                       False -> UnknownEntry
+            True -> OkEntry Entry {entryParent = bread parent
                 ,entryRaw = (if lcase then T.map toLower else id) raw
                 ,entryLemma = (if lcase then T.map toLower else id) lemma
                 ,entryPos = pos
