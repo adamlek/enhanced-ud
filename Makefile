@@ -1,9 +1,11 @@
 test:: data/UD_English-EWT/stanford-dev.fixed
 	python3 iwpt20_xud_eval.py data/UD_English-EWT/en_ewt-ud-dev.conllu $<
 
-test-simple:: data/UD_English-EWT/en_ewt-ud-dev.fixed
+english-simple:: data/UD_English-EWT/en_ewt-ud-dev.fixed
 	python3 iwpt20_xud_eval.py data/UD_English-EWT/en_ewt-ud-dev.conllu $<
 
+tamil-simple:: data/UD_Tamil/ta_ttb-ud-dev.fixed
+	python3 iwpt20_xud_eval.py data/UD_Tamil/ta_ttb-ud-dev.conllu $<
 
 %.fixed: %.conllu symbolic-fixer/Main
 	symbolic-fixer/Main $< > $@
