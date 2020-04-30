@@ -353,27 +353,27 @@ We present our official results for the shared task in \cref{tab:test}.
 \begin{table}[h]
 	\centering
 	\begin{tabular}{l|rr}
-		\textsc{Language} & \textsc{EULAS} & \textsc{ELAS} \\
+		\textsc{Lang} & \textsc{EULAS} & \textsc{ELAS} \\
 		\hline
-		Arabic & 75.62 & 51.26 \\
-		Bulgarian & 87.72 & 84.90 \\
-		Czech & 83.44 & 67.13 \\
-		Dutch & 80.20 & 78.93 \\
-		English & 83.86 & 82.87 \\
-		Estonian & 79.43 & 60.44 \\
-		Finnish & 83.30 & 65.96 \\
-		French & 84.39 & 72.76 \\
-		Italian & 88.74 & 87.14 \\
-		Latvian & 80.60 & 66.01 \\
-		Lithuanian & 67.37 & 52.56 \\
-		Polish & 86.71 & 71.22 \\
-		Russian & 88.02 & 70.37 \\
-		Slovak & 83.31 & 65.16 \\
-		Swedish & 73.84 & 71.35 \\
-		Tamil & 55.32 & 42.15 \\
-		Ukrainian & 81.24 & 63.24 \\
-		\textbf{Average} (std) & \textbf{80.18} (8.19) & \textbf{67.85} (11.69) \\
-        %\textbf{Std} & \textbf{8.19} & \textbf{11.69} \\
+		ar & 75.62 & 51.26 \\
+		bg & 87.72 & 84.90 \\
+		cs & 83.44 & 67.13 \\
+		en & 83.86 & 82.87 \\
+		et & 79.43 & 60.44 \\
+		fi & 83.30 & 65.96 \\
+		fr & 84.39 & 72.76 \\
+		it & 88.74 & 87.14 \\
+		lv & 80.60 & 66.01 \\
+		nl & 80.20 & 78.93 \\
+		lt & 67.37 & 52.56 \\
+		pl & 86.71 & 71.22 \\
+		ru & 88.02 & 70.37 \\
+		sk & 83.31 & 65.16 \\
+		sv & 73.84 & 71.35 \\
+		ta & 55.32 & 42.15 \\
+		uk & 81.24 & 63.24 \\
+		\textbf{Avg.} & \textbf{80.18} & \textbf{67.85} \\
+        \textbf{Std.} & \textbf{8.19} & \textbf{11.69} \\
 	\end{tabular}
 \caption{\label{tab:test} Coarse $F_1$-score over language on the official test set.}
 \end{table}
@@ -387,27 +387,29 @@ augmented such that these instances can be handled correctly.
     
 \begin{table}[h]
 	\centering
-	\begin{tabular}{l|rr}
-		\textsc{Language} & \textsc{ELAS} & \textsc{EULAS} \\
+	\begin{tabular}{l|rrrr}
+        & \multicolumn{2}{c}{Dev} & \multicolumn{2}{c}{Test} \\
+		\textsc{Lang} & \textsc{ELAS} & \textsc{EULAS} & \textsc{ELAS} & \textsc{EULAS} \\
 		\hline 
-		Arabic &  & \\
-		Bulgarian &  & \\
-		Czech &  & \\
-		Dutch &  & \\
-		English &  & \\
-		Estonian &  & \\
-		Finnish &  & \\
-		French &  & \\
-		Italian &  & \\
-		Latvian &  & \\
-		Lithuanian &  & \\
-		Polish &  & \\
-		Russian &  & \\
-		Slovak &  & \\
-		Swedish &  & \\
-		Tamil &  & \\
-		Ukrainian &  & \\
-		Average &  & \\ 
+		ar & 66.44 & 96.38 & & \\
+		bg & 94.32 & 96.95 \\
+		cs & 75.65 & 94.63 & & \\
+		en & 97.57 & 98.53 & & \\
+		et & 73.35 & 93.96 & & \\
+		fi & 74.22 & 95.29 & & \\
+		fr & 83.59 & 97.93 & & \\
+		it & 96.29 & 97.61 & & \\
+		lt & 77.50 & 93.98  & & \\
+		lv & 69.21 & 96.10 & & \\
+		nl & 96.71 & 97.55 & & \\
+		pl & 87.03 & 97.33 & & \\
+		ru & 77.22 & 96.31 & & \\
+		sk & 72.24 & 95.82 \\
+		sv & 93.85 & 96.66 \\
+		ta & 72.49 & 99.58 \\
+		uk & 75.95 & 96.04 \\
+		\textbf{Avg.} & \textbf{82.97}  & \textbf{96.53}&& \\
+        Std. & 10.42 & 1.52 & & \\
 	\end{tabular}
 	\caption{Gold tree results}
 \end{table} 
