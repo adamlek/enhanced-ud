@@ -73,6 +73,28 @@ conjEnhancer2 es = concat $ zipWith enhancer numbering es
               -- are conjoining full sentences. There is no need to propagate *anything*
               entryLabelKind kid == "conj"]
 
+-- She <----- Reading <----- Watching
+--      nsubj          conj
+-- To add:
+--     <-------------------
+--             nsubj
+--              aux
+-- ATTENTION: if the conjoined verb already has a subject, then that one is the subject, and we should not make a modification. Example:
+-- She <----- Reading <----- Watching ------> He
+--      nsubj          conj            nsubj
+-- ALSO:
+-- She was reading and he watched the television. (even though there is no auxilary in one sentence nothing must be propagated.)
+
+conjEnhancer2' :: Sentence -> [Arc]
+conjEnhancer2' es = concat $ zipWith enhancer numbering es
+  where enhancer eIndex e
+          = [Arc {arcTarget = kidIndex,
+                  arcSource = entryParent e,
+                  arcLabel = entryLabel e}
+            | entryLabelKind e `elem` ["conj"],
+              (kidIndex,kid) <- kidsOf eIndex es,
+              entryLabelKind kid `elem` ["nsubj","obj"]]
+
 -- | Examples 11->12; 13->14; 15->16; 17->18; 21->22.
 -- Have:
 -- Meet -----> Paul -----> Mary
@@ -223,7 +245,7 @@ infixr <+>
 allEnhancer :: Sentence -> [Arc]
 allEnhancer =
   applyDelete .
-  (relEnhancer <+> xcompEnhancer <+> conjEnhancer <+> conjEnhancer2 <+> sentenceToArcs) .
+  (relEnhancer <+> xcompEnhancer <+> conjEnhancer <+> conjEnhancer2 <+> conjEnhancer2' <+> sentenceToArcs) .
   fixCaseAll
 
 noEnhancer :: Sentence -> [Arc]
