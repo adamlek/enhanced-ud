@@ -160,7 +160,9 @@ arcs forming a two-step path
 style pattern as ``Type 1''.  Second, with two arcs pointing away from
 a central node (\cref{fig:pat-aux-conj,fig:pat-xcomp}), refered to as
 ``Type 2''.
-
+In both cases, we have additional constraints on the (edge) labels. Together, constraint
+on graph topology and labels form patterns which we recognize and transform.
+The exhaustive list of patterns and transformations follows.
 \begin{itemize}
 \item Type 1 pattern with a relation label, which can be any of
   ``nsubj",``obj", ``amod", ``advcl",``obl", ``mark", ``nmod", followed by a
@@ -187,13 +189,9 @@ a central node (\cref{fig:pat-aux-conj,fig:pat-xcomp}), refered to as
   ``obl" or ``nmod"; ``cc" followed by ``conj", ``mark" followed by ``advcl"
   or ``acl". In this case we enhance the label with the lemma of the target node.
 \end{itemize}
-In all cases, we have additional constraints on the
-(edge) labels. For Type 1, the relation can be either nsubj or aux
 
-
-(ADAM) Insert figure:
-
-``Paul and Mary eat.''
+Patterns which we do not do:
+TODO
 
 \begin{figure}[h]
     \centering
@@ -209,8 +207,6 @@ In all cases, we have additional constraints on the
     \end{dependency}
     \caption{``Paul and Mary eat.''}
 \end{figure}
-    
-``She was reading or watching something''
 
 \begin{figure}[h]
     \centering
@@ -308,10 +304,41 @@ In all cases, we have additional constraints on the
   \label{fig:pat-rel}
 \end{subfigure}
 
-\caption{Transformation patterns. Added elements are shown in bold.}
+\caption{Implemented transformation patterns. Added elements are shown in bold.}
   \label{fig:patterns}
 \end{figure}
 
+\begin{figure}
+\begin{subfigure}{\columnwidth}
+  \centering
+  \begin{tikzpicture}[inner sep=1mm]
+    \node[word] (eat) {Eat};
+    \node[word] (paul) [right=of eat] {Paul};
+    \node[word] (mary) [right=of paul] {Mary};
+    \draw[->] (eat) -- node[above] {nsubj} (paul);
+    \draw[->] (mary) -- node[above] {conj} (paul);
+    \path (eat) edge[->,newedge,bend right]  node[below] {nsubj} (mary);
+  \end{tikzpicture}
+  \caption{Source pattern not representable in UD format}
+  \label{fig:pat-nsubj-conj-bad}
+\end{subfigure}
+
+\begin{subfigure}{\columnwidth}
+  \centering
+\begin{tikzpicture}[inner sep=1mm]
+  \node[word] (was) {was};
+  \node[word] (read) [right=of was] {read};
+  \node[word] (watch) [right=of read] {watch};
+  \draw[->] (read) -- node[above] {aux} (was);
+  \draw[->] (watch) -- node[above] {conj} (read);
+  \path (watch) edge[->,newedge,bend left]  node[below] {aux} (was);
+\end{tikzpicture}
+
+  \caption{Transformation pattern leading to a loss in performance}
+  \label{fig:pat-aux-conj-bad}
+\end{subfigure}
+\caption{transformation patterns \textbf{not} implemented. TODO}
+\end{figure}
 
 Adam: figure for this:
 
