@@ -107,6 +107,10 @@ conjEnhancer2' es = concat $ zipWith enhancer numbering es
 -- Meet -----> Paul -----> Mary
 --     ------------------->
 --            nsubj
+--
+-- Note that the case:
+-- Meet -----> Paul <------ Mary
+-- Needs not to be handled: it is not representable in UD.
 
 conjEnhancer :: Sentence -> [Arc]
 conjEnhancer es = concat $ zipWith enhancer numbering es
@@ -117,6 +121,7 @@ conjEnhancer es = concat $ zipWith enhancer numbering es
             | entryLabelKind e `elem` ["nsubj","obj", "amod", "advcl","obl", "mark", "nmod"],
               (kidIndex,kid) <- kidsOf eIndex es,
               entryLabelKind kid == "conj"]
+
 
 -- | Example 23->24; 25->26
 -- interior <------ look ------> new
