@@ -7,6 +7,9 @@ english-simple:: data/UD_English-EWT/en_ewt-ud-dev.fixed
 tamil-simple:: data/UD_Tamil/ta_ttb-ud-dev.fixed
 	python3 iwpt20_xud_eval.py data/UD_Tamil/ta_ttb-ud-dev.conllu $<
 
+lithuanian-simple:: data/UD_Lithuanian-ALKSNIS/lt_alksnis-ud-dev.fixed
+	python3 iwpt20_xud_eval.py data/UD_Lithuanian-ALKSNIS/lt_alksnis-ud-dev.conllu $<
+
 %.fixed: %.conllu symbolic-fixer/Main
 	symbolic-fixer/Main $< > $@
 
