@@ -110,11 +110,13 @@ parseNivreSentences lcase =
   filter (/= T.pack "(())") .
   splitLines
   where cleanEntry :: [T.Text] -> CleanedEntry
-        cleanEntry [_index,raw,lemma,pos,xpos,features,parent,label,_,misc] =
-          case T.all isDigit parent of
-            False -> case T.all (\c -> isDigit c || c == '-') parent of
-                       True -> DashEntry
-                       False -> UnknownEntry
+        cleanEntry [index,raw,lemma,pos,xpos,features,parent,label,_,misc] =
+          case T.all isDigit index of
+           False -> if T.all (\c -> isDigit c || c == '-') index
+                    then DashEntry
+                    else UnknownEntry 
+           True -> case T.all isDigit parent of
+            False -> UnknownEntry
             True -> OkEntry Entry {entryParent = bread parent
                 ,entryRaw = (if lcase then T.map toLower else id) raw
                 ,entryLemma = (if lcase then T.map toLower else id) lemma
