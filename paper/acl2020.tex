@@ -79,13 +79,17 @@ make certain semantic dependencies more explicit, such as
 conjoined subject and object. The enhanced dependencies include
 additional edges between words, aswell as augmented labels. For
 example in enhanced dependencies, the conjunction relation also
-include what type of conjunction is used, \textit{and, or,
-but} and so on.
+include what type of conjunction is used, \textit{and, or, but}
+and so on.  A consequence of the additional edges added to the
+basic UD tree is that EUD structures are graphs rather than
+trees. Because of this, transition parsers cant generade EUD
+graphs. Graph based parsers still work, but need to tweaking to
+allow for multiple incomming edges.
 
 In this paper we present our submission for the IWPT 2020 Shared
 Task for parsing enhanced universal dependencies. We use a
 tree-rewriting approach based on syntactic pattern in the basic
-universal dependencies to derive ehanced dependencies.
+universal dependencies to derive enhanced dependency graphs.
 
 We chose this approach because in many cases enhanced dependencies
 are functions of the basic dependencies. Thus, our approach pose
@@ -139,8 +143,14 @@ Results in 2 lines:
 
 % stanford parser
 
-In essence, our method is to apply the recipes provided by TODO to
-transform simple UD \emph{trees} into EUD graphs.
+In essence, our method is to apply the tree rewrite recipies
+provided in TODO to transform basic UD \emph{trees} into EUD
+graphs.
+
+To obtain basic UD tree we use The Stanford Biaffine Dependency parser. 
+    
+%In essence, our method is to apply the recipes provided by TODO to
+%transform simple UD \emph{trees} into EUD graphs.
 
 For (TODO: this task) The simple UD trees we generated using the
 Stanford UD Parser. (TODO: cite)
@@ -375,7 +385,7 @@ We present our official results for the shared task in \cref{tab:test}.
 		\textbf{Avg.} & \textbf{80.18} & \textbf{67.85} \\
         \textbf{Std.} & \textbf{8.19} & \textbf{11.69} \\
 	\end{tabular}
-\caption{\label{tab:test} Coarse $F_1$-score over language on the official test set.}
+\caption{\label{tab:test} Coarse ELAS and EULAS on the languages in the test data.}
 \end{table}
 
 The results indicate that our system is more successfull at
@@ -385,36 +395,38 @@ produce less than perfect output, in most cases the system may be
 augmented such that these instances can be handled correctly.
 
     
-\begin{table}[h]
+\begin{table}[ht]
 	\centering
+    \small
 	\begin{tabular}{l|rrrr}
         & \multicolumn{2}{c}{Dev} & \multicolumn{2}{c}{Test} \\
 		\textsc{Lang} & \textsc{ELAS} & \textsc{EULAS} & \textsc{ELAS} & \textsc{EULAS} \\
 		\hline 
-		ar & 66.44 & 96.38 & & \\
-		bg & 94.32 & 96.95 \\
-		cs & 75.65 & 94.63 & & \\
-		en & 97.57 & 98.53 & & \\
-		et & 73.35 & 93.96 & & \\
-		fi & 74.22 & 95.29 & & \\
-		fr & 83.59 & 97.93 & & \\
-		it & 96.29 & 97.61 & & \\
-		lt & 77.50 & 93.98  & & \\
-		lv & 69.21 & 96.10 & & \\
-		nl & 96.71 & 97.55 & & \\
-		pl & 87.03 & 97.33 & & \\
-		ru & 77.22 & 96.31 & & \\
-		sk & 72.24 & 95.82 \\
-		sv & 93.85 & 96.66 \\
-		ta & 72.49 & 99.58 \\
-		uk & 75.95 & 96.04 \\
-		\textbf{Avg.} & \textbf{82.97}  & \textbf{96.53}&& \\
-        Std. & 10.42 & 1.52 & & \\
+		ar & 66.44 & 96.38 & 64.14 & 96.55 \\
+		bg & 94.32 & 96.95 & 94.55 & 97.01 \\
+		cs & 75.65 & 94.63 & 76.52 & 95.12 \\
+		en & 97.57 & 98.53 & 97.64 & 98.65 \\
+		et & 73.35 & 93.96 & 72.30 & 95.53 \\
+		fi & 74.22 & 95.29 & 74.40 & 95.12 \\
+		fr & 83.59 & 97.93 & 88.15 & 99.05 \\
+		it & 96.29 & 97.61 & 96.15 & 97.77 \\
+		lt & 77.50 & 93.98 & 72.17 & 95.49 \\
+		lv & 69.21 & 96.10 & 77.47 & 93.91 \\
+		nl & 96.71 & 97.55 & 96.27 & 97.57 \\
+		pl & 87.03 & 97.33 & 80.95 & 96.49 \\
+		ru & 77.22 & 96.31 & 76.72 & 96.59 \\
+		sk & 72.24 & 95.82 & 75.37 & 96.42 \\
+		sv & 93.85 & 96.66 & 94.19 & 96.67 \\
+		ta & 72.49 & 99.58 & 75.04 & 99.48 \\
+		uk & 75.95 & 96.04 & 74.42 & 96.49 \\
+		\textbf{Avg.} & \textbf{82.97}  & \textbf{96.53}& \textbf{81.55} & \textbf{96.70} \\
+        Std. & 10.42 & 1.52 & 10.24 & 1.43 \\
 	\end{tabular}
-	\caption{Gold tree results}
+	\caption{Coarse ELAS and EULAS on the gold trees in the development and test data.}
 \end{table} 
 %TODO: Add std dev.
 
+    
 TODO: what is the baseline (just deleting enhanced dependencies from the gold files)? (no official baseline... yet)
 
 \section{Discussion/Analysis}
