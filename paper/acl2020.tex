@@ -92,20 +92,30 @@ tree-rewriting approach based on syntactic pattern in the basic
 universal dependencies to derive enhanced dependency graphs.
 
 We chose this approach because in many cases enhanced dependencies
-are functions of the basic dependencies. Thus, our approach pose
-the hypothesis:
+are functions of the basic dependencies. This means that most of
+the enhancements to UD trees are already contained in the basic
+trees. With this in mind a rule-based approach is attractive, our
+approach is very efficient and works fine on just a CPU.
+
+The hypothesis we ask in this paper is the following:    
 \begin{enumerate}
     \item Most information about EUD is contained in UD
 \end{enumerate}
+We are primarily interested in how much of the enhancements are
+already contained in UD and can thus be easily extracted usig a
+simple and efficient approach.
 
+We explore this by using a pre-trained dependency parser and
+rewriting the trees, aswell as applying our method to gold UD
+trees.
+    
 We explore this by applying our approach to gold UD trees and
 observe how much of the enhanced dependencies are captured.
 
     
 %General idea: as described by the website
 %(https://universaldependencies.org/u/overview/enhanced-syntax.html)
-%for many cases, enhanced UD is a function of UD.
-   
+%for many cases, enhanced UD is a function of UD.   
     
 %Hypothesis: most information about EUD is already contained in UD.
 
@@ -147,7 +157,9 @@ In essence, our method is to apply the tree rewrite recipies
 provided in TODO to transform basic UD \emph{trees} into EUD
 graphs.
 
-To obtain basic UD tree we use The Stanford Biaffine Dependency parser. 
+To obtain basic UD tree we use The Stanford Biaffine Dependency
+parser. It is a graph-based dependency parser with biaffine
+attention. ....
     
 %In essence, our method is to apply the recipes provided by TODO to
 %transform simple UD \emph{trees} into EUD graphs.
@@ -399,7 +411,7 @@ augmented such that these instances can be handled correctly.
 	\centering
     \small
 	\begin{tabular}{l|rrrr}
-        & \multicolumn{2}{c}{Dev} & \multicolumn{2}{c}{Test} \\
+        & \multicolumn{2}{c}{\textsc{Dev}} & \multicolumn{2}{c}{\textsc{Test}} \\
 		\textsc{Lang} & \textsc{ELAS} & \textsc{EULAS} & \textsc{ELAS} & \textsc{EULAS} \\
 		\hline 
 		ar & 66.44 & 96.38 & 64.14 & 96.55 \\
@@ -437,6 +449,13 @@ Performance on data is driven by quality of ..
 
 Labels work for english, ...,  but not well for all languages.
 
+Our simple approach works best for Bulgarian, English, Italian,
+Dutch and Swedish, which all have fairly simple simple case
+systems. The other languages have more complex system which
+require additional fine-tuning of the label enhancements.
+
+    
+    
 Secondary hyp: EUD do not help for learning EUD.
 
 We do not know about this YET. For this we'd need to use compare a
@@ -463,6 +482,13 @@ a difference between these cases.
 
 She was cleaning and eating fruits.
 
+Our system will also struggle with multi-word labels such as:
+\textsc{advcl:so-that}. To solve these label enhancements a
+system would need either a complete list of these multi-word
+tokens, or be able to figure them out using statistical or deep
+learning
+
+    
 \section*{Acknowledgments}
 
 (Anonymized)
