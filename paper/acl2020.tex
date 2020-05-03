@@ -66,63 +66,59 @@
 \section{Introduction}
 (ADAM)
 
-Universal Dependencies is a syntactic annotation schema focusing
-on representing shallow syntactic dependencies between words. One
-of the goals of UD has been to use it in semantic downstream
-tasks, such as X or Y. However, basic dependencies between words
-contain many implicit dependencies related to the semantic
-interpretation of a sentence.
+% UD intro
+Universal Dependencies (UD) is a syntactic annotation schema
+focusing on representing shallow syntactic dependencies between
+words. One of the goals of UD has been to use it in semantic
+downstream tasks, such as X or Y. However, basic dependencies
+between words contain many implicit dependencies related to the
+semantic interpretation of a sentence.
 
-To make the dependencies explicit the Enhanced Universal
-Dependencies schema was created. The goal of the schema is to
-make certain semantic dependencies more explicit, such as
+% EUD intro
+to make the dependencies explicit the Enhanced Universal
+Dependencies (EUD) schema was created. The goal of the schema is
+to make certain semantic dependencies more explicit, such as
 conjoined subject and object. The enhanced dependencies include
 additional edges between words, aswell as augmented labels. For
 example in enhanced dependencies, the conjunction relation also
 include what type of conjunction is used, \textit{and, or, but}
-and so on.  A consequence of the additional edges added to the
-basic UD tree is that EUD structures are graphs rather than
-trees. Because of this, transition parsers cant generade EUD
-graphs. Graph based parsers still work, but need to tweaking to
-allow for multiple incomming edges.
+and so on.
 
+% What we do in this paper
 In this paper we present our submission for the IWPT 2020 Shared
 Task for parsing enhanced universal dependencies. We use a
 tree-rewriting approach based on syntactic pattern in the basic
-universal dependencies to derive enhanced dependency graphs.
+universal dependencies to derive enhanced dependencies.
 
+
+    
+% What do we want to show
 We chose this approach because in many cases enhanced dependencies
-are functions of the basic dependencies. This means that most of
-the enhancements to UD trees are already contained in the basic
-trees. With this in mind a rule-based approach is attractive, our
-approach is very efficient and works fine on just a CPU.
-
-The hypothesis we ask in this paper is the following:    
+are functions of the basic dependencies. Thus, our approach pose
+the hypothesis:
 \begin{enumerate}
     \item Most information about EUD is contained in UD
 \end{enumerate}
-We are primarily interested in how much of the enhancements are
-already contained in UD and can thus be easily extracted usig a
-simple and efficient approach.
 
-We explore this by using a pre-trained dependency parser and
-rewriting the trees, aswell as applying our method to gold UD
-trees.
+
     
+% How we show this
 We explore this by applying our approach to gold UD trees and
 observe how much of the enhanced dependencies are captured.
 
     
 %General idea: as described by the website
 %(https://universaldependencies.org/u/overview/enhanced-syntax.html)
-%for many cases, enhanced UD is a function of UD.   
+%for many cases, enhanced UD is a function of UD.
+   
     
 %Hypothesis: most information about EUD is already contained in UD.
 
+% Shared task introduction
 In the shared task, teams are asked to produce enhanced
 dependencies from raw texts in 17 different languages. The
-majority of the languages are indo-european with some notable
-exceptions such as Tamil (Dravidian) and Finnish (Uralic).
+majority of the languages are indo-european with two notable
+exceptions, Tamil (Dravidian) and Finnish (Uralic).
 
 The task is evaluated using two metrics, ELAS and EULAS. ELAS
 calculates the $F_1$-score over all enhanced dependencies, the
@@ -130,24 +126,26 @@ metric include both edges and edge labels. A secondary metric,
 EULAS, is used which calculates the $F_1$-score over the edges
 only.
 
-
-    
--An interesting caviat to the shared task is that systems must produce basic dependencies in addition to the enhancements.  
-    
--Describe task again.
-
--The task is evaluated using ELAS and EULAS score
-
-    
--What is ELAS and EULAS  score.
-
 -Implement the function for the common case, and see how we fare on the
--ELAS and EULAS  score.
 
-Results in 2 lines:
-- scores
-- efficient
-- transparent
+% results in two lines
+Our results on the shared task show that our method is effective,
+both using machine generated and human annotated dependency
+trees. On average, our approach achieves an ELAS score of $67.85$
+and an EULAS score of $80.18$ on machine generated trees. However,
+we show that given human annotated trees the scores increase by
+around $15\%$.
+
+In addition to performing well, our approach is efficient and only
+require a few seconds to generate enhanced graphs from a
+treebank.
+    
+%Results in 2 lines:
+%- scores
+%- efficient
+%- transparent{}
+
+
 
 \section{Method}
 
@@ -157,9 +155,9 @@ In essence, our method is to apply the tree rewrite recipies
 provided in TODO to transform basic UD \emph{trees} into EUD
 graphs.
 
-To obtain basic UD tree we use The Stanford Biaffine Dependency
-parser. It is a graph-based dependency parser with biaffine
-attention. ....
+We obtain basic UD trees for each treebank using the Stanford
+Biaffine Dependency Parser \citep{dozat2016deep} provided in
+Stanza \citep{qi2020stanza}.
     
 %In essence, our method is to apply the recipes provided by TODO to
 %transform simple UD \emph{trees} into EUD graphs.
@@ -370,7 +368,10 @@ John came from Paris
 \section{Results}
 (ADAM)
 
-We present our official results for the shared task in \cref{tab:test}. 
+We present our official results for the shared task in
+\cref{tab:test}. The scores are obtained by applying our method
+to dependency trees generated by the Stanford Dependency Parser.
+ 
 
 \begin{table}[h]
 	\centering
@@ -406,6 +407,11 @@ labels. One large benefit of our system is that while it does
 produce less than perfect output, in most cases the system may be
 augmented such that these instances can be handled correctly.
 
+To find an upper bound of our approach we also apply it to the
+human annotated dependency trees. We test our approach on both
+the development and test data. The results from this experiment
+is shown in \cref{tab:gold-data}.
+    
     
 \begin{table}[ht]
 	\centering
@@ -434,13 +440,15 @@ augmented such that these instances can be handled correctly.
 		\textbf{Avg.} & \textbf{82.97}  & \textbf{96.53}& \textbf{81.55} & \textbf{96.70} \\
         Std. & 10.42 & 1.52 & 10.24 & 1.43 \\
 	\end{tabular}
-	\caption{Coarse ELAS and EULAS on the gold trees in the development and test data.}
+	\caption{\label{tab:gold-data}Coarse ELAS and EULAS on the gold trees in the development and test data.}
 \end{table} 
 %TODO: Add std dev.
 
-    
-TODO: what is the baseline (just deleting enhanced dependencies from the gold files)? (no official baseline... yet)
+We can observe again that the system does very well on the edges
+(EULAS) while the performance on the label enhancements are
+lower.
 
+    
 \section{Discussion/Analysis}
 
 
@@ -449,11 +457,18 @@ Performance on data is driven by quality of ..
 
 Labels work for english, ...,  but not well for all languages.
 
+% one of the causes for lower labels score
 Our simple approach works best for Bulgarian, English, Italian,
 Dutch and Swedish, which all have fairly simple simple case
 systems. The other languages have more complex system which
 require additional fine-tuning of the label enhancements.
 
+% second problem for our approach on labels
+Our system also struggle with labels that include multi-word
+tokens. For example, a valid adverbial clause modifier is
+\textit{so\_that}. To solve these label enhancements our system
+would need either a complete list of multi-word tokens, or be
+able to figure them out using statistical or deep learning    
     
     
 Secondary hyp: EUD do not help for learning EUD.
@@ -482,11 +497,11 @@ a difference between these cases.
 
 She was cleaning and eating fruits.
 
-Our system will also struggle with multi-word labels such as:
-\textsc{advcl:so-that}. To solve these label enhancements a
-system would need either a complete list of these multi-word
-tokens, or be able to figure them out using statistical or deep
-learning
+%Our system will also struggle with multi-word labels such as:
+%\textsc{advcl:so-that}. To solve these label enhancements a
+%system would need either a complete list of these multi-word
+%tokens, or be able to figure them out using statistical or deep
+%learning
 
     
 \section*{Acknowledgments}
