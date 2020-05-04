@@ -64,18 +64,18 @@
 \end{abstract}
 
 \section{Introduction}
-(ADAM)
-
 % UD intro
 Universal Dependencies (UD) is a syntactic annotation schema
 focusing on representing shallow syntactic dependencies between
-words. One of the goals of UD has been to use it in semantic
-downstream tasks, such as X or Y. However, basic dependencies
-between words contain many implicit dependencies related to the
-semantic interpretation of a sentence.
+\emph{words}. One of the goals of UD has been to use it in semantic
+downstream tasks, such as X\todo{which tasks} or Y.
+%
+However, the UD format restricts the shape of dependencies to a tree
+structure.  This can be limiting, because semantics dependencies can
+in principle exhibit any graph structure.
 
 % EUD intro
-to make the dependencies explicit the Enhanced Universal
+To remedy this situation, the Enhanced Universal
 Dependencies (EUD) schema was created. The goal of the schema is
 to make certain semantic dependencies more explicit, such as
 conjoined subject and object. The enhanced dependencies include
@@ -86,36 +86,35 @@ and so on.
 
 % What we do in this paper
 In this paper we present our submission for the IWPT 2020 Shared
-Task for parsing enhanced universal dependencies. We use a
-tree-rewriting approach based on syntactic pattern in the basic
-universal dependencies to derive enhanced dependencies.
+Task for parsing enhanced universal dependencies. The goal of the
+task is to produce EUD graphs for what\todo{what is the treebank?}.
 
-
-    
-% What do we want to show
-We chose this approach because in many cases enhanced dependencies
-are functions of the basic dependencies. Thus, our approach pose
-the hypothesis:
+This paper proposes to test the following hypothesis:
 \begin{enumerate}
-    \item Most information about EUD is contained in UD
+\item[(H1)] Most of the information provided by the EUD schema is
+  contained in the UD schema.
 \end{enumerate}
 
+That is, if (H1) holds, then it is possible to map, algorithmically,
+UD trees to EUD graphs.
 
-    
-% How we show this
-We explore this by applying our approach to gold UD trees and
-observe how much of the enhanced dependencies are captured.
+Thus, we set out to implement such a map. Concretely, we construct  a
+tree-to-graph transformation, which recognizes patterns in the (basic)
+universal dependencies to derive enhanced dependencies.
 
-    
+More precisely, by running our algorithm on representative gold UD
+data, we will be able to get a \emph{lower bound} on the amount of EUD
+information contained UD (for these representative inputs).
+
+Additionally, by running our algorithm after a state-of-the-art UD
+parser, we will provide a baseline for the EUD reconstruction task.
+
 %General idea: as described by the website
 %(https://universaldependencies.org/u/overview/enhanced-syntax.html)
 %for many cases, enhanced UD is a function of UD.
-   
-    
-%Hypothesis: most information about EUD is already contained in UD.
 
 % Shared task introduction
-In the shared task, teams are asked to produce enhanced
+Indeed, in the IWPT shared task, teams are asked to produce enhanced
 dependencies from raw texts in 17 different languages. The
 majority of the languages are indo-european with two notable
 exceptions, Tamil (Dravidian) and Finnish (Uralic).
@@ -126,19 +125,15 @@ metric include both edges and edge labels. A secondary metric,
 EULAS, is used which calculates the $F_1$-score over the edges
 only.
 
--Implement the function for the common case, and see how we fare on the
 
 % results in two lines
-Our results on the shared task show that our method is effective,
-both using machine generated and human annotated dependency
-trees. On average, our approach achieves an ELAS score of $67.85$
-and an EULAS score of $80.18$ on machine generated trees. However,
-we show that given human annotated trees the scores increase by
-around $15\%$.
+Our results show that (H1) is vindicated: we achieve an ELAS score of
+$96.70$ and EULAS of $81.55$ on human-annotated dependency trees.  As
+a baseline for the shared task, our method is also effective,
+achieving an ELAS score of $67.85$ and an EULAS score of
+$80.18$. (Thus loosing about $15$ percentage points when going through
+a a machine-generation phase to obtain UD trees.)
 
-In addition to performing well, our approach is efficient and only
-require a few seconds to generate enhanced graphs from a
-treebank.
     
 %Results in 2 lines:
 %- scores
@@ -522,6 +517,9 @@ She was cleaning and eating fruits.
 %tokens, or be able to figure them out using statistical or deep
 %learning
 
+In addition to performing well, our approach is simple and efficient. and only
+require a few seconds to generate enhanced graphs from a
+treebank.
     
 \section*{Acknowledgments}
 
