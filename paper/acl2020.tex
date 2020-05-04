@@ -212,7 +212,7 @@ The exhaustive list of patterns and transformations follows.
   marking. (\cref{fig:pat-obl}.) Exhaustively, the type of labels are ``case" followed by
   ``obl" or ``nmod"; ``cc" followed by ``conj", ``mark" followed by ``advcl"
   or ``acl". In this case we enhance the label with the lemma of the target node.
-\end{itemize}
+\end{enumerate}
 
 \begin{figure}[h]
     \centering
@@ -250,7 +250,8 @@ The exhaustive list of patterns and transformations follows.
     \label{fig:reading-or-watching}
 \end{figure}
 
-\tikzstyle{word}=[ellipse,draw=blue!50,fill=blue!20,thick]
+\tikzstyle{word}=[] % [ellipse,draw=blue!50,fill=blue!20,thick]
+\tikzstyle{deplabel}=[rectangle,draw=blue!50,thick]
 \tikzstyle{newedge}=[very thick]
 \begin{figure}
 \begin{subfigure}{\columnwidth}
@@ -259,9 +260,9 @@ The exhaustive list of patterns and transformations follows.
     \node[word] (eat) {Eat};
     \node[word] (paul) [right=of eat] {Paul};
     \node[word] (mary) [right=of paul] {Mary};
-    \draw[->] (eat) -- node[above] {nsubj} (paul);
-    \draw[->] (paul) -- node[above] {conj} (mary);
-    \path (eat) edge[->,newedge,bend right]  node[below] {nsubj} (mary);
+    \draw[->] (eat) -- node[deplabel,above] {nsubj} (paul);
+    \draw[->] (paul) -- node[deplabel,above] {conj} (mary);
+    \path (eat) edge[->,newedge,bend right]  node[deplabel,below] {nsubj} (mary);
   \end{tikzpicture}
   \caption{Relation pointing to the conjuncts}
   \label{fig:pat-nsubj-conj}
@@ -273,9 +274,9 @@ The exhaustive list of patterns and transformations follows.
   \node[word] (was) {was};
   \node[word] (read) [right=of was] {read};
   \node[word] (watch) [right=of read] {watch};
-  \draw[->] (read) -- node[above] {aux} (was);
-  \draw[->] (read) -- node[above] {conj} (watch);
-  \path (watch) edge[->,newedge,bend left]  node[below] {aux} (was);
+  \draw[->] (read) -- node[deplabel,above] {aux} (was);
+  \draw[->] (read) -- node[deplabel,above] {conj} (watch);
+  \path (watch) edge[->,newedge,bend left]  node[deplabel,below] {aux} (was);
 \end{tikzpicture}
 
   \caption{Relation pointing away from the conjuncts.}
@@ -288,9 +289,9 @@ The exhaustive list of patterns and transformations follows.
   \node[word] (house) {house};
   \node[word] (look) [right=of house] {look};
   \node[word] (new) [right=of look] {new};
-  \draw[->] (look) -- node[above] {nsubj} (house);
-  \draw[->] (look) -- node[above] {xcomp} (new);
-  \path (new) edge[->,newedge,bend left]  node[below] {xsubj:nsubj} (house);
+  \draw[->] (look) -- node[deplabel,above] {nsubj} (house);
+  \draw[->] (look) -- node[deplabel,above] {xcomp} (new);
+  \path (new) edge[->,newedge,bend left]  node[deplabel,below] {xsubj:nsubj} (house);
 \end{tikzpicture}
 
   \caption{Xcomp special case}
@@ -303,8 +304,8 @@ The exhaustive list of patterns and transformations follows.
   \node[word] (from) {from};
   \node[word] (paris) [right=of from] {Paris};
   \node[word] (come) [right=of paris] {come};
-  \draw[->] (paris) -- node[below] {case} (from);
-  \draw[->] (come) -- node[below] (lab) {obl} (paris);
+  \draw[->] (paris) -- node[deplabel,below] {case} (from);
+  \draw[->] (come) -- node[deplabel,below] (lab) {obl} (paris);
   \node at (lab.south) {\textbf{obl:from}};
 \end{tikzpicture}
   \caption{Label taken from other word (lemma)}
@@ -317,10 +318,10 @@ The exhaustive list of patterns and transformations follows.
     \node[word] (boy) {boy};
     \node[word] (live) [right=of boy] {live};
     \node[word] (who) [right=of live] {who};
-    \draw[->] (boy) -- node[above] {acl:recl} (live);
-    \path  (live) edge[->,newedge,bend right] node[above] {nsubj} (boy);
-    \draw[->] (live) -- node[above] {nsubj} (who);
-    \path (boy) edge[->,newedge,bend right]  node[below] {ref} (who);
+    \draw[->] (boy) -- node[deplabel,above] {acl:recl} (live);
+    \path  (live) edge[->,newedge,bend right] node[deplabel,above] {nsubj} (boy);
+    \draw[->] (live) -- node[deplabel,above] {nsubj} (who);
+    \path (boy) edge[->,newedge,bend right]  node[below,deplabel] {ref} (who);
   \end{tikzpicture}
   \caption{Relative clause}
   \label{fig:pat-rel}
@@ -339,7 +340,7 @@ The exhaustive list of patterns and transformations follows.
     \node[word] (mary) [right=of paul] {Mary};
     \draw[->] (eat) -- node[above] {nsubj} (paul);
     \draw[->] (mary) -- node[above] {conj} (paul);
-    \path (eat) edge[->,newedge,bend right]  node[below] {nsubj} (mary);
+    \path (eat) edge[->,newedge,bend right]  node[deplabel,below] {nsubj} (mary);
   \end{tikzpicture}
   \caption{Source pattern not representable in UD format}
   \label{fig:pat-nsubj-conj-bad}
@@ -351,9 +352,9 @@ The exhaustive list of patterns and transformations follows.
   \node[word] (was) {was};
   \node[word] (read) [right=of was] {read};
   \node[word] (watch) [right=of read] {watch};
-  \draw[->] (read) -- node[above] {aux} (was);
-  \draw[->] (watch) -- node[above] {conj} (read);
-  \path (watch) edge[->,newedge,bend left]  node[below] {aux} (was);
+  \draw[->] (read) -- node[deplabel,above] {aux} (was);
+  \draw[->] (watch) -- node[deplabel,above] {conj} (read);
+  \path (watch) edge[->,newedge,bend left]  node[deplabel,below] {aux} (was);
 \end{tikzpicture}
 
   \caption{Transformation pattern leading to a loss in performance}
