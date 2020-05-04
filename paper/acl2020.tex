@@ -148,9 +148,6 @@ treebank.
 
 
 \section{Method}
-
-% stanford parser
-
 In essence, our method is to apply the tree rewrite recipies
 provided in TODO to transform basic UD \emph{trees} into EUD
 graphs.
@@ -166,14 +163,11 @@ Stanza \citep{qi2020stanza}. TODO: what are the source texts?
   dependencies (those contain the simple trees, yay.)
 \end{itemize}
 
-%In essence, our method is to apply the recipes provided by TODO to
-%transform simple UD \emph{trees} into EUD graphs.
-
 Then, we use a tree-matching procedure against the UD trees, and
 locally insert edges corresponding to enhanced dependencies (and
 sometimes delete unwanted edges). As a particular case, we may
 re-label some edges. Once this is done, we convert the result back to
-(enhanced) CONLL \todo{citation} format.
+(enhanced) CONLL format.
 
 Perhaps surprisingly, the patterns that we need to recognize are
 simple, involving only three nodes. The two patterns to recognised are
@@ -187,13 +181,14 @@ a central node (\cref{fig:pat-aux-conj,fig:pat-xcomp}), refered to as
 In both cases, we have additional constraints on the (edge) labels. Together, constraint
 on graph topology and labels form patterns which we recognize and transform.
 The exhaustive list of patterns and transformations follows.
-\begin{itemize}
+\begin{enumerate}
 \item Type 1 pattern with a relation label, which can be any of
   ``nsubj",``obj", ``amod", ``advcl",``obl", ``mark", ``nmod", followed by a
   ``conj'' label. (\cref{fig:pat-nsubj-conj}.) In this case we add an
   edge with the relation label to the other conjunct.
   %
   A full dependency tree containing this pattern can be found in \cref{fig:paul-and-mary}.
+  \label{item:paul-and-mary}
 \item Type 2 pattern with a a relation label being either ``nsubj'' or
   ``aux'', and a ``conj'' label. (\cref{fig:pat-aux-conj}.) We add a relation a relation label to
   the other conjunct, but only if the conjunct is not itself
@@ -201,6 +196,7 @@ The exhaustive list of patterns and transformations follows.
   sentences and then there is no need for an enhanced dependency.
   %
   A full dependency tree containing this pattern can be found in \cref{fig:reading-or-watching}.
+  \label{item:reading-or-watching}
 \item Type 2 pattern with ``xcomp'' and ``nsubj''. Here we add an
   "nsubj:xsubj" edge. (\cref{fig:pat-xcomp}.)
 \item Type 1 pattern, with ``acl:relcl" followed by a relation label
@@ -363,13 +359,26 @@ The exhaustive list of patterns and transformations follows.
   \caption{Transformation pattern leading to a loss in performance}
   \label{fig:pat-aux-conj-bad}
 \end{subfigure}
-\caption{transformation patterns \textbf{not} implemented. TODO}
+\caption{Transformation patterns \textbf{not} implemented.}
 \end{figure}
 
-Adam: figure for this:
 
-John came from Paris
 
+TODO Adam: dependency tree for this:
+
+- John came from Paris
+- some sentence with a relative clause
+
+
+For patterns \cref{item:paul-and-mary,item:reading-or-watching}, the
+conjunction dependency could conceptually be inverted, yielding two
+other patterns (shown in
+\cref{fig:pat-nsubj-conj-bad,fig:pat-aux-conj-bad}). However, we have
+not implemented these patterns in our system. For the first pattern,
+the reason is simple: it is not representable as a UD tree (a node
+cannot have two parents). For the second pattern, applying it
+results in a small loss in performance accross the board \todo{can we
+  run this ?}, and thus it is best left inactive.
 
 \section{Results}
 (ADAM)
