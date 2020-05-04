@@ -148,28 +148,26 @@ treebank.
 
 
 \section{Method}
-
-% stanford parser
-
 In essence, our method is to apply the tree rewrite recipies
 provided in TODO to transform basic UD \emph{trees} into EUD
 graphs.
 
-We obtain basic UD trees for each treebank using the Stanford
-Biaffine Dependency Parser \citep{dozat2016deep} provided in
-Stanza \citep{qi2020stanza}.
-    
-%In essence, our method is to apply the recipes provided by TODO to
-%transform simple UD \emph{trees} into EUD graphs.
-
-For (TODO: this task) The simple UD trees we generated using the
-Stanford UD Parser. (TODO: cite)
+We obtain basic UD trees (i.e. without enhanced dependencies) from two sources:
+\begin{itemize}
+\item 
+for each treebank using the Stanford
+Biaffine Dependency Parser~citep{dozat2016deep} provided in
+Stanza \citep{qi2020stanza}. TODO: what are the source texts?
+\item
+  TODO the development (or gold) trees, minus the enhanced
+  dependencies (those contain the simple trees, yay.)
+\end{itemize}
 
 Then, we use a tree-matching procedure against the UD trees, and
 locally insert edges corresponding to enhanced dependencies (and
 sometimes delete unwanted edges). As a particular case, we may
 re-label some edges. Once this is done, we convert the result back to
-(enhanced) CONLL \todo{citation} format.
+(enhanced) CONLL format.
 
 Perhaps surprisingly, the patterns that we need to recognize are
 simple, involving only three nodes. The two patterns to recognised are
@@ -183,16 +181,22 @@ a central node (\cref{fig:pat-aux-conj,fig:pat-xcomp}), refered to as
 In both cases, we have additional constraints on the (edge) labels. Together, constraint
 on graph topology and labels form patterns which we recognize and transform.
 The exhaustive list of patterns and transformations follows.
-\begin{itemize}
+\begin{enumerate}
 \item Type 1 pattern with a relation label, which can be any of
   ``nsubj",``obj", ``amod", ``advcl",``obl", ``mark", ``nmod", followed by a
   ``conj'' label. (\cref{fig:pat-nsubj-conj}.) In this case we add an
   edge with the relation label to the other conjunct.
+  %
+  A full dependency tree containing this pattern can be found in \cref{fig:paul-and-mary}.
+  \label{item:paul-and-mary}
 \item Type 2 pattern with a a relation label being either ``nsubj'' or
   ``aux'', and a ``conj'' label. (\cref{fig:pat-aux-conj}.) We add a relation a relation label to
   the other conjunct, but only if the conjunct is not itself
   ``nsubj''. Indeed, if it were, then we are conjoining two full
   sentences and then there is no need for an enhanced dependency.
+  %
+  A full dependency tree containing this pattern can be found in \cref{fig:reading-or-watching}.
+  \label{item:reading-or-watching}
 \item Type 2 pattern with ``xcomp'' and ``nsubj''. Here we add an
   "nsubj:xsubj" edge. (\cref{fig:pat-xcomp}.)
 \item Type 1 pattern, with ``acl:relcl" followed by a relation label
@@ -210,9 +214,6 @@ The exhaustive list of patterns and transformations follows.
   or ``acl". In this case we enhance the label with the lemma of the target node.
 \end{itemize}
 
-Patterns which we do not do:
-TODO
-
 \begin{figure}[h]
     \centering
     \begin{dependency}
@@ -226,6 +227,7 @@ TODO
     \depedge{4}{5}{punct}
     \end{dependency}
     \caption{``Paul and Mary eat.''}
+    \label{fig:paul-and-mary}
 \end{figure}
 
 \begin{figure}[h]
@@ -245,9 +247,9 @@ TODO
     \depedge{5}{4}{cc}
     \end{dependency}
     \caption{``She was reading or watching something''}
+    \label{fig:reading-or-watching}
 \end{figure}
-    
-    
+
 \tikzstyle{word}=[ellipse,draw=blue!50,fill=blue!20,thick]
 \tikzstyle{newedge}=[very thick]
 \begin{figure}
@@ -357,13 +359,26 @@ TODO
   \caption{Transformation pattern leading to a loss in performance}
   \label{fig:pat-aux-conj-bad}
 \end{subfigure}
-\caption{transformation patterns \textbf{not} implemented. TODO}
+\caption{Transformation patterns \textbf{not} implemented.}
 \end{figure}
 
-Adam: figure for this:
 
-John came from Paris
 
+TODO Adam: dependency tree for this:
+
+- John came from Paris
+- some sentence with a relative clause
+
+
+For patterns \cref{item:paul-and-mary,item:reading-or-watching}, the
+conjunction dependency could conceptually be inverted, yielding two
+other patterns (shown in
+\cref{fig:pat-nsubj-conj-bad,fig:pat-aux-conj-bad}). However, we have
+not implemented these patterns in our system. For the first pattern,
+the reason is simple: it is not representable as a UD tree (a node
+cannot have two parents). For the second pattern, applying it
+results in a small loss in performance accross the board \todo{can we
+  run this ?}, and thus it is best left inactive.
 
 \section{Results}
 (ADAM)
@@ -457,9 +472,12 @@ versus $1.43$ on the gold data.
 
 
 It works well on gold.
-Performance on data is driven by quality of ..
+Performance on data is driven by quality of input trees also!
 
-Labels work for english, ...,  but not well for all languages.
+Labels work for english, ..., but not well for languages with
+morphological case roles. Indeed, the pattern \cref{fig:pat-obl}
+recognize case based on a preposition rather than a morphological
+feature.
 
 % one of the causes for lower labels score
 Our simple approach works best for Bulgarian, English, Italian,
