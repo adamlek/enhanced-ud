@@ -438,16 +438,20 @@ is shown in \cref{tab:gold-data}.
 		ta & 72.49 & 99.58 & 75.04 & 99.48 \\
 		uk & 75.95 & 96.04 & 74.42 & 96.49 \\
 		\textbf{Avg.} & \textbf{82.97}  & \textbf{96.53}& \textbf{81.55} & \textbf{96.70} \\
-        Std. & 10.42 & 1.52 & 10.24 & 1.43 \\
+        \textbf{Std.} & \textbf{10.42} & \textbf{1.52} & \textbf{10.24} & \textbf{1.43} \\
 	\end{tabular}
 	\caption{\label{tab:gold-data}Coarse ELAS and EULAS on the gold trees in the development and test data.}
 \end{table} 
 %TODO: Add std dev.
 
-We can observe again that the system does very well on the edges
-(EULAS) while the performance on the label enhancements are
-lower.
-
+Our results on gold trees again confirm that our system works best
+for detecting edges, while the performance of edge labels is
+lower. Comparing \cref{tab:test} and \cref{tab:gold-data} shows
+that our approach is very dependent on the underlying parser. In
+addition to the ELAS and EULAS score being higher, the standard
+deviation is also much highrer for EULAS, $8.19$ in the test
+versus $1.43$ on the gold data.
+    
     
 \section{Discussion/Analysis}
 
