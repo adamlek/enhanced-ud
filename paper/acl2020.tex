@@ -155,15 +155,19 @@ In essence, our method is to apply the tree rewrite recipies
 provided in TODO to transform basic UD \emph{trees} into EUD
 graphs.
 
-We obtain basic UD trees for each treebank using the Stanford
-Biaffine Dependency Parser \citep{dozat2016deep} provided in
-Stanza \citep{qi2020stanza}.
-    
+We obtain basic UD trees (i.e. without enhanced dependencies) from two sources:
+\begin{itemize}
+\item 
+for each treebank using the Stanford
+Biaffine Dependency Parser~citep{dozat2016deep} provided in
+Stanza \citep{qi2020stanza}. TODO: what are the source texts?
+\item
+  TODO the development (or gold) trees, minus the enhanced
+  dependencies (those contain the simple trees, yay.)
+\end{itemize}
+
 %In essence, our method is to apply the recipes provided by TODO to
 %transform simple UD \emph{trees} into EUD graphs.
-
-For (TODO: this task) The simple UD trees we generated using the
-Stanford UD Parser. (TODO: cite)
 
 Then, we use a tree-matching procedure against the UD trees, and
 locally insert edges corresponding to enhanced dependencies (and
@@ -188,11 +192,15 @@ The exhaustive list of patterns and transformations follows.
   ``nsubj",``obj", ``amod", ``advcl",``obl", ``mark", ``nmod", followed by a
   ``conj'' label. (\cref{fig:pat-nsubj-conj}.) In this case we add an
   edge with the relation label to the other conjunct.
+  %
+  A full dependency tree containing this pattern can be found in \cref{fig:paul-and-mary}.
 \item Type 2 pattern with a a relation label being either ``nsubj'' or
   ``aux'', and a ``conj'' label. (\cref{fig:pat-aux-conj}.) We add a relation a relation label to
   the other conjunct, but only if the conjunct is not itself
   ``nsubj''. Indeed, if it were, then we are conjoining two full
   sentences and then there is no need for an enhanced dependency.
+  %
+  A full dependency tree containing this pattern can be found in \cref{fig:reading-or-watching}.
 \item Type 2 pattern with ``xcomp'' and ``nsubj''. Here we add an
   "nsubj:xsubj" edge. (\cref{fig:pat-xcomp}.)
 \item Type 1 pattern, with ``acl:relcl" followed by a relation label
@@ -210,9 +218,6 @@ The exhaustive list of patterns and transformations follows.
   or ``acl". In this case we enhance the label with the lemma of the target node.
 \end{itemize}
 
-Patterns which we do not do:
-TODO
-
 \begin{figure}[h]
     \centering
     \begin{dependency}
@@ -226,6 +231,7 @@ TODO
     \depedge{4}{5}{punct}
     \end{dependency}
     \caption{``Paul and Mary eat.''}
+    \label{fig:paul-and-mary}
 \end{figure}
 
 \begin{figure}[h]
@@ -245,9 +251,9 @@ TODO
     \depedge{5}{4}{cc}
     \end{dependency}
     \caption{``She was reading or watching something''}
+    \label{fig:reading-or-watching}
 \end{figure}
-    
-    
+
 \tikzstyle{word}=[ellipse,draw=blue!50,fill=blue!20,thick]
 \tikzstyle{newedge}=[very thick]
 \begin{figure}
