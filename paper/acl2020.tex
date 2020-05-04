@@ -67,8 +67,10 @@
 % UD intro
 Universal Dependencies (UD) is a syntactic annotation schema
 focusing on representing shallow syntactic dependencies between
-\emph{words}. One of the goals of UD has been to use it in semantic
-downstream tasks, such as X\todo{which tasks} or Y.
+\emph{words}. One of the goals of UD has been to use it in
+semantic downstream tasks, such as event extraction
+\citep{fares20182018, mcclosky2011event} \todo{which tasks} or
+negation resolution \citep{fares20182018}.
 %
 However, the UD format restricts the shape of dependencies to a tree
 structure.  This can be limiting, because semantics dependencies can
@@ -87,7 +89,8 @@ and so on.
 % What we do in this paper
 In this paper we present our submission for the IWPT 2020 Shared
 Task for parsing enhanced universal dependencies. The goal of the
-task is to produce EUD graphs for what\todo{what is the treebank?}.
+task is to produce EUD graphs for all the basic dependency trees
+in a set of treebanks from UD version 2.5.\todo{what is the treebank?}.
 
 This paper proposes to test the following hypothesis:
 \begin{enumerate}
@@ -144,18 +147,20 @@ a a machine-generation phase to obtain UD trees.)
 
 \section{Method}
 In essence, our method is to apply the tree rewrite recipies
-provided in TODO to transform basic UD \emph{trees} into EUD
-graphs.
+provided in \citep{schuster2016enhanced} to transform basic UD
+\emph{trees} into EUD graphs.
 
-We obtain basic UD trees (i.e. without enhanced dependencies) from two sources:
+
+To obtain basic UD trees for our system we use the universal
+dependency treebanks provided by the shared task organizers. From
+these we apply our method on basic UD trees from two sources:
 \begin{itemize}
-\item 
-for each treebank using the Stanford
-Biaffine Dependency Parser~citep{dozat2016deep} provided in
-Stanza \citep{qi2020stanza}. TODO: what are the source texts?
+\item for each treebank we use the Stanford Biaffine Dependency
+Parser \citep{dozat2016deep} provided in Stanza
+\citep{qi2020stanza}.
 \item
-  TODO the development (or gold) trees, minus the enhanced
-  dependencies (those contain the simple trees, yay.)
+the development and gold trees in the treebanks, minus the enhanced
+dependencies.
 \end{itemize}
 
 Then, we use a tree-matching procedure against the UD trees, and
@@ -163,6 +168,13 @@ locally insert edges corresponding to enhanced dependencies (and
 sometimes delete unwanted edges). As a particular case, we may
 re-label some edges. Once this is done, we convert the result back to
 (enhanced) CONLL format.
+
+Our system contain several patters described below. We first apply
+all of the patterns that add or remove edges from the basic
+tree. Here, we only apply the patterns on the basic tree and not
+on enhancements made by any other pattern. After we've added the
+new edges, we modify the edge labels and append the necessary
+information.
 
 Perhaps surprisingly, the patterns that we need to recognize are
 simple, involving only three nodes. The two patterns to recognised are
@@ -202,11 +214,14 @@ The exhaustive list of patterns and transformations follows.
   also found with other type of pronouns, but then it does not
   correspond to a relative clause.  In this case we add a ref edge to
   the pronoun and a (reverse) relation edge between the first and
-  second node. The original relation edge is deleted.\todo{check}
-\item Type 1 pattern, with a conjunction followed by a case
-  marking. (\cref{fig:pat-obl}.) Exhaustively, the type of labels are ``case" followed by
-  ``obl" or ``nmod"; ``cc" followed by ``conj", ``mark" followed by ``advcl"
-  or ``acl". In this case we enhance the label with the lemma of the target node.
+  second node. The original relation edge is deleted. A full dependency
+  tree of this pattern can be seen in \cref{fig:aclrecl}.
+  \item Type 1 pattern, with a conjunction followed by a case
+   marking. (\cref{fig:pat-obl}.) Exhaustively, the type of labels
+   are ``case" followed by ``obl" or ``nmod"; ``cc" followed by
+   ``conj", ``mark" followed by ``advcl" or ``acl". In this case we
+   enhance the label with the lemma of the target node. This pattern
+   can be seen in \cref{fig:rel-clause}.
 \end{enumerate}
 
 \begin{figure}[h]
@@ -244,6 +259,67 @@ The exhaustive list of patterns and transformations follows.
     \caption{``She was reading or watching something''}
     \label{fig:reading-or-watching}
 \end{figure}
+
+\begin{figure}[h]
+    \centering
+    \begin{dependency}
+    \begin{deptext}[column sep=1em]
+    John \& came \& from \& Paris  \\
+    \end{deptext}
+    \depedge{2}{1}{nsubj}
+    \deproot{2}{root}
+    \depedge{2}{4}{obl:from}
+    \depedge{4}{3}{case}
+    \end{dependency}
+    \caption{``John came from Paris''}
+    \label{fig:john-paris}
+\end{figure}
+
+
+% advcl:mod example
+\begin{figure*}[h]
+    \centering
+    \begin{dependency}
+    \begin{deptext}[column sep=0.1cm]
+    One \& answer \& is \& that \& the \& Pentagon \& prevented \& the \& State \& Department \& from \& running \& the \& CPA  \\
+    \end{deptext}
+    \depedge{2}{1}{nummod}
+    \depedge{3}{2}{nsubj}
+    \depedge{7}{4}{mark}
+    \depedge{6}{5}{det}
+    \depedge{7}{6}{nsubj}
+    \depedge{3}{7}{ccomp}
+    \depedge{10}{8}{det}
+    \depedge{10}{9}{compound}
+    \depedge{7}{10}{obj}
+    \depedge{12}{11}{mark}
+    \depedge{7}{12}{advcl:from}
+    \depedge{14}{13}{det}
+    \depedge{12}{14}{obj}
+    \end{dependency}
+    \caption{``One answer is that the Pentagon prevented the State Department from running the CPA''}
+    \label{fig:rel-clause}
+\end{figure*}
+
+\begin{figure}[h]
+    \centering
+    \begin{dependency}
+    \begin{deptext}[column sep=0.1cm]
+    Great \& Service \& and \& hairstyles \& that \& last  \\
+    \end{deptext}
+    \depedge{2}{1}{amod}
+    \deproot{2}{root}
+    \depedge{4}{3}{cc}
+    \depedge{2}{4}{conj:and}
+    \depedge{6}{4}{nsubj}
+    \depedge{4}{5}{ref}
+    \depedge{4}{6}{acl:relcl}
+    \end{dependency}
+    \caption{``Great Service and hairstyles that last''}
+    \label{fig:aclrecl}
+\end{figure}
+
+    
 
 \tikzstyle{word}=[] % [ellipse,draw=blue!50,fill=blue!20,thick]
 \tikzstyle{deplabel}=[rectangle,draw=blue!50,thick]
@@ -466,21 +542,25 @@ versus $1.43$ on the gold data.
     
 \section{Discussion/Analysis}
 
+Our results indicate that our approach works well on the gold
+trees. When we consider machine generated trees we see that our
+performance is heavily dependent on the quality of the trees.
+    
+%It works well on gold.
+%Performance on data is driven by quality of input trees also!
 
-It works well on gold.
-Performance on data is driven by quality of input trees also!
-
-Labels work for english, ..., but not well for languages with
-morphological case roles. Indeed, the pattern \cref{fig:pat-obl}
-recognize case based on a preposition rather than a morphological
-feature.
+%Labels work for english, ..., but not well for languages with
+%morphological case roles. 
 
 % one of the causes for lower labels score
 Our simple approach works best for Bulgarian, English, Italian,
-Dutch and Swedish, which all have fairly simple simple case
-systems. The other languages have more complex system which
+Dutch and Swedish, which express case through syntax.  Indeed,
+the pattern \cref{fig:pat-obl} recognize case based on a
+preposition rather than a morphological feature. In the other
+languages case is expressed by morphological features, and
 require additional fine-tuning of the label enhancements.
 
+    
 % second problem for our approach on labels
 Our system also struggle with labels that include multi-word
 tokens. For example, a valid adverbial clause modifier is
