@@ -600,29 +600,34 @@ We can draw the following conclusions from our experiments:
 
 \end{itemize}
 
+Even though we have shown that UD contains most information to recover
+EUD, EUD annotations do have some additional value in certain
+cases. However, because they have a more rich structure (graph
+vs. tree), it may be that they are more suited as inputs to
+machine-learning systems. Our systems can help testing this hypothesis
+by inserting it (or not) in the pipeline of a state-of-the-art EUD
+parser. If the EUD parser performs just as well with reconstructed EUD
+data compared to human-constructed EUD data, then we'd know that
+manual EUD annotations are not necessary.  It is likely that we'd have
+a middle ground situation, where reconstructed EUD data helps, but
+does not supplant human-constructed EUD. In such a situation, our
+system can be useful as a bootstrapping tool. (We note however that
+excellent EUD parsers are not available just yet; in fact they are the
+purpose of the IWPT task which our system is entering.)
+
+In addition to bootstrapping, a use of our system can be to provide a
+baseline for such systems.  Indeed, while performing well on gold
+data, our approach is simple and efficient, requiring a few seconds to
+generate enhanced graphs from a treebank.
+
+\paragraph{ Future work }
+TODO: in a ddition to the short coming ...
 
 Our system also struggles with labels that include multi-word
 tokens. For example, a valid adverbial clause modifier is
 \textit{so\_that}. To solve these label enhancements our system
 would need either a complete list of multi-word tokens, or be
-able to figure them out using statistical or deep learning    
-
-Secondary hyp: EUD do not help for learning EUD.
-
-We do not know about this YET. For this we'd need to use compare a
-state of art UD implementation.
-
-
-To test that we'd need to run our system on the \emph{training} data
-of a state of the art EUD system and see how that affects its
-performance. But we can't do it since such systems are not available
-yet (this is the purpose of the task ...).
-
-Also can be used for bootstrapping.
-
-Also: we provide a kind of a baseline.
-
-The hypothesis is can be refuted on some simple example:
+able to figure them out using statistical or deep learning.
 
 
 %Our system will also struggle with multi-word labels such as:
@@ -631,9 +636,6 @@ The hypothesis is can be refuted on some simple example:
 %tokens, or be able to figure them out using statistical or deep
 %learning
 
-In addition to performing well, our approach is simple and efficient. and only
-require a few seconds to generate enhanced graphs from a
-treebank.
     
 \section*{Acknowledgments}
 
