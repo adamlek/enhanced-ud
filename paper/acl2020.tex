@@ -90,7 +90,7 @@ and so on.
 In this paper we present our submission for the IWPT 2020 Shared
 Task for parsing enhanced universal dependencies. The goal of the
 task is to produce EUD graphs for all the basic dependency trees
-in a set of treebanks from UD version 2.5.\todo{what is the treebank?}.
+in a set of treebanks from UD version 2.5.
 
 This paper proposes to test the following hypothesis:
 \begin{enumerate}
@@ -238,7 +238,7 @@ The exhaustive list of patterns and transformations follows.
     \deproot{4}{root}
     \depedge{4}{5}{punct}
     \end{dependency}
-    \caption{``Paul and Mary eat.''}
+    \caption{Example sentence for pattern shown in \cref{fig:pat-nsubj-conj}}
     \label{fig:paul-and-mary}
 \end{figure}
 
@@ -258,7 +258,7 @@ The exhaustive list of patterns and transformations follows.
     \depedge{3}{5}{conj:or}
     \depedge{5}{4}{cc}
     \end{dependency}
-    \caption{``She was reading or watching something''}
+    \caption{Example sentence for pattern shown in \cref{fig:pat-aux-conj}}
     \label{fig:reading-or-watching}
 \end{figure}
 
@@ -272,9 +272,9 @@ The exhaustive list of patterns and transformations follows.
     \deproot{2}{root}
     \depedge{2}{4}{obl:from}
     \depedge{4}{3}{case}
-    \end{dependency}
-    \caption{``John came from Paris''}
-    \label{fig:john-paris}
+  \end{dependency}
+  \caption{Example sentence for pattern shown in \cref{fig:pat-obl}}
+  \label{fig:john-paris}
 \end{figure}
 
 
@@ -299,7 +299,7 @@ The exhaustive list of patterns and transformations follows.
     \depedge{14}{13}{det}
     \depedge{12}{14}{obj}
     \end{dependency}
-    \caption{``One answer is that the Pentagon prevented the State Department from running the CPA''}
+    \caption{Example sentence for pattern shown in \cref{fig:pat-obl}}
     \label{fig:rel-clause}
 \end{figure*}
 
@@ -317,7 +317,7 @@ The exhaustive list of patterns and transformations follows.
     \depedge{4}{5}{ref}
     \depedge[edge height=1.5cm]{4}{6}{acl:relcl}
     \end{dependency}
-    \caption{``Great Service and hairstyles that last''}
+    \caption{Example sentence for pattern shown in \cref{fig:pat-rel}}
     \label{fig:aclrecl}
 \end{figure}
 
