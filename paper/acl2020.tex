@@ -23,7 +23,7 @@
 % and will typically save some space.
 \usepackage{microtype}
 
-%\aclfinalcopy % Uncomment this line for the final submission
+\aclfinalcopy % Uncomment this line for the final submission
 %\def\aclpaperid{***} %  Enter the acl Paper ID here
 
 %\setlength\titlebox{5cm}
@@ -44,23 +44,28 @@
 \title{How much of enhanced UD is contained in UD?}
 % How enhanced is enhanced UD?
 
-\author{First Author \\
+\author{First Author \qquad Second Author\\
   Affiliation / Address line 1 \\
   Affiliation / Address line 2 \\
   Affiliation / Address line 3 \\
-  \texttt{email@domain} \\\And
-  Second Author \\
-  Affiliation / Address line 1 \\
-  Affiliation / Address line 2 \\
-  Affiliation / Address line 3 \\
-  \texttt{email@domain} \\}
+  \texttt{\{\}@gu.se} \\}
 
 \date{}
 
 \begin{document}
 \maketitle
 \begin{abstract}
-  \todo{adam}
+In this paper we present team CLASPS submission to the IWPT 2020
+Shared Task on parsing enhanced universal dependencies. We develop a
+tree-to-graph transformation algorithm based on dependency
+patterns. We show that with a simple method we are able to achieve
+strong performance for enhanced edges, and varying performance for the
+label enhancements. For the official test data our ELAS score is
+$67.85$ and our EULAS score is $80.18$. We analyse our system and find
+key problems related to case marking that are responsible for some of
+the label errors.  Additionally, we show that much of the information
+needed to construct EUD graphs from UD trees are present in the UD
+trees, and identify which phenomena require additional attention.
 \end{abstract}
 
 \section{Introduction}
@@ -107,10 +112,16 @@ Thus, we set out to implement such an algorithm. Concretely, we construct  a
 tree-to-graph transformation, which recognizes patterns in the (basic)
 universal dependencies to derive enhanced dependencies.
 
+More precisely, running our system on representative gold parses
+will indicate the upper bound for our method. But in terms of
+information contained in UD relevant to EUD, this experiment
+indicate the lower bound of information contained in UD (for
+these representative inputs).
+    
 % Q: upper bound??
-More precisely, by running our algorithm on representative gold UD
-data, we will be able to get a \emph{lower bound} on the amount of EUD
-information contained UD (for these representative inputs).
+%More precisely, by running our algorithm on representative gold UD
+%data, we will be able to get a \emph{lower bound} on the amount of EUD
+%information contained UD (for these representative inputs).
 
 Additionally, by running our algorithm after a state-of-the-art basic UD
 parser, we will provide a baseline for the EUD reconstruction task.
