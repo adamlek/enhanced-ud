@@ -139,22 +139,19 @@ a a machine-generation phase to obtain UD trees.)
 
 \section{Method}
 In essence, our method is to apply the tree rewrite recipies
-provided in \citep{schuster2016enhanced} to transform basic UD
+provided by \citet{schuster2016enhanced} to transform basic UD
 \emph{trees} into EUD graphs.
 
-%To obtain basic UD trees for our system we use the universal
-%dependency treebanks provided by the shared task organizers. From
-%these we apply our method on basic UD trees from two sources:
-
-
-    
+To obtain basic UD trees for our system we use the universal
+dependency treebanks provided by the shared task organizers. From
+these we apply our method on basic UD trees from two sources:
 \begin{itemize}
 \item for each treebank we use the Stanford Biaffine Dependency
 Parser \citep{dozat2016deep} provided in Stanza
 \citep{qi2020stanza}.
-\item
-the development and gold trees in the treebanks, minus the enhanced
-dependencies.
+\item the development and gold trees in the treebanks, \emph{from
+    which we have removed the enhanced dependencies}. Indeed, the gold
+  data comes with plain UD trees as well.
 \end{itemize}
 
 Then, we use a tree-matching procedure against the UD trees, and
@@ -163,28 +160,28 @@ sometimes delete unwanted edges). As a particular case, we may
 re-label some edges. Once this is done, we convert the result back to
 (enhanced) CONLL format.
 
-Our system contain several patters described below. We first apply
-all of the patterns that add or remove edges from the basic
-tree. Here, we only apply the patterns on the basic tree and not
-on enhancements made by any other pattern. After we've added the
-new edges, we modify the edge labels and append the necessary
-information.
+Our system contain several patterns described below. We first modify
+the edge labels with case information. Then we apply all the other
+patterns, which add (and sometimes remove) edges from the basic
+tree. Here, we only apply the patterns on the (relabeled) input trees
+and not on the graph of EUD made by any other pattern. In this sense,
+one can say that patterns are applied in parallel.
 
 Perhaps surprisingly, the patterns that we need to recognize are
-simple, involving only three nodes. The two patterns to recognised are
+simple, involving only three nodes. The patterns to recognise are
 shown in \cref{fig:patterns}. Essentially, we need to match on three
-connected nodes.  We need to identify types of paterns. First, two
+connected nodes.  We need to identify types of paterns. In the first type, we have two
 arcs forming a two-step path
 (\cref{fig:pat-nsubj-conj,fig:pat-obl,fig:pat-rel}). We refer to this
-style pattern as ``Type 1''.  Second, with two arcs pointing away from
-a central node (\cref{fig:pat-aux-conj,fig:pat-xcomp}), refered to as
+style pattern as ``Type 1''.  The second type has two arcs pointing away from
+a central node (\cref{fig:pat-aux-conj,fig:pat-xcomp}). We refered to it as
 ``Type 2''.
-In both cases, we have additional constraints on the (edge) labels. Together, constraint
-on graph topology and labels form patterns which we recognize and transform.
+For both types, we have additional constraints on the (edge) labels. Together, the constraints
+on graph topology and labels define the patterns which we recognize, and transform.
 The exhaustive list of patterns and transformations follows.
 \begin{enumerate}
 \item Type 1 pattern with a relation label, which can be any of
-  ``nsubj",``obj", ``amod", ``advcl",``obl", ``mark", ``nmod", followed by a
+  ``nsubj'',``obj'', ``amod'', ``advcl'',``obl'', ``mark'', ``nmod'', followed by a
   ``conj'' label. (\cref{fig:pat-nsubj-conj}.) In this case we add an
   edge with the relation label to the other conjunct.
   %
@@ -199,10 +196,10 @@ The exhaustive list of patterns and transformations follows.
   A full dependency tree containing this pattern can be found in \cref{fig:reading-or-watching}.
   \label{item:reading-or-watching}
 \item Type 2 pattern with ``xcomp'' and ``nsubj''. Here we add an
-  "nsubj:xsubj" edge. (\cref{fig:pat-xcomp}.)
-\item Type 1 pattern, with ``acl:relcl" followed by a relation label
-  which can be either ``nsubj",``obj",``obl",
-  "advmod". (\cref{fig:pat-rel}.) The target node should also be a
+  ``nsubj:xsubj'' edge. (\cref{fig:pat-xcomp}.)
+\item Type 1 pattern, with ``acl:relcl'' followed by a relation label
+  which can be either ``nsubj'',``obj'',``obl'',
+  ``advmod''. (\cref{fig:pat-rel}.) The target node should also be a
   \emph{relative} pronoun, ie. it POS is ``PRON'' and its XPOS either
   ``WP'' (who, whom) or ``WDT'' (that, which). Indeed, this pattern is
   also found with other type of pronouns, but then it does not
@@ -212,13 +209,13 @@ The exhaustive list of patterns and transformations follows.
   tree of this pattern can be seen in \cref{fig:aclrecl}.
   \item Type 1 pattern, with a conjunction followed by a case
    marking. (\cref{fig:pat-obl}.) Exhaustively, the type of labels
-   are ``case" followed by ``obl" or ``nmod"; ``cc" followed by
-   ``conj", ``mark" followed by ``advcl" or ``acl". In this case we
+   are ``case'' followed by ``obl'' or ``nmod''; ``cc'' followed by
+   ``conj'', ``mark'' followed by ``advcl'' or ``acl''. In this case we
    enhance the label with the lemma of the target node. This pattern
    can be seen in \cref{fig:rel-clause}.
 \end{enumerate}
 
-\begin{figure}[h]
+\begin{figure}
     \centering
     \begin{dependency}
     \begin{deptext}[column sep=1em]
@@ -234,7 +231,7 @@ The exhaustive list of patterns and transformations follows.
     \label{fig:paul-and-mary}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}
     \centering
     \begin{dependency}
     \begin{deptext}[column sep=1em]
@@ -254,7 +251,7 @@ The exhaustive list of patterns and transformations follows.
     \label{fig:reading-or-watching}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}
     \centering
     \begin{dependency}
     \begin{deptext}[column sep=1em]
@@ -271,7 +268,7 @@ The exhaustive list of patterns and transformations follows.
 
 
 % advcl:mod example
-\begin{figure*}[h]
+\begin{figure*}
     \centering
     \begin{dependency}
     \begin{deptext}[column sep=0.1cm]
@@ -295,7 +292,7 @@ The exhaustive list of patterns and transformations follows.
     \label{fig:rel-clause}
 \end{figure*}
 
-\begin{figure}[h]
+\begin{figure}
     \centering
     \begin{dependency}
     \begin{deptext}[column sep=0.1cm]
@@ -446,14 +443,14 @@ The exhaustive list of patterns and transformations follows.
 
 
 For patterns \cref{item:paul-and-mary,item:reading-or-watching}, the
-conjunction dependency could conceptually be inverted, yielding two
+direction of conjunction dependency could conceptually be inverted, yielding two
 other patterns (shown in
 \cref{fig:pat-nsubj-conj-bad,fig:pat-aux-conj-bad}). However, we have
 not implemented these patterns in our system. For the first pattern,
 the reason is simple: it is not representable as a UD tree (a node
 cannot have two parents). For the second pattern, applying it
 results in a small loss in performance accross the board \todo{can we
-  run this ?}, and thus it is best left inactive.
+  quantify this ?}, and thus it is best left inactive.
 
 \section{Results}
 (ADAM)
