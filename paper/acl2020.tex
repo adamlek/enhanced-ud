@@ -54,18 +54,21 @@
 
 \begin{document}
 \maketitle
+    
 \begin{abstract}
 In this paper we present team CLASPS submission to the IWPT 2020
-Shared Task on parsing enhanced universal dependencies. We develop a
-tree-to-graph transformation algorithm based on dependency
-patterns. We show that with a simple method we are able to achieve
-strong performance for enhanced edges, and varying performance for the
-label enhancements. For the official test data our ELAS score is
-$67.85$ and our EULAS score is $80.18$. We analyse our system and find
-key problems related to case marking that are responsible for some of
-the label errors.  Additionally, we show that much of the information
-needed to construct EUD graphs from UD trees are present in the UD
-trees, and identify which phenomena require additional attention.
+Shared Task on parsing enhanced universal dependencies. We
+develop a tree-to-graph transformation algorithm based on
+dependency patterns. We show that with a simple method we are
+able to achieve strong performance for enhanced edges, and
+varying performance for the label enhancements depending on the
+target language. For the official test data our ELAS score is
+$67.85$ and our EULAS score is $80.18$. We analyse our system and
+find key problems related to case marking that are responsible
+for some of the label errors.  Additionally, we show that much of
+the information needed to construct EUD graphs from UD trees are
+present in the UD trees, and identify which phenomena require
+additional attention.
 \end{abstract}
 
 \section{Introduction}
@@ -258,7 +261,7 @@ transformations follows.
    can be seen in \cref{fig:rel-clause}.
 \end{enumerate}
 
-\begin{figure}
+\begin{figure}[h]
     \centering
     \begin{dependency}
     \begin{deptext}[column sep=1em]
@@ -274,27 +277,28 @@ transformations follows.
     \label{fig:paul-and-mary}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[h]
     \centering
     \begin{dependency}
-    \begin{deptext}[column sep=1em]
-    She \& was \& reading \& or \& watching \& something  \\
+    \begin{deptext}[column sep=0.1cm]
+    She \& was \& reading \& or \& watching \& a \& movie  \\
     \end{deptext}
     \depedge{3}{1}{nsubj}
     \depedge[edge below]{5}{1}{nsubj}
-    \depedge{3}{6}{obj}
-    \depedge[edge below]{5}{6}{obj}
+    %\depedge{3}{7}{obj}
+    \depedge{5}{7}{obj}
     \deproot{3}{root}
     \depedge{3}{2}{aux}
     \depedge[edge below]{5}{3}{aux}
     \depedge{3}{5}{conj:or}
     \depedge{5}{4}{cc}
+    \depedge{7}{6}{det}
     \end{dependency}
     \caption{Example sentence for pattern shown in \cref{fig:pat-aux-conj}}
     \label{fig:reading-or-watching}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[h]
     \centering
     \begin{dependency}
     \begin{deptext}[column sep=1em]
@@ -310,32 +314,9 @@ transformations follows.
 \end{figure}
 
 
-% advcl:mod example
-\begin{figure*}
-    \centering
-    \begin{dependency}
-    \begin{deptext}[column sep=0.1cm]
-    One \& answer \& is \& that \& the \& Pentagon \& prevented \& the \& State \& Department \& from \& running \& the \& CPA  \\
-    \end{deptext}
-    \depedge{2}{1}{nummod}
-    \depedge{3}{2}{nsubj}
-    \depedge{7}{4}{mark}
-    \depedge{6}{5}{det}
-    \depedge{7}{6}{nsubj}
-    \depedge{3}{7}{ccomp}
-    \depedge{10}{8}{det}
-    \depedge{10}{9}{compound}
-    \depedge{7}{10}{obj}
-    \depedge{12}{11}{mark}
-    \depedge{7}{12}{advcl:from}
-    \depedge{14}{13}{det}
-    \depedge{12}{14}{obj}
-    \end{dependency}
-    \caption{Example sentence for pattern shown in \cref{fig:pat-obl}}
-    \label{fig:rel-clause}
-\end{figure*}
 
-\begin{figure}
+
+\begin{figure}[h]
     \centering
     \begin{dependency}
     \begin{deptext}[column sep=0.1cm]
@@ -352,13 +333,12 @@ transformations follows.
     \caption{Example sentence for pattern shown in \cref{fig:pat-rel}}
     \label{fig:aclrecl}
 \end{figure}
-
     
 
 \tikzstyle{word}=[] % [ellipse,draw=blue!50,fill=blue!20,thick]
 \tikzstyle{deplabel}=[text=blue]%[rectangle,draw=blue!50,thick]
 \tikzstyle{newedge}=[very thick]
-\begin{figure}
+\begin{figure}[ht!]
 \begin{subfigure}{\columnwidth}
   \centering
   \begin{tikzpicture}[inner sep=1mm]
@@ -411,7 +391,8 @@ transformations follows.
   \node[word] (come) [right=of paris] {come};
   \draw[->] (paris) -- node[deplabel,below] {case} (from);
   \draw[->] (come) -- node[deplabel,below] (lab) {obl} (paris);
-  \node at (lab.south) {\textbf{obl:from}};
+  %\node at (lab.south) {\textbf{obl:from}};
+  \node[word] (obl2) [below,xshift=3cm, yshift=-0.4cm] {\textbf{obl:from}};
 \end{tikzpicture}
   \caption{Label taken from other word (lemma)}
   \label{fig:pat-obl}
@@ -424,7 +405,7 @@ transformations follows.
     \node[word] (live) [right=of boy] {live};
     \node[word] (who) [right=of live] {who};
     \draw[->] (boy) -- node[deplabel,above] {acl:recl} (live);
-    \path  (live) edge[->,newedge,bend right] node[deplabel,above] {nsubj} (boy);
+    \path  (live) edge[->,newedge,bend right=60] node[deplabel,above] {nsubj} (boy);
     \draw[->] (live) -- node[deplabel,above] {nsubj} (who);
     \path (boy) edge[->,newedge,bend right]  node[below,deplabel] {ref} (who);
   \end{tikzpicture}
@@ -468,6 +449,31 @@ transformations follows.
 \caption{Transformation patterns \textbf{not} implemented.}
 \end{figure}
 
+% advcl:mod example
+\begin{figure*}[ht]
+    \centering
+    \begin{dependency}
+    \begin{deptext}[column sep=0.1cm]
+    One \& answer \& is \& that \& the \& Pentagon \& prevented \& the \& State \& Department \& from \& running \& the \& CPA  \\
+    \end{deptext}
+    \depedge{2}{1}{nummod}
+    \depedge{3}{2}{nsubj}
+    \depedge{7}{4}{mark}
+    \depedge{6}{5}{det}
+    \depedge{7}{6}{nsubj}
+    \depedge{3}{7}{ccomp}
+    \depedge{10}{8}{det}
+    \depedge{10}{9}{compound}
+    \depedge{7}{10}{obj}
+    \depedge{12}{11}{mark}
+    \depedge{7}{12}{advcl:from}
+    \depedge{14}{13}{det}
+    \depedge{12}{14}{obj}
+    \end{dependency}
+    \caption{Example sentence for pattern shown in \cref{fig:pat-obl}}
+    \label{fig:rel-clause}
+\end{figure*}
+
 
 % \begin{figure}[h]
 %     \centering
@@ -484,6 +490,7 @@ transformations follows.
 %     \label{fig:alt-p}
 % \end{figure}
 
+\subsubsection{Other patterns}
 For patterns \cref{item:paul-and-mary,item:reading-or-watching}, the
 direction of conjunction dependency could conceptually be inverted, yielding two
 other patterns (shown in
@@ -612,8 +619,8 @@ We can draw the following conclusions from our experiments:
   the difference between the structure of the following two sentences:
   
   \begin{itemize}
-  \item[(1)] She was reading or watching a movie.
-  \item[(2)] (insert tree) She was cleaning and eating fruits.
+  \item[(1)] She was reading or watching a movie. (\cref{fig:reading-or-watching})
+  \item[(2)] She was cleaning and eating fruits. (\cref{fig:conj-obj})
   \end{itemize}
   In (1) ``a movie'' is an object of a verb (``watching'') which is
   conjoined with another verb (``reading''), but it applies only to a
@@ -626,12 +633,6 @@ We can draw the following conclusions from our experiments:
 
   Figuring out which case applies depends on the semantics and
   pragmatics.
-\item Another case our system is not capable of handling is
- ellipsis. The problem of ellipsis is difficult, especially in a
- tree-rewriting approach. We decided not to implement this and
- instead plan on using a deep learning parser for this in future
- work.
-
 \begin{figure}[h]
     \centering
     \begin{dependency}
@@ -647,8 +648,16 @@ We can draw the following conclusions from our experiments:
     \depedge[edge below]{6}{5}{obj}
     \end{dependency}
     \caption{``Great Service and hairstyles that last''}
-    \label{fig:aclrecl}
+    \label{fig:conj-obj}
 \end{figure}
+ 
+\item Another case our system is not capable of handling is
+ ellipsis. The problem of ellipsis is difficult, especially in a
+ tree-rewriting approach. We decided not to implement this and
+ instead plan on using a deep learning parser for this in future
+ work.
+
+
 
 \end{itemize}
 
@@ -684,7 +693,10 @@ solve these label enhancements our system would need either a complete
 list of multi-word tokens, or be able to figure them out using
 statistical or deep learning.
 
-Our main venue for future work is combining our simple, yet effective method, with deep learning for the problematic cases that are out of reach. These cases include ellipsis, multi-word tokens, objectsof conjoined verbs.
+Our main venue for future work is combining our simple, yet
+effective method, with deep learning for the problematic cases
+that are out of reach. These cases include ellipsis, multi-word
+tokens, objects of conjoined verbs.
 
 
 %Our system will also struggle with multi-word labels such as:
