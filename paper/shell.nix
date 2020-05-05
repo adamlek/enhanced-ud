@@ -14,11 +14,12 @@ in stdenv.mkDerivation {
   buildInputs = [ # orgEmacs
                   haskellPackages.lhs2tex
                   # ghc
-                  biber
+                  # biber
                   zip
                   (texlive.combine {
                        inherit (texlive)
-                       biblatex
+                       bibtex
+                       # biblatex
                        boondox
                        cmll
                        cleveref

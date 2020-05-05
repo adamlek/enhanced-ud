@@ -1,7 +1,8 @@
-all:
-        nix-shell --run "pdflatex acl2020"
+just-tex:
+	nix-shell --pure --run "pdflatex acl2020"
 
-# nix-shell --pure --run "latexmk -pdf acl2020"
+all:
+	nix-shell --pure --run "latexmk -pdf acl2020"
 
 clean:
 	git clean -f
