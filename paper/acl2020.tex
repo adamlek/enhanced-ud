@@ -87,7 +87,7 @@ To remedy this situation, the Enhanced Universal Dependencies
 (EUD) schema was proposed \citep{schuster2016enhanced}. The goal
 of the schema is to make certain implicit dependencies explicit,
 such as conjoined subject and object. The enhanced dependencies
-include additional edges between words, aswell as augmented
+include additional edges between words, as well as augmented
 labels. For example in enhanced dependencies, the conjunction
 relation also include what type of conjunction is used,
 \textit{and, or, but} and so on.
@@ -152,7 +152,7 @@ a a machine-generation phase to obtain UD trees.)
 
 \section{Method}
 In essence, our method is to apply, as far as possible, the
-tree-to-graph recipies provided by \citet{schuster2016enhanced} to
+tree-to-graph recipes provided by \citet{schuster2016enhanced} to
 transform basic UD \emph{trees} into EUD graphs.
 
 \subsection{Procedure} 
@@ -199,7 +199,7 @@ patterns. First, two arcs forming a two-step path
 (\cref{fig:pat-nsubj-conj,fig:pat-obl,fig:pat-rel}). We refer to
 this style pattern as ``Type 1''.  Second, with two arcs pointing
 away from a central node (\cref{fig:pat-aux-conj,fig:pat-xcomp}),
-refered to as ``Type 2''.  In both cases, we have additional
+referred to as ``Type 2''.  In both cases, we have additional
 constraints on the (edge) labels. Together, the constraints on
 graph topology and labels form patterns which we can recognize
 and transform.  The exhaustive list of patterns and
@@ -479,7 +479,7 @@ other patterns (shown in
 not implemented these patterns in our system. For the first pattern,
 the reason is simple: it is not representable as a UD tree (a node
 cannot have two parents). For the second pattern, applying it
-results in a small loss in performance accross the board \todo{can we
+results in a small loss in performance across the board \todo{can we
 quantify this ?}, and thus it is best left inactive.
 
 \section{Results}
@@ -559,7 +559,7 @@ test data. The results from this experiment is shown in
 
 The scoring for unlabeled edges is typically above 95\%, with little
 variation. Tamil is no longer an outlier. The scoring for labeled
-egdes can be classified in two categories depending on the
+edges can be classified in two categories depending on the
 language. One category scores nearly as well as in the unlabeled case
 (bg, en, it, nl, pl, sv). Another category scores about 15 points
 lower (ar, cs, et, fi, lt, lv, ru, sk, ta, uk). French scores
@@ -697,3 +697,10 @@ conjoined verbs.
 
 
 \end{document}
+
+% LocalWords:  IWPT UD EUD ELAS mcclosky schuster as well treebanks
+% LocalWords:  algorithmically indo european Uralic treebank Biaffine
+% LocalWords:  dozat qi CONLLU nsubj amod advcl obl nmod xcomp xsubj
+% LocalWords:  acl relcl advmod ie POS XPOS WDT punct det deplabel rr
+% LocalWords:  newedge representable nummod ccomp ar bg et fi lv nl
+% LocalWords:  lt ru sk sv uk rrrr Dev parsers Anonymized
