@@ -56,19 +56,17 @@
 \maketitle
     
 \begin{abstract}
-In this paper we present team CLASPS submission to the IWPT 2020
-Shared Task on parsing enhanced universal dependencies. We
-develop a tree-to-graph transformation algorithm based on
-dependency patterns. We show that with a simple method we are
-able to achieve strong performance for enhanced edges, and
-varying performance for the label enhancements depending on the
-target language. For the official test data our ELAS score is
-$67.85$ and our EULAS score is $80.18$. We analyse our system and
-find key problems related to case marking that are responsible
-for some of the label errors.  Additionally, we show that much of
-the information needed to construct EUD graphs from UD trees are
-present in the UD trees, and identify which phenomena require
-additional attention.
+  In this paper we present team CLASPS submission to the IWPT 2020
+  Shared Task on parsing enhanced universal dependencies. We develop a
+  tree-to-graph transformation algorithm based on dependency
+  patterns. This algorithm can transform UD gold to EUD graphs with an
+  ELAS score of 81.55 and an EULAS score of 96.70.  These result show
+  that much of the information needed to construct EUD graphs from UD
+  trees are present in the UD trees.
+
+  Coupled with a standard UD parser, the method applies to the
+  official test data and yields and ELAS score of $67.85$ and an EULAS
+  score is $80.18$.
 \end{abstract}
 
 \section{Introduction}
