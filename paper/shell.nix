@@ -21,6 +21,7 @@ in stdenv.mkDerivation {
                        biblatex
                        boondox
                        cmll
+                       cleveref
                        collection-fontsrecommended
                        comment
                        enumitem
@@ -45,6 +46,7 @@ in stdenv.mkDerivation {
                        relsize
                        scheme-small wrapfig marvosym wasysym
                        stmaryrd lazylist polytable
+                       tikz-dependency
                        todonotes
                        totpages
                        trimspaces
