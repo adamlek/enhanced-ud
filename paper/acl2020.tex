@@ -103,7 +103,7 @@ This paper proposes to test the following hypothesis:
 That is, if (H1) holds, then it is possible to map, algorithmically,
 UD trees to EUD graphs.
 
-Thus, we set out to implement such a map. Concretely, we construct  a
+Thus, we set out to implement such an algorithm. Concretely, we construct  a
 tree-to-graph transformation, which recognizes patterns in the (basic)
 universal dependencies to derive enhanced dependencies.
 
@@ -140,17 +140,9 @@ achieving an ELAS score of $67.85$ and an EULAS score of
 $80.18$. (Thus loosing about $15$ percentage points when going through
 a a machine-generation phase to obtain UD trees.)
 
-    
-%Results in 2 lines:
-%- scores
-%- efficient
-%- transparent{}
-
-
-
 \section{Method}
 In essence, our method is to apply the tree rewrite recipies
-provided in \citep{schuster2016enhanced} to transform basic UD
+provided by \citet{schuster2016enhanced} to transform basic UD
 \emph{trees} into EUD graphs.   
 
 %To obtain basic UD trees for our system we use the universal
@@ -158,14 +150,17 @@ provided in \citep{schuster2016enhanced} to transform basic UD
 %these we apply our method on basic UD trees from two sources:
 
 \subsection{Procedure} 
-We obtain basic UD trees from two sources:
-    
+To obtain basic UD trees for our system we use the universal
+dependency treebanks provided by the shared task organizers. From
+these we apply our method on basic UD trees from two sources:
+
 \begin{itemize}
 \item for each treebank we use the Stanford Biaffine Dependency
 Parser \citep{dozat2016deep} provided in Stanza
 \citep{qi2020stanza}.
-\item the development and gold trees in the treebanks, minus the enhanced
-dependencies.
+\item the development and gold trees in the treebanks, \emph{from
+    which we have removed the enhanced dependencies}. Indeed, the gold
+  data comes with plain UD trees as well.
 \end{itemize}
 
 where the basic UD trees from the Stanford parser represent the
@@ -173,10 +168,19 @@ where the basic UD trees from the Stanford parser represent the
 the \emph{upper bound} or our method.
 
 %    
-Then, we apply a tree-matching procedure against the basic UD trees. The procedure locally insert enhanced edges or delete unwanted edges. Additionally, the patterns also re-label some edges.
+Then, we apply a tree-matching procedure against the basic UD
+trees. The procedure locally insert enhanced edges or delete
+unwanted edges. Additionally, the patterns also re-label some
+edges.
 
-Our system contain several patterns, which are described in the next section. Our procedure first apply patterns which add or delete edges, in parallel. After the edges have been created or deleted, the patterns which modify edges and append the necessary information is applied. All of our pattern operate on the basic UD tree and not on enhanced edges created by the previous patterns.
-Once this is done, we convert the result back to the (enhanced) CONLLU format. 
+Our system contain several patterns, which are described in the
+next section. Our procedure first apply patterns which add or
+delete edges, in parallel. After the edges have been created or
+deleted, the patterns which modify edges and append the necessary
+information is applied. All of our pattern operate on the basic
+UD tree and not on enhanced edges created by the previous
+patterns.  Once this is done, we convert the result back to the
+(enhanced) CONLLU format.
     
 %Then, we use a tree-matching procedure against the UD trees, and
 %locally insert edges corresponding to enhanced dependencies (and
@@ -194,7 +198,7 @@ Once this is done, we convert the result back to the (enhanced) CONLLU format.
 \subsection{Patterns}
 
 Perhaps surprisingly, the patterns that we need to recognize are
-simple, involving only three nodes. The two patterns to recognise
+simple, involving only three nodes. The two patterns to recognize
 are shown in \cref{fig:patterns}. Essentially, we need to match
 on three connected nodes.  We need to identify two types of
 patterns. First, two arcs forming a two-step path
@@ -206,9 +210,10 @@ constraints on the (edge) labels. Together, the constraints on
 graph topology and labels form patterns which we can recognize
 and transform.  The exhaustive list of patterns and
 transformations follows.
+
 \begin{enumerate}
 \item Type 1 pattern with a relation label, which can be any of
-  ``nsubj",``obj", ``amod", ``advcl",``obl", ``mark", ``nmod", followed by a
+  ``nsubj'',``obj'', ``amod'', ``advcl'',``obl'', ``mark'', ``nmod'', followed by a
   ``conj'' label. (\cref{fig:pat-nsubj-conj}.) In this case we add an
   edge with the relation label to the other conjunct.
   %
@@ -223,10 +228,10 @@ transformations follows.
   A full dependency tree containing this pattern can be found in \cref{fig:reading-or-watching}.
   \label{item:reading-or-watching}
 \item Type 2 pattern with ``xcomp'' and ``nsubj''. Here we add an
-  "nsubj:xsubj" edge. (\cref{fig:pat-xcomp}.)
-\item Type 1 pattern, with ``acl:relcl" followed by a relation label
-  which can be either ``nsubj",``obj",``obl",
-  "advmod". (\cref{fig:pat-rel}.) The target node should also be a
+  ``nsubj:xsubj'' edge. (\cref{fig:pat-xcomp}.)
+\item Type 1 pattern, with ``acl:relcl'' followed by a relation label
+  which can be either ``nsubj'',``obj'',``obl'',
+  ``advmod''. (\cref{fig:pat-rel}.) The target node should also be a
   \emph{relative} pronoun, ie. it POS is ``PRON'' and its XPOS either
   ``WP'' (who, whom) or ``WDT'' (that, which). Indeed, this pattern is
   also found with other type of pronouns, but then it does not
@@ -236,13 +241,13 @@ transformations follows.
   tree of this pattern can be seen in \cref{fig:aclrecl}.
   \item Type 1 pattern, with a conjunction followed by a case
    marking. (\cref{fig:pat-obl}.) Exhaustively, the type of labels
-   are ``case" followed by ``obl" or ``nmod"; ``cc" followed by
-   ``conj", ``mark" followed by ``advcl" or ``acl". In this case we
+   are ``case'' followed by ``obl'' or ``nmod''; ``cc'' followed by
+   ``conj'', ``mark'' followed by ``advcl'' or ``acl''. In this case we
    enhance the label with the lemma of the target node. This pattern
    can be seen in \cref{fig:rel-clause}.
 \end{enumerate}
 
-\begin{figure}[h]
+\begin{figure}
     \centering
     \begin{dependency}
     \begin{deptext}[column sep=1em]
@@ -254,11 +259,11 @@ transformations follows.
     \deproot{4}{root}
     \depedge{4}{5}{punct}
     \end{dependency}
-    \caption{``Paul and Mary eat.''}
+    \caption{Example sentence for pattern shown in \cref{fig:pat-nsubj-conj}}
     \label{fig:paul-and-mary}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}
     \centering
     \begin{dependency}
     \begin{deptext}[column sep=1em]
@@ -274,11 +279,11 @@ transformations follows.
     \depedge{3}{5}{conj:or}
     \depedge{5}{4}{cc}
     \end{dependency}
-    \caption{``She was reading or watching something''}
+    \caption{Example sentence for pattern shown in \cref{fig:pat-aux-conj}}
     \label{fig:reading-or-watching}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}
     \centering
     \begin{dependency}
     \begin{deptext}[column sep=1em]
@@ -288,14 +293,14 @@ transformations follows.
     \deproot{2}{root}
     \depedge{2}{4}{obl:from}
     \depedge{4}{3}{case}
-    \end{dependency}
-    \caption{``John came from Paris''}
-    \label{fig:john-paris}
+  \end{dependency}
+  \caption{Example sentence for pattern shown in \cref{fig:pat-obl}}
+  \label{fig:john-paris}
 \end{figure}
 
 
 % advcl:mod example
-\begin{figure*}[h]
+\begin{figure*}
     \centering
     \begin{dependency}
     \begin{deptext}[column sep=0.1cm]
@@ -315,11 +320,11 @@ transformations follows.
     \depedge{14}{13}{det}
     \depedge{12}{14}{obj}
     \end{dependency}
-    \caption{``One answer is that the Pentagon prevented the State Department from running the CPA''}
+    \caption{Example sentence for pattern shown in \cref{fig:pat-obl}}
     \label{fig:rel-clause}
 \end{figure*}
 
-\begin{figure}[h]
+\begin{figure}
     \centering
     \begin{dependency}
     \begin{deptext}[column sep=0.1cm]
@@ -333,7 +338,7 @@ transformations follows.
     \depedge{4}{5}{ref}
     \depedge[edge height=1.5cm]{4}{6}{acl:relcl}
     \end{dependency}
-    \caption{``Great Service and hairstyles that last''}
+    \caption{Example sentence for pattern shown in \cref{fig:pat-rel}}
     \label{fig:aclrecl}
 \end{figure}
 
@@ -468,20 +473,17 @@ transformations follows.
 %     \label{fig:alt-p}
 % \end{figure}
 
-
-For patterns \cref{item:paul-and-mary,item:reading-or-watching},
-the conjunction dependency could conceptually be inverted,
-yielding two other patterns (shown in
-\cref{fig:pat-nsubj-conj-bad,fig:pat-aux-conj-bad}). However, we
-have not implemented these patterns in our system. For the first
-pattern, the reason is simple: it is not representable as a UD
-tree (a node cannot have two parents). For the second pattern,
-applying it results in a small loss in performance across the
-board, and thus it is best left inactive.
+For patterns \cref{item:paul-and-mary,item:reading-or-watching}, the
+direction of conjunction dependency could conceptually be inverted, yielding two
+other patterns (shown in
+\cref{fig:pat-nsubj-conj-bad,fig:pat-aux-conj-bad}). However, we have
+not implemented these patterns in our system. For the first pattern,
+the reason is simple: it is not representable as a UD tree (a node
+cannot have two parents). For the second pattern, applying it
+results in a small loss in performance accross the board \todo{can we
+quantify this ?}, and thus it is best left inactive.
 
 \section{Results}
-(ADAM)
-
 We present our official results for the shared task in
 \cref{tab:test}. The scores are obtained by applying our tree-to-graph
 transformation to dependency trees generated by the Stanford
@@ -656,19 +658,22 @@ purpose of the IWPT task which our system is entering.)
 
 In addition to bootstrapping, a use of our system can be to provide a
 baseline for such systems.  Indeed, while performing well on gold
-data, our approach is simple and efficient, requiring a few seconds to
-generate enhanced graphs from a treebank.
+data, our approach is transparent (only 5 patterns are applied) and
+efficient, requiring a few seconds to generate enhanced graphs from a
+treebank.
 
 \paragraph{ Future work }
 %TODO: in a ddition to the short coming ...
 
-Our main venue for future work is combining our simple, yet effective method, with deep learning for the problematic cases that are out of reach. These cases include ellipsis, multi-word tokens, objects of conjoined verbs.
 
-Our system also struggles with labels that include multi-word
-tokens. For example, a valid adverbial clause modifier is
-\textit{so\_that}. To solve these label enhancements our system
-would need either a complete list of multi-word tokens, or be
-able to figure them out using statistical or deep learning.
+In addition to the shortcoming about case labeling mentioned above,
+our system struggles with labels that include multi-word tokens. For
+example, a valid adverbial clause modifier is \textit{so\_that}. To
+solve these label enhancements our system would need either a complete
+list of multi-word tokens, or be able to figure them out using
+statistical or deep learning.
+
+Our main venue for future work is combining our simple, yet effective method, with deep learning for the problematic cases that are out of reach. These cases include ellipsis, multi-word tokens, objectsof conjoined verbs.
 
 
 %Our system will also struggle with multi-word labels such as:
