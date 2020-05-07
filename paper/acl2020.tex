@@ -23,7 +23,7 @@
 % and will typically save some space.
 \usepackage{microtype}
 
-\aclfinalcopy % Uncomment this line for the final submission
+%\aclfinalcopy % Uncomment this line for the final submission
 %\def\aclpaperid{***} %  Enter the acl Paper ID here
 
 %\setlength\titlebox{5cm}
@@ -44,11 +44,11 @@
 \title{How much of enhanced UD is contained in UD?}
 % How enhanced is enhanced UD?
 
-\author{First Author \qquad Second Author\\
-  Affiliation / Address line 1 \\
-  Affiliation / Address line 2 \\
-  Affiliation / Address line 3 \\
-  \texttt{\{\}@gu.se} \\}
+\author{Adam Ek \qquad Jean Philippe Bernardy\\
+    Centre for Linguistic Theory and Studies in Probability \\
+    Department of Philosophy, Linguistics and Theory of Science \\
+    University of Gothenburg \\
+    \texttt{\{adam.ek, jean-philippe.bernardy\}@gu.se} \\}
 
 \date{}
 
@@ -56,16 +56,16 @@
 \maketitle
     
 \begin{abstract}
-  In this paper we present team CLASPS submission to the IWPT 2020
+  In this paper, we present team CLASPS submission to the IWPT 2020
   Shared Task on parsing enhanced universal dependencies. We develop a
   tree-to-graph transformation algorithm based on dependency
   patterns. This algorithm can transform UD gold to EUD graphs with an
-  ELAS score of 81.55 and an EULAS score of 96.70.  These result show
+  ELAS score of 81.55 and a EULAS score of 96.70.  These results show
   that much of the information needed to construct EUD graphs from UD
   trees are present in the UD trees.
-
+  %
   Coupled with a standard UD parser, the method applies to the
-  official test data and yields and ELAS score of $67.85$ and an EULAS
+  official test data and yields and ELAS score of $67.85$ and a EULAS
   score is $80.18$.
 \end{abstract}
 
@@ -76,27 +76,31 @@ focusing on representing shallow syntactic dependencies between
 \emph{words}. One of the goals of UD has been to use it in
 semantic downstream tasks, such as event extraction
 \citep{fares20182018, mcclosky2011event} or negation resolution
-\citep{fares20182018}. In general UD can be used as a shallow representation
-of argument structures, which are useful in an array of semantic tasks.
+\citep{fares20182018} among others. In general, UD can be used as
+a shallow representation of argument structures, which are useful
+in a wide array of semantic tasks.
 
 However, the UD format restricts the shape of dependencies to a tree
-structure.  This can be limiting, because semantics dependencies can
+structure.  This can be limiting because semantics dependencies can
 in principle exhibit any graph structure.
 % EUD intro
 To remedy this situation, the Enhanced Universal Dependencies
 (EUD) schema was proposed \citep{schuster2016enhanced}. The goal
 of the schema is to make certain implicit dependencies explicit,
-such as conjoined subject and object. The enhanced dependencies
+such as conjoined subjects and objects. The enhanced dependencies
 include additional edges between words, as well as augmented
 labels. For example in enhanced dependencies, the conjunction
-relation also include what type of conjunction is used,
+relation also include what type of conjunction is used, e.g.
 \textit{and, or, but} and so on.
 
 % What we do in this paper
-In this paper we present our submission for the IWPT 2020 Shared
+In this paper, we present our submission for the IWPT 2020 Shared
 Task on parsing enhanced universal dependencies from annotated UD
-treebanks. The goal of the task to produce valid
-EUD graphs, given raw text as input.
+treebanks. The task target treebanks from 17 different languages
+where the majority of the languages are Indo-European with two
+notable exceptions, Tamil (Dravidian) and Finnish (Uralic).  The
+goal of the task to produce valid EUD graphs, given raw text as
+input.
 
 In this context, this paper proposes to test the following hypothesis:
 \begin{enumerate}
@@ -112,10 +116,11 @@ tree-to-graph transformation, which recognizes patterns in the (basic)
 universal dependencies to derive enhanced dependencies.
 %
 
+
 This experiment provides a \emph{lower bound} on the amount of EUD
 information which can be extracted from raw UD information, for
-representative inputs.  In other words, we measure how much EUD is
-contained in UD. This get a lower bound, because a better algorithm
+representative inputs.  In other words, we measure how much of EUD is
+contained in UD. This becomes a lower bound, because a better algorithm
 can always be conceived, and do better.
 
 % JP: I have deleted this upper bound thing. It isn't a lowerbound,
@@ -130,25 +135,23 @@ EUD reconstruction task.
 %for many cases, enhanced UD is a function of UD.
 %
 % Shared task introduction
-Indeed, in the IWPT shared task, teams are asked to produce enhanced
-dependencies in 17 different languages. The
-majority of the languages are indo-european with two notable
-exceptions, Tamil (Dravidian) and Finnish (Uralic).
+%Indeed, in the IWPT shared task, teams are asked to produce enhanced
+%dependencies in 17 different languages. 
 
-The task is evaluated using two metrics, ELAS and EULAS. ELAS
-calculates the $F_1$-score over all enhanced dependencies, the
-metric include both edges and edge labels. A secondary metric,
-EULAS, is used which calculates the $F_1$-score over the edges
-only.
+The enhanced dependency parsing is evaluated using two metrics,
+ELAS and EULAS. ELAS calculates the $F_1$-score over all enhanced
+dependencies, the metric include both edges and edge labels. A
+secondary metric, EULAS, is used which calculates the $F_1$-score
+over the edges only.
 
-
+% AE-FINAL: Vindicated?
 % results in two lines
 Our results show that (H1) is vindicated: we achieve an ELAS score of
 $96.70$ and EULAS of $81.55$ on human-annotated dependency trees.  As
 a baseline for the shared task, our method is also effective,
-achieving an ELAS score of $67.85$ and an EULAS score of
+achieving an ELAS score of $67.85$ and a EULAS score of
 $80.18$. (Thus loosing about $15$ percentage points when going through
-a a machine-generation phase to obtain UD trees.)
+a machine-generation phase to obtain UD trees.)
 
 \section{Method}
 In essence, our method is to apply, as far as possible, the
@@ -162,14 +165,14 @@ these we apply our method on basic UD trees from two sources:
 
 \begin{itemize}
 \item for each treebank we use the Stanford Biaffine Dependency
-Parser \citep{dozat2016deep} provided in Stanza
+      Parser \citep{dozat2016deep} provided in Stanza
 \citep{qi2020stanza}.
 \item the development and gold trees in the treebanks, \emph{from
-    which we have removed the enhanced dependencies}. Indeed, the gold
-  data comes with plain UD trees as well.
+      which we have removed the enhanced dependencies}. Indeed, the gold
+      data comes with plain UD trees as well.
 \end{itemize}
 
-Thus when using the basic UD trees from the Stanford parser we get a
+Thus when using the basic UD trees from the Stanford parser we obtain a
 baseline for the task, and when using the development/gold trees the
 \emph{lower bound} on EUD information contained in UD.
 
@@ -178,8 +181,8 @@ Then, we apply a tree-matching procedure against the non-enhanced UD
 trees. The procedure locally inserts enhanced edges or deletes unwanted
 edges. Additionally (as a special case) the patterns also re-label some edges.
 
-Our system contain several patterns, which are described in the next
-subsection. We first apply patterns which modify
+Our system contains several patterns, which are described in the next
+subsection. We first apply the patterns that modify
 the edge labels with case information. Then we apply all the other
 patterns, which add (and sometimes remove) edges from the basic
 tree. Here, we only apply the patterns on the (relabeled) input trees
@@ -201,7 +204,7 @@ this style pattern as ``Type 1''.  Second, with two arcs pointing
 away from a central node (\cref{fig:pat-aux-conj,fig:pat-xcomp}),
 referred to as ``Type 2''.  In both cases, we have additional
 constraints on the (edge) labels. Together, the constraints on
-graph topology and labels form patterns which we can recognize
+graph topology and labels form patterns that we can recognize
 and transform.  The exhaustive list of patterns and
 transformations follows.
 
@@ -270,7 +273,7 @@ transformations follows.
     \depedge{5}{7}{obj}
     \deproot{3}{root}
     \depedge{3}{2}{aux}
-    \depedge[edge below]{5}{3}{aux}
+    \depedge[edge below]{5}{2}{aux}
     \depedge{3}{5}{conj:or}
     \depedge{5}{4}{cc}
     \depedge{7}{6}{det}
@@ -472,21 +475,21 @@ transformations follows.
 % \end{figure}
 
 \subsubsection{Other patterns}
-For patterns \cref{item:paul-and-mary,item:reading-or-watching}, the
-direction of conjunction dependency could conceptually be inverted, yielding two
-other patterns (shown in
-\cref{fig:pat-nsubj-conj-bad,fig:pat-aux-conj-bad}). However, we have
-not implemented these patterns in our system. For the first pattern,
-the reason is simple: it is not representable as a UD tree (a node
-cannot have two parents). For the second pattern, applying it
-results in a small loss in performance across the board \todo{can we
-quantify this ?}, and thus it is best left inactive.
+For patterns \cref{item:paul-and-mary,item:reading-or-watching},
+the direction of conjunction dependency could conceptually be
+inverted, yielding two other patterns (shown in
+\cref{fig:pat-nsubj-conj-bad,fig:pat-aux-conj-bad}). However, we
+have not implemented these patterns in our system. For the first
+pattern, the reason is simple: it is not representable as a UD
+tree (a node cannot have two heads). For the second pattern,
+applying it results in a small loss in performance across the
+board, and thus it is best left inactive.
 
 \section{Results}
 We present our official results for the shared task in
-\cref{tab:test}. The scores are obtained by applying our tree-to-graph
-transformation to dependency trees generated by the Stanford
-Dependency Parser.
+\cref{tab:test}. The scores are obtained by applying our
+tree-to-graph transformation to basic dependency trees generated
+by the Stanford Dependency Parser.
 
 \begin{table}[h]
 	\centering
@@ -520,11 +523,11 @@ The scoring for unlabeled edges is typically around 80\%. The biggest
 outlier being Tamil, at 55.32\%. The scoring for labeled edges is
 around 12 points lower, with more variation in scores.
 
-As explained in the introduction, in order to isolate the accuracy of
+As explained in the introduction, to isolate the accuracy of
 the graph-to-tree transformation from the performance of the
-underlying UD parser, we also apply it to the human annotated
+underlying UD parser, we also apply it to the human-annotated
 dependency trees. We test our approach on both the development and
-test data. The results from this experiment is shown in
+test data. The results from this experiment are shown in
 \cref{tab:gold-data}.
 
 \begin{table}[ht]
@@ -559,17 +562,17 @@ test data. The results from this experiment is shown in
 
 The scoring for unlabeled edges is typically above 95\%, with little
 variation. Tamil is no longer an outlier. The scoring for labeled
-edges can be classified in two categories depending on the
+edges can be classified into two categories depending on the
 language. One category scores nearly as well as in the unlabeled case
-(bg, en, it, nl, pl, sv). Another category scores about 15 points
-lower (ar, cs, et, fi, lt, lv, ru, sk, ta, uk). French scores
-somewhere in-between.
+(bg, en, it, nl, sv). Another category scores about 15 points
+lower (ar, cs, et, fi, lt, lv, ru, sk, ta, uk). French and Polish scores
+somewhere in-between. 
 
 Comparing \cref{tab:test} and \cref{tab:gold-data} suggests that the
-performance of the full pipeline is very dependent on the underlying
+performance of the full pipeline is highly dependent on the underlying
 parser. In addition to the ELAS and EULAS score being higher, the
 standard deviation is also much higher for EULAS, $8.19$ points in the
-test versus $1.43$ points on the gold data.
+test versus $1.43$ points on the gold data..
 
 \section{Discussion/Analysis}
 
@@ -596,7 +599,7 @@ We can draw the following conclusions from our experiments:
   rewriting step.
 
 \item Our graph-to-tree transformation works well on the gold trees,
-  missing less than 4\% of edges, when given gold UD trees as input.
+  missing less than 4\% of the edges, when given gold UD trees as input.
   Therefore, Broadly speaking, (H1) is vindicated: UD contains most of
   the information which is necessary to reconstruct EUD graphs.
 
@@ -604,20 +607,21 @@ We can draw the following conclusions from our experiments:
   the difference between the structure of the following two sentences:
   
   \begin{itemize}
-  \item[(1)] She was reading or watching a movie. (\cref{fig:reading-or-watching})
-  \item[(2)] She was cleaning and eating fruits. (\cref{fig:conj-obj})
+    \item[(1)] She was reading or watching a movie. (\cref{fig:reading-or-watching})
+    \item[(2)] She was cleaning and eating fruits. (\cref{fig:conj-obj})
   \end{itemize}
-  In (1) ``a movie'' is an object of a verb (``watching'') which is
-  conjoined with another verb (``reading''), but it applies only to a
-  single verb. In (2), we also have a conjunction between verbs, but
-  ``fruits'' is the object of both verbs. Yet, the UD structure is the
-  same for both sentence \todo{optional: UD tree for "She was cleaning and eating fruits"?}.  (And thus, our algorithm
-  cannot see the difference between the two.)  One solution is to use
-  EUD, but another solution would be to use parse trees, which can
-  make the grouping explicit.
+  In (1) ``a movie'' is an object of a verb (``watching'') which
+  is conjoined with another verb (``reading''), but it applies only
+  to a single verb. In (2), we also have a conjunction between
+  verbs, but ``fruits'' is the object of both verbs. Yet, the UD
+  structure is the same for both sentence. And thus, our algorithm
+  cannot recognize the difference between the two trees.  One
+  solution is to use EUD, but another solution would be to use
+  parse trees, which can make the grouping explicit.
 
   Figuring out which case applies depends on the semantics and
   pragmatics.
+
 \begin{figure}[h]
     \centering
     \begin{dependency}
@@ -625,8 +629,8 @@ We can draw the following conclusions from our experiments:
     She \& was \& cleaning \& and \& eating \& fruit  \\
     \end{deptext}
     \depedge{2}{1}{nsubj}
-    \deproot{2}{root}
-    \depedge{2}{3}{cop}
+    \deproot{3}{root}
+    \depedge{3}{2}{aux}
     \depedge{5}{4}{cc}
     \depedge{3}{5}{conj:and}
     \depedge[edge below]{6}{3}{obj}
@@ -643,7 +647,7 @@ Even though we have shown that UD contains most information to recover
 EUD, EUD annotations do have some additional value in certain
 cases. However, because they have a more rich structure (graph
 vs. tree), it may be that EUD is more suited as inputs to
-machine-learning systems. Our systems can help testing this hypothesis
+machine-learning systems. Our systems can help to test this hypothesis
 by inserting it (or not) in the training pipeline of a state-of-the-art EUD
 parser. If the EUD parser performs just as well with reconstructed EUD
 data compared to human-constructed EUD data, then we would know that
@@ -658,7 +662,7 @@ In addition to bootstrapping, a run of our system can provide a
 baseline for such systems.  Indeed, while performing well on gold
 data, our approach is transparent (only 5 patterns are applied) and
 efficient, requiring a few seconds to generate enhanced graphs from a
-treebank.
+treebank. 
 
 \paragraph{ Future work }
 %TODO: in a ddition to the short coming ...
@@ -681,6 +685,8 @@ reach. These cases include ellipsis, multi-word tokens, objects of
 conjoined verbs.
 
 
+% polish: case is expressed both in morphology and syntax (through adpositions)
+
 %Our system will also struggle with multi-word labels such as:
 %\textsc{advcl:so-that}. To solve these label enhancements a
 %system would need either a complete list of these multi-word
@@ -689,8 +695,10 @@ conjoined verbs.
 
     
 \section*{Acknowledgments}
-
-(Anonymized)
+The research reported in this paper was supportedby a grant from
+the Swedish Research Council (VR project 2014-39) for the
+establishment of the Centre for Linguistic Theory and Studies in
+Probability (CLASP) at the University of Gothenburg.
 
 \bibliography{anthology,acl2020}
 \bibliographystyle{acl_natbib}
