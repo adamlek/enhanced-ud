@@ -23,7 +23,7 @@
 % and will typically save some space.
 \usepackage{microtype}
 
-%\aclfinalcopy % Uncomment this line for the final submission
+\aclfinalcopy % Uncomment this line for the final submission
 %\def\aclpaperid{***} %  Enter the acl Paper ID here
 
 %\setlength\titlebox{5cm}
@@ -56,7 +56,7 @@
 \maketitle
     
 \begin{abstract}
-  In this paper, we present team CLASPS submission to the IWPT 2020
+  In this paper, we present the submission of team CLASP to the IWPT 2020
   Shared Task on parsing enhanced universal dependencies. We develop a
   tree-to-graph transformation algorithm based on dependency
   patterns. This algorithm can transform UD gold to EUD graphs with an
@@ -97,10 +97,10 @@ relation also include what type of conjunction is used, e.g.
 In this paper, we present our submission for the IWPT 2020 Shared
 Task on parsing enhanced universal dependencies from annotated UD
 treebanks. The task target treebanks from 17 different languages
-where the majority of the languages are Indo-European with two
-notable exceptions, Tamil (Dravidian) and Finnish (Uralic).  The
-goal of the task to produce valid EUD graphs, given raw text as
-input.
+where the majority of the languages are Indo-European with five
+notable exceptions, Tamil (Dravidian), Arabic (Semitic), Finnish
+and Estonian (Uralic).  The goal of the task to produce valid EUD
+graphs, given raw text as input.
 
 In this context, this paper proposes to test the following hypothesis:
 \begin{enumerate}
@@ -139,19 +139,30 @@ EUD reconstruction task.
 %dependencies in 17 different languages. 
 
 The enhanced dependency parsing is evaluated using two metrics,
-ELAS and EULAS. ELAS calculates the $F_1$-score over all enhanced
-dependencies, the metric include both edges and edge labels. A
-secondary metric, EULAS, is used which calculates the $F_1$-score
-over the edges only.
+ELAS and EULAS. ELAS calculate the $F_1$-score over both enhanced
+arcs and labels (for example: \texttt{and} in the label
+\texttt{conj:and}). EULAS on the other hand disregard label
+enhancements and calculate the $F_1$-score over the enhanced
+edges and ignore errors in label enhancements. To illustrate,
+given the gold label \texttt{conj:and} and a system prediction of
+\texttt{conj:or} (or \texttt{conj}, i.e. if nothing is appended
+to the label), ELAS will count this as an error while EULAS
+won't.
+
+%The enhanced dependency parsing is evaluated using two metrics,
+%ELAS and EULAS. ELAS calculates the $F_1$-score over all enhanced
+%dependencies, the metric includes both edges and edge labels. A
+%secondary metric, EULAS, is used which calculates the $F_1$-score
+%over the edges only.
 
 % AE-FINAL: Vindicated?
 % results in two lines
-Our results show that (H1) is vindicated: we achieve an ELAS score of
-$96.70$ and EULAS of $81.55$ on human-annotated dependency trees.  As
-a baseline for the shared task, our method is also effective,
-achieving an ELAS score of $67.85$ and a EULAS score of
-$80.18$. (Thus loosing about $15$ percentage points when going through
-a machine-generation phase to obtain UD trees.)
+Our results show that (H1) is vindicated: we achieve an ELAS score
+of $81.55$ and EULAS of $96.70$ on human-annotated dependency
+trees.  As a baseline for the shared task, our method is also
+effective, achieving an ELAS score of $67.85$ and a EULAS score
+of $80.18$. (Thus losing about $15$ percentage points when going
+through a machine-generation phase to obtain UD trees.)
 
 \section{Method}
 In essence, our method is to apply, as far as possible, the
@@ -180,6 +191,9 @@ baseline for the task, and when using the development/gold trees the
 Then, we apply a tree-matching procedure against the non-enhanced UD
 trees. The procedure locally inserts enhanced edges or deletes unwanted
 edges. Additionally (as a special case) the patterns also re-label some edges.
+
+% comment
+%Currently out system does not add new nodes for ellipsis
 
 Our system contains several patterns, which are described in the next
 subsection. We first apply the patterns that modify
@@ -524,7 +538,7 @@ outlier being Tamil, at 55.32\%. The scoring for labeled edges is
 around 12 points lower, with more variation in scores.
 
 As explained in the introduction, to isolate the accuracy of
-the graph-to-tree transformation from the performance of the
+the tree-to-graph transformation from the performance of the
 underlying UD parser, we also apply it to the human-annotated
 dependency trees. We test our approach on both the development and
 test data. The results from this experiment are shown in
@@ -598,7 +612,7 @@ We can draw the following conclusions from our experiments:
   errors are imputable to the UD parser rather than to the algorithmic
   rewriting step.
 
-\item Our graph-to-tree transformation works well on the gold trees,
+\item Our tree-to-graph transformation works well on the gold trees,
   missing less than 4\% of the edges, when given gold UD trees as input.
   Therefore, Broadly speaking, (H1) is vindicated: UD contains most of
   the information which is necessary to reconstruct EUD graphs.
@@ -614,7 +628,7 @@ We can draw the following conclusions from our experiments:
   is conjoined with another verb (``reading''), but it applies only
   to a single verb. In (2), we also have a conjunction between
   verbs, but ``fruits'' is the object of both verbs. Yet, the UD
-  structure is the same for both sentence. And thus, our algorithm
+  structure is the same for both sentences. And thus, our algorithm
   cannot recognize the difference between the two trees.  One
   solution is to use EUD, but another solution would be to use
   parse trees, which can make the grouping explicit.
@@ -628,15 +642,16 @@ We can draw the following conclusions from our experiments:
     \begin{deptext}[column sep=0.1cm]
     She \& was \& cleaning \& and \& eating \& fruit  \\
     \end{deptext}
-    \depedge{2}{1}{nsubj}
+    \depedge{3}{1}{nsubj}
+    \depedge[edge height=2.3cm]{5}{1}{nsubj}
     \deproot{3}{root}
     \depedge{3}{2}{aux}
     \depedge{5}{4}{cc}
     \depedge{3}{5}{conj:and}
-    \depedge[edge below]{6}{3}{obj}
-    \depedge[edge below]{6}{5}{obj}
+    \depedge[edge below]{3}{6}{obj}
+    \depedge[edge below]{5}{6}{obj}
     \end{dependency}
-    \caption{``Great Service and hairstyles that last''}
+    \caption{``She was cleaning and eating fruit''}
     \label{fig:conj-obj}
 \end{figure}
  
