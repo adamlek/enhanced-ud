@@ -1,0 +1,48 @@
+Detailed Comments
+---------------------------------------------------------------------------
+A relatively easy-to-follow, standard system description of an easy-to-understand approach. The authors define several rule-based heuristics that transform a basic tree into an enhanced graph. They use the Stanza parser to obtain the basic tree, then apply the heuristics. They also evaluate the approach on gold-standard basic trees.
+
+There is a number of finer points that could and should be clarified or fixed.
+
+013: CLASPS, or CLASP? [DONE]
+067: besides Indo-European, Dravidian and Uralic, the Afro-Asiatic family is also represented (Arabic). [DONE]
+095: "the metric include" --> "the metric includes" [DONE]
+
+An important misunderstanding: EULAS is not UAS, i.e., not unlabeled attachment score. It is a "universal labeled" attachment score. That is, the label of the edge is considered (together with the identity of the parent node); however, the difference from ELAS is that only the universal part of the label is considered. 
+The universal part is the string before the first colon. For example, if the gold label is "acl" and the system-produced label is "acl:relcl", ELAS will count it as a wrong prediction while for EULAS it is correct. Thus EULAS hides errors in the case enhancement ("obl:from" vs. "obl:to" vs. "obl"...), among others. [DONE]
+
+099-100 You swapped the ELAS and EULAS values. [DONE]
+103: "loosing" --> "losing" [DONE]
+
+132-135: You say you insert edge, delete edge, or relabel edge. What about inserting an empty node in gapping structures? (You say in future work that you did not handle ellipsis, but that is quite late. The reader who knows that it is part of EUD will be confused. So you should inform them right away that gapping and empty nodes are beyond the reach of your system.) [DONE]
+
+182-194: pattern 4: Why do you look at XPOS with English-specific values? Why don't you look at UD features instead (PronType~Rel)? Features are portable across languages and treebanks, XPOS are not. [probably...]
+
+293: "graph-to-tree transformation" --> "tree-to-graph transformation" [DONE]
+
+385-390 (and elsewhere) you say that your system depends on the performance of the Stanza parser. It would then be useful to also show the evaluation of the basic tree produced by Stanza (LAS and UAS columns in the results; for example, your average LAS over all languages is 82.66%.) It would be also interesting to see some analysis of the cases where one error in the basic tree caused more than one error in the enhanced graph. [...]
+
+422: "both sentence" --> "both sentences" [DONE]
+
+Figure 8: The sentence in the caption does not match the words in the graph. Moreover, the dependencies in the graph are wrong. Is the figure supposed to show a gold-standard graph, or a system output? obj should go from eating/cleaning to fruit, not from fruit to eating/cleaning. Also, nsubj She should be attached to the main verbs (cleaning and reading), not to the auxiliary (was). [DONE]
+
+480-483: Why would you need a list of multi-word subordinators for each language? Couldn't you simply look for children attached via the "fixed" relation, and if found, then join them together? [probably...?]
+---------------------------------------------------------------------------
+
+
+
+============================================================================
+                            REVIEWER #2
+============================================================================
+
+Detailed Comments
+---------------------------------------------------------------------------
+Well written, complete paper which describe a rule based approach to obtain EUD relations from an underlying
+UD dependency tree.
+
+
+remarks
+
+line 67: 4 languages are non Indo-European: Tamil and Finnish, Estonian is (as Finnish) also a Finno-Ugric (or Uralic) language, and Arabic (Semitic) [DONE]
+line 398: this is said (already) in the EUD guidelines https://universaldependencies.org/u/overview/enhanced-syntax.html#conjoined-verbs-and-verb-phrases
+---------------------------------------------------------------------------
