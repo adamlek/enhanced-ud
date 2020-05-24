@@ -56,13 +56,14 @@
 \maketitle
     
 \begin{abstract}
-  In this paper, we present the submission of team CLASP to the IWPT 2020
-  Shared Task on parsing enhanced universal dependencies. We develop a
-  tree-to-graph transformation algorithm based on dependency
-  patterns. This algorithm can transform UD gold to EUD graphs with an
-  ELAS score of 81.55 and a EULAS score of 96.70.  These results show
-  that much of the information needed to construct EUD graphs from UD
-  trees are present in the UD trees.
+    In this paper, we present the submission of team CLASP to the IWPT
+     2020 Shared Task on parsing enhanced universal dependencies
+     \citep{EUDparsingST:2020}. We develop a tree-to-graph
+     transformation algorithm based on dependency patterns. This
+     algorithm can transform gold UD trees to EUD graphs with an ELAS
+     score of 81.55 and a EULAS score of 96.70.  These results show
+     that much of the information needed to construct EUD graphs from
+     UD trees are present in the UD trees.
   %
   Coupled with a standard UD parser, the method applies to the
   official test data and yields and ELAS score of $67.85$ and a EULAS
@@ -140,12 +141,12 @@ EUD reconstruction task.
 
 The enhanced dependency parsing is evaluated using two metrics,
 ELAS and EULAS. ELAS calculate the $F_1$-score over both enhanced
-arcs and labels (for example: \texttt{and} in the label
-\texttt{conj:and}). EULAS on the other hand disregard label
+arcs and labels (for example: ``and'' in the label
+``conj:and''). EULAS on the other hand disregard label
 enhancements and calculate the $F_1$-score over the enhanced
 edges and ignore errors in label enhancements. To illustrate,
-given the gold label \texttt{conj:and} and a system prediction of
-\texttt{conj:or} (or \texttt{conj}, i.e. if nothing is appended
+given the gold label conj:and} and a system prediction of
+``conj:or'' (or ``conj'', i.e. if nothing is appended
 to the label), ELAS will count this as an error while EULAS
 won't.
 
@@ -574,19 +575,20 @@ test data. The results from this experiment are shown in
 	\caption{\label{tab:gold-data}Coarse ELAS and EULAS on the gold trees in the development and test data.}
 \end{table} 
 
-The scoring for unlabeled edges is typically above 95\%, with little
-variation. Tamil is no longer an outlier. The scoring for labeled
-edges can be classified into two categories depending on the
-language. One category scores nearly as well as in the unlabeled case
-(bg, en, it, nl, sv). Another category scores about 15 points
-lower (ar, cs, et, fi, lt, lv, ru, sk, ta, uk). French and Polish scores
-somewhere in-between. 
+The scoring for enhanced edges and unenhanced labels (EULAS) is typically
+above 95\%, with little variation. Tamil is no longer an
+outlier. The scoring for enhanced edges and labels can be
+classified into two categories depending on the language. In one
+category the ELAS is nearly as good as the EULAS case (bg, en,
+it, nl, sv). Another category scores about 15 points lower (ar,
+cs, et, fi, lt, lv, ru, sk, ta, uk). French and Polish scores are
+somewhere in-between.
 
 Comparing \cref{tab:test} and \cref{tab:gold-data} suggests that the
 performance of the full pipeline is highly dependent on the underlying
 parser. In addition to the ELAS and EULAS score being higher, the
 standard deviation is also much higher for EULAS, $8.19$ points in the
-test versus $1.43$ points on the gold data..
+test versus $1.43$ points on the gold data.
 
 \section{Discussion/Analysis}
 
@@ -594,10 +596,10 @@ We can draw the following conclusions from our experiments:
 
 \begin{itemize}
 \item
-  Our pattern recognizer fails to annotate many labels
+  Our pattern recognizer fails to annotate many enhanced labels
   for languages where case is expressed by morphological features.
   
-  This is not surprising: we simply did not implement any rewriting
+  This is not surprising: we simply did not implement any label rewriting
   based on such features. (Indeed, the pattern \cref{fig:pat-obl}
   recognizes case based on a preposition rather than a morphological
   feature.) This is a shortcoming which we plan to eliminate in future
@@ -682,12 +684,18 @@ treebank.
 \paragraph{ Future work }
 %TODO: in a ddition to the short coming ...
 
-In addition to the shortcoming about case labeling mentioned above,
-our system struggles with labels that include multi-word tokens. For
-example, a valid adverbial clause modifier is \textit{so\_that}. To
-solve these label enhancements our system would need either a complete
-list of multi-word tokens, or be able to figure them out using
-statistical or deep learning.
+In addition to the shortcoming about case labeling mentioned
+above, our system struggles with labels that include multi-word
+tokens. For example, a valid adverbial clause modifier is
+\textit{so\_that}. Currently our system is not able to identify
+these. To incorporate this our model would either need to utilize
+statistical or deep learning methods, or look for children with
+the ``fixed'' relation.
+    
+%To
+%solve these label enhancements our system would need either a complete
+%list of multi-word tokens, or be able to figure them out using
+%statistical or deep learning.
 
 Another case that our system is not capable of handling is
 ellipsis. The problem of ellipsis is difficult, especially in a
@@ -710,10 +718,11 @@ conjoined verbs.
 
     
 \section*{Acknowledgments}
-The research reported in this paper was supportedby a grant from
-the Swedish Research Council (VR project 2014-39) for the
-establishment of the Centre for Linguistic Theory and Studies in
-Probability (CLASP) at the University of Gothenburg.
+We would like to thank the reviewers for their helpful
+comments.The research reported in this paper was supportedby a
+grant from the Swedish Research Council (VR project 2014-39) for
+the establishment of the Centre for Linguistic Theory and Studies
+in Probability (CLASP) at the University of Gothenburg.
 
 \bibliography{anthology,acl2020}
 \bibliographystyle{acl_natbib}
