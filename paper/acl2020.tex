@@ -56,18 +56,18 @@
 \maketitle
     
 \begin{abstract}
-    In this paper, we present the submission of team CLASP to the IWPT
-     2020 Shared Task on parsing enhanced universal dependencies
-     \citep{EUDparsingST:2020}. We develop a tree-to-graph
-     transformation algorithm based on dependency patterns. This
-     algorithm can transform gold UD trees to EUD graphs with an ELAS
-     score of 81.55 and a EULAS score of 96.70.  These results show
-     that much of the information needed to construct EUD graphs from
-     UD trees are present in the UD trees.
-  %
-  Coupled with a standard UD parser, the method applies to the
-  official test data and yields and ELAS score of $67.85$ and a EULAS
-  score is $80.18$.
+In this paper, we present the submission of team CLASP to the IWPT
+2020 Shared Task on parsing enhanced universal dependencies
+\citep{EUDparsingST:2020}. We develop a tree-to-graph
+transformation algorithm based on dependency patterns. This
+algorithm can transform gold UD trees to EUD graphs with an ELAS
+score of $81.55$ and a EULAS score of $96.70$.  These results show
+that much of the information needed to construct EUD graphs from
+UD trees are present in the UD trees.
+%
+Coupled with a standard UD parser, the method applies to the
+official test data and yields and ELAS score of $67.85$ and a EULAS
+score is $80.18$.
 \end{abstract}
 
 \section{Introduction}
@@ -144,11 +144,10 @@ ELAS and EULAS. ELAS calculate the $F_1$-score over both enhanced
 arcs and labels (for example: ``and'' in the label
 ``conj:and''). EULAS on the other hand disregard label
 enhancements and calculate the $F_1$-score over the enhanced
-edges and ignore errors in label enhancements. To illustrate,
-given the gold label conj:and} and a system prediction of
-``conj:or'' (or ``conj'', i.e. if nothing is appended
-to the label), ELAS will count this as an error while EULAS
-won't.
+edges. To illustrate, given the gold label ``conj:and'' and a system
+prediction of ``conj:or'' (or ``conj'', i.e. if nothing is
+appended to the label), ELAS will count this as an error while
+EULAS won't.
 
 %The enhanced dependency parsing is evaluated using two metrics,
 %ELAS and EULAS. ELAS calculates the $F_1$-score over all enhanced
@@ -176,9 +175,10 @@ dependency treebanks provided by the shared task organizers. From
 these we apply our method on basic UD trees from two sources:
 
 \begin{itemize}
-\item for each treebank we use the Stanford Biaffine Dependency
-      Parser \citep{dozat2016deep} provided in Stanza
-\citep{qi2020stanza}.
+        \item for each language in the test data we use the Stanford
+     Biaffine Dependency Parser \citep{dozat2016deep} provided in
+     Stanza \citep{qi2020stanza}. We used the stanza model trained on
+     the largest treebank of the language.
 \item the development and gold trees in the treebanks, \emph{from
       which we have removed the enhanced dependencies}. Indeed, the gold
       data comes with plain UD trees as well.
@@ -498,7 +498,9 @@ have not implemented these patterns in our system. For the first
 pattern, the reason is simple: it is not representable as a UD
 tree (a node cannot have two heads). For the second pattern,
 applying it results in a small loss in performance across the
-board, and thus it is best left inactive.
+board, and thus it is best left inactive.  Aditionally, we have
+not implemented any pattern for dealing with ellipsis in the
+current approach. We plan on addressing ellipsis in future work.
 
 \section{Results}
 We present our official results for the shared task in
@@ -584,14 +586,46 @@ it, nl, sv). Another category scores about 15 points lower (ar,
 cs, et, fi, lt, lv, ru, sk, ta, uk). French and Polish scores are
 somewhere in-between.
 
-Comparing \cref{tab:test} and \cref{tab:gold-data} suggests that the
-performance of the full pipeline is highly dependent on the underlying
-parser. In addition to the ELAS and EULAS score being higher, the
-standard deviation is also much higher for EULAS, $8.19$ points in the
-test versus $1.43$ points on the gold data.
+Comparing \cref{tab:test} and \cref{tab:gold-data} suggests that
+the performance of the full pipeline is highly dependent on the
+underlying parser. In addition to the ELAS and EULAS score being
+higher, the standard deviation is also much higher for EULAS,
+$8.19$ points in the test versus $1.43$ points on the gold data.
 
+Indeed, we also test the basic UD trees provided by Stanza against
+the EUD gold data in \cref{tab:test_stanza}, without applying our
+algorithm.
+
+\begin{table}[h]
+    \centering
+    \tiny
+    \begin{tabular}{l|rr|rr|rr}
+        & \multicolumn{2}{c}{Official submission} & \multicolumn{2}{c}{Stanza trees} & \multicolumn{2}{c}{Gold trees} \\
+        \textsc{Lang} & \textsc{ELAS} & \textsc{EULAS} & \textsc{ELAS} & \textsc{EULAS}& \textsc{ELAS} & \textsc{EULAS}\\
+        \hline
+        \textbf{Avg.} & \textbf{67.85} & \textbf{80.18} & \textbf{66.54} & \textbf{79.91} & \textbf{81.55} & \textbf{96.70} \\
+        %\textbf{Std.} & \textbf{11.69} & \textbf{8.19} \\
+    \end{tabular}
+    \caption{\label{tab:test_stanza} Coarse ELAS and EULAS using our tree-to-graph algorithm on Stanza trees, Stanza trees only and with gold trees.}
+\end{table}
+
+We find that using our algorithm with stanza trees only marginally
+increase the performance.
+%
+Given that we know our trees are effective for gold trees, this
+indicate that while having a state-of-the-art performance in
+dependency parsing these trees have a significant number of
+errors for the paths relevant to EUD. If the UD trees were of
+good quality for the parts that are relevant for EUD, we would
+see a larger increase in performance based on the potential of
+our algorithm. To some extent, this indicate that when developing
+a EUD parser, the best approach may be to parse UD and EUD in
+parallel, and not sequentially. This may help the parser perform
+less UD errors for the parts relevant to EUD.
+
+   
 \section{Discussion/Analysis}
-
+    
 We can draw the following conclusions from our experiments:
 
 \begin{itemize}
