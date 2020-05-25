@@ -592,9 +592,10 @@ underlying parser. In addition to the ELAS and EULAS score being
 higher, the standard deviation is also much higher for EULAS,
 $8.19$ points in the test versus $1.43$ points on the gold data.
 
-Indeed, we also test the basic UD trees provided by Stanza against
-the EUD gold data in \cref{tab:test_stanza}, without applying our
-algorithm.
+To get a further sense on how much our algorithm is sensitive to the
+quality of the input raw UD trees, we can compare the score that it
+obtains when fed the gold (raw) UD trees and the trees provided by
+Stanza for the same text. The results are shown in \cref{tab:test_stanza}.
 
 \begin{table}[h]
     \centering
@@ -612,18 +613,17 @@ algorithm.
 We find that using our algorithm with stanza trees only marginally
 increase the performance.
 %
-Given that we know our trees are effective for gold trees, this
-indicate that while having a state-of-the-art performance in
-dependency parsing these trees have a significant number of
-errors for the paths relevant to EUD. If the UD trees were of
-good quality for the parts that are relevant for EUD, we would
-see a larger increase in performance based on the potential of
-our algorithm. To some extent, this indicate that when developing
-a EUD parser, the best approach may be to parse UD and EUD in
-parallel, and not sequentially. This may help the parser perform
-less UD errors for the parts relevant to EUD.
+Given that we know that our trees are effective for gold trees, this
+corroborates the suspicion that while having a state-of-the-art
+performance in dependency parsing, Stanza produces trees that have a
+significant number of errors for the paths relevant to EUD. If the UD
+trees were of good quality for the parts that are relevant for EUD, we
+would see a larger increase in performance based on the potential of
+our algorithm. To some extent, this indicates that when developing a
+EUD parser, the best approach may be to parse UD and EUD in parallel,
+and not sequentially. This modus operandi may help the parser to
+produce fewer UD errors for the parts relevant to EUD.
 
-   
 \section{Discussion/Analysis}
     
 We can draw the following conclusions from our experiments:
