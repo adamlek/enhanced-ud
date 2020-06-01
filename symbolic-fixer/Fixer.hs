@@ -219,6 +219,15 @@ labelingMap = M.fromList
     ("mark",["advcl", "acl","obl"])
     ]
 
+labelingMap2 :: M.Map T.Text [T.Text]
+labelingMap2 = M.fromList
+   [("obl", ["case","mark"]),
+    ("conj",["cc"]),
+    ("nmod",["case"]),
+    ("advcl",["mark"]),
+    ("acl",["mark"])
+    ]
+
 fixupLabelMap ::  M.Map T.Text T.Text
 fixupLabelMap = M.fromList [("&", "and")
                            ,("-","and")]
@@ -226,6 +235,21 @@ fixupLabelMap = M.fromList [("&", "and")
 fixupLabel :: T.Text -> T.Text
 fixupLabel x | T.all isAlphaNum x = T.map toLower x
              | otherwise = "and"
+
+fixCase2 :: [Entry] -> [(Int,Entry)]
+fixCase2 es = concat $ zipWith enhancer numbering es
+  where enhancer eIndex e = -- e ~ AP
+          [(eIndex, e
+             {entryLabel = entryLabelKind e <>
+                 case [k | (_,k) <- kidsOf eIndex es, entryLabel k `elem` matchingPrepositions] of
+                   [] -> ""
+                   (k:_) ->  ":" <> fixupLabel (entryLemma k)
+                 <>
+                 case lookup "Case" (entryFeatures e) of
+                   Just case_ -> ":" <> T.map toLower case_
+                   Nothing -> ""})
+          | Just matchingPrepositions <- [M.lookup (entryLabel e) labelingMap2]]
+
 
 fixCase :: [Entry] -> [(Int,Entry)]
 fixCase es = concat $ zipWith enhancer numbering es
@@ -253,7 +277,7 @@ merge ((i,x):xs) ((j,y):ys) = case compare i j of
 fixCaseAll :: [Entry] -> [Entry]
 fixCaseAll es = map (snd . head) $
                 groupBy ((==) `on` fst) $
-                merge (zip [1..] es) (sortBy (compare `on` fst) (fixCase es))
+                merge (zip [1..] es) (sortBy (compare `on` fst) (fixCase2 es))
 
 parentOf :: Int -> [a] -> a
 parentOf idx es = es !! (idx-1)
