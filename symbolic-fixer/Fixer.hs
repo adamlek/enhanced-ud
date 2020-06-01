@@ -233,7 +233,7 @@ fixCase es = concat $ zipWith enhancer numbering es
          [(entryParent e,
            parentEntry {entryLabel = entryLabelKind parentEntry <> ":" <> fixupLabel (entryLemma e) <>
                         case lookup "Case" (entryFeatures parentEntry)  of
-                          Just case_ -> ":" <> case_
+                          Just case_ -> ":" <> T.map toLower case_
                           Nothing -> ""})
          | Just enhancedLabels <- [M.lookup (entryLabel e) labelingMap],
            -- eIndex ~ From
