@@ -1,28 +1,30 @@
 cs:
 na <----- zaznamnik[acc] <------------ namluvte
-     mark				   obl:na:acc
-	
+     mark                   obl:na:acc
 
 fi:
 kanssa <------ kamerani[gen] <------------------ ongelmia
-		 case					nmod:kanssa:gen
-
-et:
-nädala[gen] <---------- kolmapäeval 
-			  nmod:gen
-
-lt:
-automobilių[gen] <---------- kamščiuose
-				   nmod:gen
-
-lv:
-augu[gen] <---------- valsts
-			nmod:gen
+        case                    nmod:kanssa:gen
 
 pl-ptb (not pl-lfg)
 pysku[loc] <------- w <------------- piłką
-		     case        nmod:w:loc
+              case        nmod:w:loc
 
 ru:
 за <------ время <-------------- достижения
       case           nmod:за:acc
+
+~~~~~~~~
+
+et:
+nädala[gen] <---------- kolmapäeval
+              nmod:gen
+
+lt:
+automobilių[gen] <---------- kamščiuose
+                    nmod:gen
+
+lv:
+augu[gen] <---------- valsts
+            nmod:gen
+

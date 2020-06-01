@@ -173,6 +173,9 @@ relEnhancer es = concat $ zipWith enhancer numbering es
               -- kid ~ who
             ]
 
+
+
+
 relativizeLabel :: T.Text -> T.Text
 relativizeLabel l = if l == "advmod"
                     then "obl"
@@ -190,11 +193,30 @@ relativizeLabel l = if l == "advmod"
 --        mark            advcl
 --        mark            advcl:since
 
+-- na <----- zaznamnik[acc] <------------ namluvte
+--      mark                   obl:na:acc
+
+-- cs:
+-- na <----- zaznamnik[acc] <------------ namluvte
+--      mark                   obl:na:acc
+
+-- fi:
+-- kanssa <------ kamerani[gen] <------------------ ongelmia
+--         case                    nmod:kanssa:gen
+
+-- pl-ptb (not pl-lfg)
+-- pysku[loc] <------- w <------------- piłką
+--               case        nmod:w:loc
+
+-- ru:
+-- за <------ время <-------------- достижения
+--       case           nmod:за:acc
+
 labelingMap :: M.Map T.Text [T.Text]
 labelingMap = M.fromList
    [("case", ["obl","nmod"]),
     ("cc",["conj"]),
-    ("mark",["advcl", "acl"])
+    ("mark",["advcl", "acl","obl"])
     ]
 
 fixupLabelMap ::  M.Map T.Text T.Text
@@ -209,7 +231,10 @@ fixCase :: [Entry] -> [(Int,Entry)]
 fixCase es = concat $ zipWith enhancer numbering es
   where enhancer _eIndex e =
          [(entryParent e,
-           parentEntry {entryLabel = entryLabelKind parentEntry <> ":" <> fixupLabel (entryLemma e)})
+           parentEntry {entryLabel = entryLabelKind parentEntry <> ":" <> fixupLabel (entryLemma e) <>
+                        case lookup "Case" (entryFeatures parentEntry)  of
+                          Just case_ -> ":" <> case_
+                          Nothing -> ""})
          | Just enhancedLabels <- [M.lookup (entryLabel e) labelingMap],
            -- eIndex ~ From
            -- entryParent e ~ AP
@@ -288,7 +313,8 @@ showEntryWithEnhancement :: Int -> Entry -> Enhancement -> T.Text
 showEntryWithEnhancement index e@Entry{..} enh =
   T.intercalate "\t" [bshow index,satisfyEvaluator e, entryLemma,entryPos,
                       entryXPos,
-                      T.intercalate "|" (sortBy (compare `on` T.map toLower) entryFeatures),
+                      T.intercalate "|" (sortBy (compare `on` T.map toLower)
+                                         [key <> "=" <> value | (key,value) <- entryFeatures]),
                       bshow entryParent,entryLabel,
                       showEnhancement enh,entryMisc]
 

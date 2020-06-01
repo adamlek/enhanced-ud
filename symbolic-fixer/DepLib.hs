@@ -17,7 +17,7 @@ data Entry = Entry {entryRaw :: !T.Text,
                     entryLemma :: !T.Text,
                     entryPos :: !T.Text,
                     entryXPos :: !T.Text,
-                    entryFeatures :: ![T.Text],
+                    entryFeatures :: ![(T.Text,T.Text)],  -- Case=Nom|Gender=Masc|Number=Sing --> [(Case,Nom),(Gender,Masc)]
                     entryParent :: !Int,
                     entryLabel :: !T.Text,
                     entryMisc :: !T.Text}
@@ -122,10 +122,15 @@ parseNivreSentences lcase =
                 ,entryLemma = (if lcase then T.map toLower else id) lemma
                 ,entryPos = pos
                 ,entryXPos = xpos
-                ,entryFeatures = T.split (== '|') features
+                ,entryFeatures = parseFeature <$> T.split (== '|') features
                 ,entryMisc=misc
                 ,entryLabel = label}
         cleanEntry x = error $ "CleanEntry: " ++ show x
+
+parseFeature :: T.Text -> (T.Text, T.Text)
+parseFeature featureText = case T.split (== '=') featureText of
+  [] -> ("","")
+  (x:xs) -> (x,T.intercalate "=" xs)
 
 parseManyFiles :: (T.Text -> [a]) -> [String] -> IO [a]
 parseManyFiles parser fns = mconcat <$>
