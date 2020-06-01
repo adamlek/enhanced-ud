@@ -212,12 +212,10 @@ relativizeLabel l = if l == "advmod"
 -- за <------ время <-------------- достижения
 --       case           nmod:за:acc
 
-labelingMap :: M.Map T.Text [T.Text]
-labelingMap = M.fromList
-   [("case", ["obl","nmod"]),
-    ("cc",["conj"]),
-    ("mark",["advcl", "acl","obl"])
-    ]
+-- et:
+-- nädala[gen] <---------- kolmapäeval
+--               nmod:gen
+
 
 labelingMap2 :: M.Map T.Text [T.Text]
 labelingMap2 = M.fromList
@@ -236,36 +234,20 @@ fixupLabel :: T.Text -> T.Text
 fixupLabel x | T.all isAlphaNum x = T.map toLower x
              | otherwise = "and"
 
-fixCase2 :: [Entry] -> [(Int,Entry)]
-fixCase2 es = concat $ zipWith enhancer numbering es
+fixCase2 :: [Entry] -> [Entry]
+fixCase2 es = zipWith enhancer numbering es
   where enhancer eIndex e = -- e ~ AP
-          [(eIndex, e
-             {entryLabel = entryLabelKind e <>
+          case M.lookup (entryLabel e) labelingMap2 of
+            Nothing -> e
+            Just matchingPrepositions -> e
+              {entryLabel = entryLabelKind e <>
                  case [k | (_,k) <- kidsOf eIndex es, entryLabel k `elem` matchingPrepositions] of
                    [] -> ""
                    (k:_) ->  ":" <> fixupLabel (entryLemma k)
                  <>
                  case lookup "Case" (entryFeatures e) of
                    Just case_ -> ":" <> T.map toLower case_
-                   Nothing -> ""})
-          | Just matchingPrepositions <- [M.lookup (entryLabel e) labelingMap2]]
-
-
-fixCase :: [Entry] -> [(Int,Entry)]
-fixCase es = concat $ zipWith enhancer numbering es
-  where enhancer _eIndex e =
-         [(entryParent e,
-           parentEntry {entryLabel = entryLabelKind parentEntry <> ":" <> fixupLabel (entryLemma e) <>
-                        case lookup "Case" (entryFeatures parentEntry)  of
-                          Just case_ -> ":" <> T.map toLower case_
-                          Nothing -> ""})
-         | Just enhancedLabels <- [M.lookup (entryLabel e) labelingMap],
-           -- eIndex ~ From
-           -- entryParent e ~ AP
-           let parentEntry = parentOf (entryParent e) es, -- all info about "AP"
-           entryLabel parentEntry `elem` enhancedLabels
-           -- entryParent parentEntry ~ come
-         ]
+                   Nothing -> ""}
 
 merge :: Ord a => [(a, b)] -> [(a, b)] -> [(a, b)]
 merge [] xs = xs
@@ -275,9 +257,7 @@ merge ((i,x):xs) ((j,y):ys) = case compare i j of
   _ -> (j,y):merge ((i,x):xs) ys
 
 fixCaseAll :: [Entry] -> [Entry]
-fixCaseAll es = map (snd . head) $
-                groupBy ((==) `on` fst) $
-                merge (zip [1..] es) (sortBy (compare `on` fst) (fixCase2 es))
+fixCaseAll = fixCase2
 
 parentOf :: Int -> [a] -> a
 parentOf idx es = es !! (idx-1)
